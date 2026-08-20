@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Máy tạo Copy 2 Lớp Ngữ Nghĩa</title>
+<style>
+  :root{
+    --bg:#0E1A2E;
+    --bg-soft:#16233F;
+    --panel:#1B2A4A;
+    --ink:#F2EDE3;
+    --ink-dim:#B9C2D6;
+    --accent:#E2001A;
+    --accent-soft:#FCEDF1;
+    --border:rgba(242,237,227,0.12);
+    --radius:14px;
+    --shadow:0 8px 30px rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html{color-scheme:dark;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    background:radial-gradient(circle at 20% -10%, #1B2A4A 0%, #0E1A2E 55%, #0A1424 100%);
+    color:var(--ink);
+    min-height:100vh;
+    line-height:1.6;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 20px 80px;}
+  header{margin-bottom:32px;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:12px;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--ink-dim);border:1px solid var(--border);border-radius:999px;
+    padding:6px 14px;margin-bottom:16px;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);}
+  h1{font-size:clamp(26px,4vw,38px);margin:0 0 10px;font-weight:700;letter-spacing:-0.01em;}
+  .sub{color:var(--ink-dim);font-size:15px;max-width:640px;margin:0;}
+  .layout{display:grid;grid-template-columns:340px 1fr;gap:24px;align-items:start;}
+  @media (max-width:860px){.layout{grid-template-columns:1fr;}}
+  .card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:24px;
+    box-shadow:var(--shadow);
+  }
+  .card h2{font-size:14px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-dim);margin:0 0 18px;font-weight:600;}
+  label{display:block;font-size:13px;color:var(--ink-dim);margin:16px 0 6px;}
+  label:first-of-type{margin-top:0;}
+  input[type=text],input[type=password],textarea,select{
+    width:100%;
+    background:rgba(255,255,255,0.04);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:11px 13px;
+    color:var(--ink);
+    font-size:14px;
+    font-family:inherit;
+    outline:none;
+    transition:border-color .15s;
+  }
+  input:focus,textarea:focus,select:focus{border-color:var(--accent);}
+  textarea{resize:vertical;min-height:64px;}
+  select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--ink-dim) 50%),linear-gradient(135deg,var(--ink-dim) 50%,transparent 50%);background-position:calc(100% - 18px) center,calc(100% - 13px) center;background-size:5px 5px,5px 5px;background-repeat:no-repeat;color-scheme:dark;}
+  select option{background:var(--bg-soft);color:var(--ink);}
+  select option:checked,select option:hover,select option:focus{background:var(--accent);color:#fff;}
+  .hint{font-size:12px;color:var(--ink-dim);opacity:0.75;margin-top:6px;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  button.primary{
+    margin-top:22px;width:100%;
+    background:var(--accent);
+    color:#fff;border:none;border-radius:10px;
+    padding:13px 16px;font-size:15px;font-weight:600;
+    cursor:pointer;transition:transform .1s, opacity .15s;
+  }
+  button.primary:hover{opacity:0.92;}
+  button.primary:active{transform:scale(0.99);}
+  button.primary:disabled{opacity:0.5;cursor:not-allowed;}
+  .status{font-size:13px;margin-top:12px;padding:10px 12px;border-radius:8px;display:none;}
+  .status.show{display:block;}
+  .status.error{background:rgba(226,0,26,0.12);color:#ff9aa4;border:1px solid rgba(226,0,26,0.3);}
+  .status.info{background:rgba(255,255,255,0.05);color:var(--ink-dim);border:1px solid var(--border);}
+  .results{display:flex;flex-direction:column;gap:16px;}
+  .empty{
+    border:1px dashed var(--border);border-radius:var(--radius);
+    padding:60px 24px;text-align:center;color:var(--ink-dim);font-size:14px;
+  }
+  .opt-card{
+    background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+    padding:22px 24px;box-shadow:var(--shadow);
+  }
+  .opt-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px;flex-wrap:wrap;}
+  .formula-tag{
+    display:inline-block;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;
+    background:rgba(226,0,26,0.15);color:#ff9aa4;border:1px solid rgba(226,0,26,0.35);
+    border-radius:999px;padding:4px 10px;font-weight:600;
+  }
+  .headline{font-size:22px;font-weight:700;margin:6px 0 4px;letter-spacing:-0.01em;}
+  .subhead{color:var(--ink-dim);font-size:14px;margin:0 0 14px;}
+  .why{font-size:13px;color:var(--ink-dim);font-style:italic;margin:0 0 16px;padding-left:12px;border-left:2px solid var(--border);}
+  .visual-block{
+    display:grid;grid-template-columns:1fr 1fr;gap:16px;
+    background:rgba(255,255,255,0.03);border-radius:10px;padding:14px 16px;
+    font-size:13px;
+  }
+  @media (max-width:560px){.visual-block{grid-template-columns:1fr;}}
+  .vlabel{color:var(--ink-dim);font-size:11px;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;}
+  .swatches{display:flex;gap:6px;margin-top:4px;}
+  .swatch{width:22px;height:22px;border-radius:6px;border:1px solid rgba(255,255,255,0.2);}
+  footer{margin-top:40px;font-size:12px;color:var(--ink-dim);opacity:0.7;line-height:1.7;}
+  footer a{color:var(--ink-dim);}
+  .kbtn{background:none;border:none;color:var(--accent-soft);opacity:0.6;font-size:12px;cursor:pointer;text-decoration:underline;padding:0;margin-top:8px;}
+  .kbtn:hover{opacity:1;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="eyebrow"><span class="dot"></span>Dựa trên phương pháp luận "Durex-style copywriter"</span>
+    <h1>Máy tạo Copy 2 Lớp Ngữ Nghĩa</h1>
+    <p class="sub">Nhập một chủ đề / sản phẩm, công cụ sẽ đề xuất nhiều phương án copy tiếng Việt dựa trên 8 công thức viết quảng cáo và hệ thống hình ảnh được đúc kết từ phong cách Durex 2011–2017 — kèm gợi ý bảng màu và bố cục.</p>
+  </header>
+
+  <div class="layout">
+    <div class="card">
+      <h2>Thiết lập</h2>
+
+      <label for="provider">Nhà cung cấp AI</label>
+      <select id="provider">
+        <option value="claude">Claude (Anthropic)</option>
+        <option value="openai">OpenAI</option>
+        <option value="google">Google (Gemini)</option>
+        <option value="deepseek">DeepSeek</option>
+      </select>
+
+      <label for="apiKey" id="apiKeyLabel">Claude API Key</label>
+      <input type="password" id="apiKey" placeholder="sk-ant-..." autocomplete="off">
+      <div class="hint" id="apiKeyHint">Key chỉ được lưu tạm trong bộ nhớ trình duyệt của phiên này (mỗi nhà cung cấp một ô nhớ riêng), không gửi đi đâu khác ngoài API của nhà cung cấp đã chọn. Đóng tab là mất, không lưu ổ cứng.</div>
+
+      <label for="model">Model</label>
+      <input type="text" id="model" value="claude-sonnet-4-5-20250929">
+      <div class="hint" id="modelHint">Đổi sang model khác nếu bạn muốn (ví dụ claude-opus-4-1-20250805).</div>
+
+      <hr style="border:none;border-top:1px solid var(--border);margin:20px 0;">
+
+      <label for="topic">Chủ đề / sản phẩm *</label>
+      <textarea id="topic" placeholder="Ví dụ: khóa học tiếng Anh online, quán cà phê mở cửa 24h, app quản lý chi tiêu..."></textarea>
+
+      <label for="audience">Đối tượng (tuỳ chọn)</label>
+      <input type="text" id="audience" placeholder="Ví dụ: dân văn phòng 25-35 tuổi">
+
+      <label for="hook">Cớ / dịp (tuỳ chọn)</label>
+      <input type="text" id="hook" placeholder="Ví dụ: Black Friday, mùa thi, đầu tháng lương về">
+
+      <div class="row2">
+        <div>
+          <label for="channel">Kênh</label>
+          <select id="channel">
+            <option value="mạng xã hội (Facebook/Instagram)">MXH (FB/IG)</option>
+            <option value="poster ngoài trời">Poster ngoài trời</option>
+            <option value="banner website">Banner website</option>
+            <option value="TikTok/story dọc">TikTok / Story</option>
+          </select>
+        </div>
+        <div>
+          <label for="ratio">Tỷ lệ khung hình</label>
+          <select id="ratio">
+            <option value="3:4">3:4 (dọc, chuẩn poster)</option>
+            <option value="1:1">1:1 (vuông)</option>
+            <option value="9:16">9:16 (story)</option>
+            <option value="16:9">16:9 (ngang)</option>
+            <option value="4:3">4:3</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="count">Số phương án</label>
+      <select id="count">
+        <option value="3">3</option>
+        <option value="4" selected>4</option>
+        <option value="5">5</option>
+      </select>
+
+      <button class="primary" id="genBtn">Tạo copy</button>
+      <div class="status" id="status"></div>
+    </div>
+
+    <div>
+      <div class="results" id="results">
+        <div class="empty">Kết quả sẽ hiện ở đây. Điền chủ đề bên trái rồi bấm "Tạo copy".</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Công cụ này mô phỏng lại tinh thần của skill mã nguồn mở
+    <a href="https://github.com/crawfordxx/xiaoma-durex-copywriter" target="_blank" rel="noopener">crawfordxx/xiaoma-durex-copywriter</a>
+    (phương pháp "ngữ nghĩa hai lớp" gốc từ các chiến dịch Durex 2011–2017). Công cụ tự áp dụng các giới hạn đạo đức của bản gốc: không dùng chủ đề thảm hoạ/chết chóc, không vật thể hoá phụ nữ, không gợi dục nhắm vào người thật, không khai thác tin tức đau thương — với chủ đề ngoài ngành hàng người lớn, lối chơi chữ phải gắn với giá trị sản phẩm, không đùa cợt dung tục.
+  </footer>
+</div>
+
+<script>
+const SYSTEM_PROMPT = `Bạn là một chuyên gia copywriting áp dụng phương pháp "ngữ nghĩa hai lớp" (dual-layer semantics) được đúc kết từ phong cách quảng cáo Durex Trung Quốc giai đoạn 2011–2017 (thời Huanshi Interactive).
+
+CƠ CHẾ CỐT LÕI:
+Một câu copy hoạt động đồng thời trên hai tầng nghĩa:
+- Tầng bề mặt: một chủ đề nóng, một dịp lễ, một tình huống đời thường — đọc theo nghĩa đen vẫn hợp lý.
+- Tầng chìm: thông điệp thật về sản phẩm/thương hiệu.
+Người đọc phải TỰ kết nối hai tầng này. Nếu chỉ cần một bước liên tưởng thì copy "nổ"; nếu cần từ hai bước liên tưởng trở lên, hoặc phải giải thích ra thì copy "chết". Không bao giờ nói huỵch toẹt sự liên tưởng.
+
+8 CÔNG THỨC (áp dụng một hoặc kết hợp, KHÔNG bắt buộc dùng hết mỗi lần):
+1. Chơi chữ đồng âm/gần âm — thay một từ trong cụm hot-trend bằng từ đồng âm/gần âm liên quan tới sản phẩm. Dùng thận trọng, mỗi bài chỉ 1 lần.
+2. Chơi số — tận dụng con số sẵn có của trend (ngày, phiên bản, số lượng) rồi gán cho nó một nghĩa mới trong bối cảnh sản phẩm.
+3. Chiếm dụng thuật ngữ ngành khác — mượn một thuật ngữ chuyên ngành nghe "chính danh" (kỹ thuật, y khoa, luật...) nhưng chỉ dùng đúng nghĩa đen của nó để nói về sản phẩm.
+4. Chuyển cảnh/nhân cách hoá — để một vật thể phụ trong bối cảnh "tự thuật" ở ngôi thứ nhất, ngụ ý hành động của nhân vật chính. Hiệu quả nhất với sản phẩm vô hình/dịch vụ.
+5. Tách ghép chữ/từ — tách một từ thành các phần nhỏ hơn rồi diễn giải lại nghĩa mới từ các phần đó (chỉ áp dụng tốt với chữ Hán gốc; với tiếng Việt, biến thể thành chơi chữ nói lái, viết tắt, hoặc tách một từ ghép thành 2 nghĩa).
+6. Đối xứng/thể lịch — mô phỏng cấu trúc "nên làm gì / không nên làm gì" kiểu lịch vạn niên, hoặc câu đối xứng hai vế tương phản.
+7. Thể thơ ba lớp — ba câu tả cảnh/tình huống tăng dần, câu cuối bẻ lái sang nhân vật/sản phẩm. Ba câu đầu phải tự nó là mô tả hay, không gượng ép.
+8. Kiềm chế ngược — giữa lúc khán giả chờ đùa cợt, lại nói thật lòng, nghiêm túc. Đây là công thức "cao cấp" nhất, chỉ nên đề xuất tối đa 1 lần trong bộ kết quả.
+
+HỆ THỐNG HÌNH ẢNH (gợi ý, không cần vẽ, chỉ mô tả bằng lời):
+- Loại chủ thể: (a) Sản phẩm làm trung tâm — chỉ dùng khi bản thân sản phẩm là ẩn dụ; (b) Vật dụng đời thường làm trung tâm (phổ biến nhất) — vật càng bình dị càng tốt; (c) Chữ/typography làm trung tâm — chữ chính là hình; (d) Con người — chỉ dùng một phần cơ thể (tay, chân, bóng), tránh phô diễn toàn thân để chừa khoảng trống tưởng tượng.
+- 6 bảng màu tham khảo (chọn đúng 1 bảng, không trộn):
+  * "Đỏ thương hiệu": #E2001A, #FFFFFF, #000000 — dùng cho tuyên ngôn, ăn mừng.
+  * "Xanh đêm sâu": #16233F, #0E1A2E, #1B2A4A — dùng cho không khí tinh tế, về đêm.
+  * "Đen studio": #000000 + một điểm sáng nhấn — dùng cho cận cảnh sản phẩm.
+  * "Gradient hồng": #FCEDF1 → #E8558F — dùng cho Valentine, nữ tính, mềm mại.
+  * "Giấy ấm": #F2EDE3, #C8102E, #1A1A1A — dùng cho dịp lễ truyền thống, thư pháp.
+  * "Màu mượn theo chủ đề": mô tả bằng lời thay vì hex cụ thể (ví dụ: mượn màu thương hiệu đối tác/trend).
+- Bố cục: chữ ở 1/3 trên hoặc trên-trái; khoảng trắng tối thiểu 50% khung hình; một điểm nhìn chính duy nhất; nếu có logo, đặt cố định phía dưới, không bị che.
+- Nguyên tắc: câu chữ và hình ảnh KHÔNG được nói cùng một điều — hình minh hoạ tầng bề mặt, chữ gợi tầng chìm (hoặc ngược lại), để chúng bổ sung cho nhau chứ không lặp lại nhau.
+
+GIỚI HẠN ĐẠO ĐỨC — TUYỆT ĐỐI KHÔNG VI PHẠM:
+- Không đụng tới thảm hoạ, tai nạn, cái chết dù là ẩn dụ.
+- Không vật thể hoá hay hạ thấp phụ nữ (hay bất kỳ giới nào).
+- Không gợi dục, không ngụ ý tình dục nhắm vào người thật, danh nhân, hay bất kỳ ai — tuyệt đối không liên quan đến trẻ vị thành niên dưới bất kỳ hình thức nào.
+- Không khai thác tin tức đau thương, bi kịch xã hội để câu tương tác.
+- Với chủ đề NGOÀI ngành hàng người lớn (là trường hợp mặc định ở đây): lối chơi chữ phải gắn chặt với GIÁ TRỊ THẬT của sản phẩm/dịch vụ được người dùng cung cấp, tuyệt đối không suy diễn sang nghĩa gợi dục hay dung tục kiểu Durex gốc. Giữ lại KỸ THUẬT viết (ngữ nghĩa hai lớp, các công thức), bỏ hoàn toàn NỘI DUNG người lớn.
+
+ĐỊNH DẠNG TRẢ LỜI:
+Chỉ trả về JSON hợp lệ (không markdown, không code fence, không giải thích thêm), đúng schema sau:
+{
+  "options": [
+    {
+      "formula": "tên công thức đã dùng, bằng tiếng Việt, ví dụ 'Chơi chữ đồng âm'",
+      "headline": "câu copy chính, ngắn gọn, tiếng Việt, tối đa khoảng 14 chữ",
+      "subhead": "một câu bổ trợ ngắn nếu cần, có thể để rỗng",
+      "why_it_works": "1 câu giải thích ngắn gọn tầng bề mặt và tầng chìm của copy này, bằng tiếng Việt",
+      "visual": {
+        "subject_type": "Sản phẩm | Vật dụng đời thường | Chữ/Typography | Con người (một phần)",
+        "subject_desc": "mô tả ngắn vật thể/khung hình cụ thể, tiếng Việt",
+        "palette_name": "tên bảng màu tiếng Việt, một trong 6 bảng ở trên hoặc biến thể hợp lý",
+        "palette_hex": ["#xxxxxx", "#xxxxxx", "#xxxxxx"],
+        "layout_note": "1 câu mô tả bố cục cụ thể cho tỷ lệ khung hình đã cho, tiếng Việt"
+      }
+    }
+  ]
+}
+Tất cả nội dung text phải bằng tiếng Việt. Mỗi phương án trong "options" phải dùng công thức khác nhau và loại chủ thể hình ảnh khác nhau, tránh lặp ý tưởng.`;
+
+const PROVIDER_CONFIG = {
+  claude: {
+    label: 'Claude (Anthropic)',
+    keyPlaceholder: 'sk-ant-...',
+    defaultModel: 'claude-sonnet-4-5-20250929',
+    modelHint: 'Đổi sang model khác nếu bạn muốn (ví dụ claude-opus-4-1-20250805).',
+    keyHost: 'api.anthropic.com'
+  },
+  openai: {
+    label: 'OpenAI',
+    keyPlaceholder: 'sk-...',
+    defaultModel: 'gpt-4o',
+    modelHint: 'Đổi sang model khác nếu bạn muốn (ví dụ gpt-4.1, gpt-4o-mini).',
+    keyHost: 'api.openai.com'
+  },
+  google: {
+    label: 'Google (Gemini)',
+    keyPlaceholder: 'AIza...',
+    defaultModel: 'gemini-2.5-flash',
+    modelHint: 'Đổi sang model khác nếu bạn muốn (ví dụ gemini-2.5-pro).',
+    keyHost: 'generativelanguage.googleapis.com'
+  },
+  deepseek: {
+    label: 'DeepSeek',
+    keyPlaceholder: 'sk-...',
+    defaultModel: 'deepseek-chat',
+    modelHint: 'Đổi sang model khác nếu bạn muốn (ví dụ deepseek-reasoner).',
+    keyHost: 'api.deepseek.com'
+  }
+};
+
+// Mỗi nhà cung cấp có ô nhớ API key riêng trong bộ nhớ phiên (không lưu ổ cứng, không localStorage).
+const apiKeyStore = { claude: '', openai: '', google: '', deepseek: '' };
+let currentProvider = 'claude';
+
+function onProviderChange(){
+  const select = document.getElementById('provider');
+  currentProvider = select.value;
+  const cfg = PROVIDER_CONFIG[currentProvider];
+
+  document.getElementById('apiKeyLabel').textContent = cfg.label + ' API Key';
+  document.getElementById('apiKey').placeholder = cfg.keyPlaceholder;
+  document.getElementById('apiKey').value = apiKeyStore[currentProvider];
+  document.getElementById('apiKeyHint').textContent =
+    `Key chỉ được lưu tạm trong bộ nhớ trình duyệt của phiên này, chỉ gửi tới ${cfg.keyHost}. Đóng tab là mất, không lưu ổ cứng.`;
+
+  document.getElementById('model').value = cfg.defaultModel;
+  document.getElementById('modelHint').textContent = cfg.modelHint;
+}
+
+function buildUserPrompt(){
+  const topic = document.getElementById('topic').value.trim();
+  const audience = document.getElementById('audience').value.trim();
+  const hook = document.getElementById('hook').value.trim();
+  const channel = document.getElementById('channel').value;
+  const ratio = document.getElementById('ratio').value;
+  const count = document.getElementById('count').value;
+
+  let lines = [];
+  lines.push(`Chủ đề / sản phẩm: ${topic}`);
+  lines.push(`Đối tượng: ${audience || '(tự suy luận hợp lý từ chủ đề)'}`);
+  lines.push(`Cớ/dịp: ${hook || '(tự chọn một cớ hợp lý, không bắt buộc gắn lễ cụ thể)'}`);
+  lines.push(`Kênh: ${channel}`);
+  lines.push(`Tỷ lệ khung hình: ${ratio}`);
+  lines.push(`Số phương án cần tạo: ${count}`);
+  lines.push('');
+  lines.push('Hãy tạo các phương án copy theo đúng schema JSON đã quy định trong system prompt.');
+  return lines.join('\n');
+}
+
+function showStatus(msg, type){
+  const el = document.getElementById('status');
+  el.textContent = msg;
+  el.className = 'status show ' + (type || 'info');
+}
+function hideStatus(){
+  const el = document.getElementById('status');
+  el.className = 'status';
+}
+
+function extractJson(text){
+  let t = text.trim();
+  t = t.replace(/^```(?:json)?/i, '').replace(/```$/, '').trim();
+  const start = t.indexOf('{');
+  const end = t.lastIndexOf('}');
+  if(start >= 0 && end > start){
+    t = t.substring(start, end + 1);
+  }
+  return JSON.parse(t);
+}
+
+function renderResults(data){
+  const container = document.getElementById('results');
+  container.innerHTML = '';
+  if(!data.options || !data.options.length){
+    container.innerHTML = '<div class="empty">Không nhận được phương án nào. Thử lại nhé.</div>';
+    return;
+  }
+  data.options.forEach(opt => {
+    const card = document.createElement('div');
+    card.className = 'opt-card';
+
+    const swatches = (opt.visual && opt.visual.palette_hex || [])
+      .map(hex => `<div class="swatch" style="background:${hex}" title="${hex}"></div>`).join('');
+
+    card.innerHTML = `
+      <div class="opt-head">
+        <span class="formula-tag">${escapeHtml(opt.formula || '')}</span>
+      </div>
+      <div class="headline">${escapeHtml(opt.headline || '')}</div>
+      ${opt.subhead ? `<div class="subhead">${escapeHtml(opt.subhead)}</div>` : ''}
+      ${opt.why_it_works ? `<div class="why">${escapeHtml(opt.why_it_works)}</div>` : ''}
+      <div class="visual-block">
+        <div>
+          <div class="vlabel">Chủ thể hình ảnh</div>
+          <div>${escapeHtml((opt.visual && opt.visual.subject_type) || '')}</div>
+          <div style="color:var(--ink-dim);margin-top:2px;">${escapeHtml((opt.visual && opt.visual.subject_desc) || '')}</div>
+        </div>
+        <div>
+          <div class="vlabel">Bảng màu — ${escapeHtml((opt.visual && opt.visual.palette_name) || '')}</div>
+          <div class="swatches">${swatches}</div>
+          <div style="color:var(--ink-dim);margin-top:8px;">${escapeHtml((opt.visual && opt.visual.layout_note) || '')}</div>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str == null ? '' : String(str);
+  return div.innerHTML;
+}
+
+async function callClaude(apiKey, model, userPrompt){
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: model || PROVIDER_CONFIG.claude.defaultModel,
+      max_tokens: 3000,
+      system: SYSTEM_PROMPT,
+      messages: [{ role: 'user', content: userPrompt }]
+    })
+  });
+  if(!resp.ok){
+    const errText = await resp.text();
+    throw new Error(`Claude API lỗi (${resp.status}): ${errText.slice(0,300)}`);
+  }
+  const data = await resp.json();
+  return (data.content && data.content[0] && data.content[0].text) || '';
+}
+
+async function callOpenAI(apiKey, model, userPrompt){
+  const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + apiKey
+    },
+    body: JSON.stringify({
+      model: model || PROVIDER_CONFIG.openai.defaultModel,
+      messages: [
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user', content: userPrompt }
+      ]
+    })
+  });
+  if(!resp.ok){
+    const errText = await resp.text();
+    throw new Error(`OpenAI API lỗi (${resp.status}): ${errText.slice(0,300)}`);
+  }
+  const data = await resp.json();
+  return (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '';
+}
+
+async function callDeepSeek(apiKey, model, userPrompt){
+  const resp = await fetch('https://api.deepseek.com/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + apiKey
+    },
+    body: JSON.stringify({
+      model: model || PROVIDER_CONFIG.deepseek.defaultModel,
+      messages: [
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user', content: userPrompt }
+      ]
+    })
+  });
+  if(!resp.ok){
+    const errText = await resp.text();
+    throw new Error(`DeepSeek API lỗi (${resp.status}): ${errText.slice(0,300)}`);
+  }
+  const data = await resp.json();
+  return (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '';
+}
+
+async function callGoogle(apiKey, model, userPrompt){
+  const m = model || PROVIDER_CONFIG.google.defaultModel;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(m)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+  const resp = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+      contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
+      generationConfig: { responseMimeType: 'application/json' }
+    })
+  });
+  if(!resp.ok){
+    const errText = await resp.text();
+    throw new Error(`Google API lỗi (${resp.status}): ${errText.slice(0,300)}`);
+  }
+  const data = await resp.json();
+  const parts = data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts;
+  return (parts && parts.map(p => p.text || '').join('')) || '';
+}
+
+async function callProvider(provider, apiKey, model, userPrompt){
+  switch(provider){
+    case 'claude': return callClaude(apiKey, model, userPrompt);
+    case 'openai': return callOpenAI(apiKey, model, userPrompt);
+    case 'deepseek': return callDeepSeek(apiKey, model, userPrompt);
+    case 'google': return callGoogle(apiKey, model, userPrompt);
+    default: throw new Error('Nhà cung cấp không hợp lệ: ' + provider);
+  }
+}
+
+async function generate(){
+  const provider = document.getElementById('provider').value;
+  const cfg = PROVIDER_CONFIG[provider];
+  const apiKey = document.getElementById('apiKey').value.trim();
+  const model = document.getElementById('model').value.trim();
+  const topic = document.getElementById('topic').value.trim();
+  const btn = document.getElementById('genBtn');
+
+  if(!apiKey){
+    showStatus(`Nhập ${cfg.label} API key trước đã.`, 'error');
+    return;
+  }
+  if(!topic){
+    showStatus('Nhập chủ đề / sản phẩm trước đã.', 'error');
+    return;
+  }
+
+  apiKeyStore[provider] = apiKey;
+
+  hideStatus();
+  btn.disabled = true;
+  btn.textContent = 'Đang tạo...';
+  showStatus(`Đang gọi ${cfg.label} để sinh copy, vui lòng chờ...`, 'info');
+
+  try{
+    const text = await callProvider(provider, apiKey, model, buildUserPrompt());
+    const parsed = extractJson(text);
+    renderResults(parsed);
+    hideStatus();
+  }catch(err){
+    console.error(err);
+    showStatus('Lỗi: ' + err.message + ' (Nếu là lỗi CORS/network, một số nhà cung cấp có thể chặn gọi trực tiếp từ trình duyệt — thử lại hoặc đổi sang Claude/Google.)', 'error');
+  }finally{
+    btn.disabled = false;
+    btn.textContent = 'Tạo copy';
+  }
+}
+
+document.getElementById('provider').addEventListener('change', onProviderChange);
+document.getElementById('apiKey').addEventListener('input', function(){
+  apiKeyStore[currentProvider] = this.value.trim();
+});
+document.getElementById('genBtn').addEventListener('click', generate);
+</script>
+</body>
+</html>
