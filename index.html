@@ -210,7 +210,7 @@
   }
   .tab-btn.active{background:var(--panel);color:var(--ink);box-shadow:0 2px 6px rgba(0,0,0,0.25);}
   
-  .right-actions{display:flex;align-items:center;gap:8px;}
+  .right-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
   .view-switch{display:flex;gap:4px;}
   .view-btn{
     background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--ink-dim);
@@ -310,7 +310,7 @@
   .poster-box:hover .poster-dl-btn{opacity:1;}
   .poster-dl-btn:hover{background:var(--accent);border-color:var(--accent);}
 
-  /* Studio Modal */
+  /* Modals Common */
   .modal-overlay{
     position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.82);
     backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;
@@ -344,6 +344,24 @@
   .studio-ctrls textarea{min-height:48px;}
   .range-row{display:flex;align-items:center;gap:10px;}
   .range-row input[type=range]{flex:1;accent-color:var(--accent);}
+
+  .color-picker-row{display:flex;align-items:center;gap:10px;margin-top:6px;}
+  .color-picker-box{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--ink-dim);}
+  .color-picker-box input[type=color]{
+    appearance:none;border:none;width:28px;height:28px;border-radius:6px;cursor:pointer;background:none;padding:0;
+  }
+
+  /* History Modal specifics */
+  .history-card{max-width:680px;}
+  .history-list{padding:16px 20px;display:flex;flex-direction:column;gap:10px;max-height:65vh;overflow-y:auto;}
+  .history-item{
+    background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:8px;
+    padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;
+  }
+  .history-info{flex:1;}
+  .history-topic{font-weight:700;font-size:13.5px;color:var(--ink);margin-bottom:2px;}
+  .history-meta{font-size:11px;color:var(--ink-dim);}
+  .history-actions{display:flex;gap:6px;}
 
   /* Toast */
   .toast{
@@ -386,9 +404,7 @@
       <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2h7.6l-6.1 4.5 2.3 7.3-6.2-4.6-6.2 4.6 2.3-7.3-6.1-4.5h7.6z"/></svg>
       <span id="txtPresetsTitle">Ý tưởng mẫu (Bấm thử ngay 1-click):</span>
     </div>
-    <div class="presets-list" id="presetsList">
-      <!-- Generated via JS according to selected language -->
-    </div>
+    <div class="presets-list" id="presetsList"></div>
   </div>
 
   <div class="layout">
@@ -523,8 +539,9 @@
           <button class="tab-btn" id="tabFavorites">Đã lưu (<span id="favCount">0</span>)</button>
         </div>
         <div class="right-actions">
-          <button class="btn-action-sm" id="btnHistory" title="Xem lịch sử gần đây">🕒 Lịch sử</button>
+          <button class="btn-action-sm" id="btnHistory">🕒 Lịch sử</button>
           <button class="btn-action-sm" id="btnExportAll" title="Xuất toàn bộ phương án ra Markdown">📥 Markdown</button>
+          <button class="btn-action-sm" id="btnExportJson" title="Xuất toàn bộ phương án ra JSON">📦 JSON</button>
           <div class="view-switch">
             <button class="view-btn active" id="viewCards" title="Xem dạng thẻ chi tiết">Dạng Thẻ</button>
             <button class="view-btn" id="viewPosters" title="Xem mô phỏng Poster thực tế">Mô phỏng Poster</button>
@@ -580,15 +597,51 @@
         <label id="lblStudioBrand">Tên thương hiệu ở chân poster</label>
         <input type="text" id="studioBrand" value="DUREX-STYLE STUDIO">
 
-        <label id="lblStudioPalette">Màu sắc chủ đạo</label>
-        <div class="swatches" id="studioSwatches" style="margin-bottom:14px;flex-wrap:wrap;"></div>
+        <label id="lblStudioPalette">Màu sắc chủ đạo & Tự chọn</label>
+        <div class="swatches" id="studioSwatches" style="margin-bottom:8px;flex-wrap:wrap;"></div>
+        
+        <div class="color-picker-row">
+          <div class="color-picker-box">
+            <input type="color" id="studioBgPicker" value="#0E1A2E">
+            <span>Màu nền</span>
+          </div>
+          <div class="color-picker-box">
+            <input type="color" id="studioAccentPicker" value="#E2001A">
+            <span>Màu nhấn</span>
+          </div>
+        </div>
 
-        <button class="primary" id="btnStudioDownload" style="margin-top:10px;">⬇️ Tải ảnh PNG độ nét cao</button>
+        <label id="lblStudioLogo">Chèn ảnh Logo / Sản phẩm (Tùy chọn)</label>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input type="file" id="studioLogoInput" accept="image/*" style="font-size:11px;flex:1;">
+          <button type="button" class="act-btn" id="btnRemoveLogo" style="display:none;padding:4px 8px;font-size:11px;">Gỡ</button>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;">
+          <button class="primary" id="btnStudioDownload">⬇️ Tải PNG 2x</button>
+          <button class="act-btn" id="btnStudioSvg" style="justify-content:center;">📐 Tải SVG Vector</button>
+        </div>
+        
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
           <button class="act-btn" id="btnStudioCopyImg" style="justify-content:center;">📋 Sao chép ảnh</button>
           <button class="act-btn" id="btnStudioSaveCard" style="justify-content:center;">💾 Lưu vào thẻ</button>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- History Modal -->
+<div class="modal-overlay" id="historyModal">
+  <div class="modal-card history-card">
+    <div class="modal-head">
+      <h3 id="txtHistoryModalTitle">Lịch sử sinh bài gần đây</h3>
+      <button type="button" class="modal-close" id="historyCloseBtn">✕</button>
+    </div>
+    <div class="history-list" id="historyList"></div>
+    <div style="padding:14px 20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-size:11.5px;color:var(--ink-dim);" id="txtHistoryDesc">Lưu tối đa 8 mẻ tạo gần nhất</span>
+      <button type="button" class="act-btn" id="btnHistoryClearAll">🗑️ Xóa toàn bộ lịch sử</button>
     </div>
   </div>
 </div>
@@ -620,6 +673,14 @@ function toValidHex(colorStr, fallback = '#E2001A') {
     'cream': '#F2EDE3'
   };
   return colorMap[s.toLowerCase()] || fallback;
+}
+
+function safeStorageSet(key, val) {
+  try {
+    localStorage.setItem(key, typeof val === 'string' ? val : JSON.stringify(val));
+  } catch (e) {
+    console.warn('Storage set failed:', e);
+  }
 }
 
 // ==========================================
@@ -682,13 +743,18 @@ const I18N = {
     subjectLabel: 'Chủ thể hình ảnh',
     paletteLabel: 'Bảng màu',
     modalTitle: 'Studio Thiết kế Poster',
+    historyModalTitle: 'Lịch sử sinh bài gần đây',
+    historyDesc: 'Lưu tối đa 8 mẻ tạo gần nhất',
+    btnClearHistory: '🗑️ Xóa toàn bộ lịch sử',
     lblStudioRatio: 'Tỷ lệ khung hình',
     lblStudioHeadline: 'Chỉnh sửa Headline trực tiếp',
     lblStudioFontSize: 'Cỡ chữ',
     lblStudioSubhead: 'Chỉnh sửa Subhead',
     lblStudioBrand: 'Tên thương hiệu ở chân poster',
-    lblStudioPalette: 'Màu sắc chủ đạo',
-    btnStudioDownload: '⬇️ Tải ảnh PNG độ nét cao',
+    lblStudioPalette: 'Màu sắc chủ đạo & Tự chọn',
+    lblStudioLogo: 'Chèn ảnh Logo / Sản phẩm (Tùy chọn)',
+    btnStudioDownload: '⬇️ Tải PNG 2x',
+    btnStudioSvg: '📐 Tải SVG Vector',
     btnStudioCopyImg: '📋 Sao chép ảnh',
     btnStudioSaveCard: '💾 Lưu vào thẻ',
     toastLoadedPreset: 'Đã nạp mẫu: ',
@@ -697,11 +763,15 @@ const I18N = {
     toastSavedFav: 'Đã thêm vào mục yêu thích ❤️',
     toastRemovedFav: 'Đã xoá khỏi mục yêu thích',
     toastDownloaded: 'Đã tải poster độ phân giải cao PNG!',
+    toastDownloadedSvg: 'Đã xuất file SVG vector thành công!',
     toastCopiedImg: 'Đã sao chép ảnh poster vào clipboard!',
     toastCleared: 'Đã làm mới form nhập liệu!',
     toastExportedMd: 'Đã xuất file Markdown thành công!',
+    toastExportedJson: 'Đã xuất file JSON thành công!',
     toastCardUpdated: 'Đã cập nhật thay đổi vào thẻ!',
     toastGeneratedSuccess: 'Tạo thành công {n} phương án copy!',
+    toastHistoryRestored: 'Đã khôi phục phương án từ lịch sử!',
+    toastHistoryCleared: 'Đã xóa toàn bộ lịch sử!',
     errApiKey: 'Vui lòng nhập API key trước.',
     errTopic: 'Vui lòng nhập chủ đề hoặc chọn một mẫu gợi ý bên trên.',
     errCorsHelper: ' -> Đây là lỗi CORS do trình duyệt chặn gọi API trực tiếp. Hãy chuyển sang OpenRouter hoặc dùng Custom Base URL Proxy!',
@@ -771,13 +841,18 @@ const I18N = {
     subjectLabel: 'Visual Subject',
     paletteLabel: 'Color Palette',
     modalTitle: 'Poster Design Studio',
+    historyModalTitle: 'Recent Generation History',
+    historyDesc: 'Saves up to 8 recent batches',
+    btnClearHistory: '🗑️ Clear All History',
     lblStudioRatio: 'Aspect Ratio',
     lblStudioHeadline: 'Live Edit Headline',
     lblStudioFontSize: 'Font Size',
     lblStudioSubhead: 'Live Edit Subhead',
     lblStudioBrand: 'Brand Name on Poster Footer',
-    lblStudioPalette: 'Primary Color Palette',
-    btnStudioDownload: '⬇️ Download High-Res PNG',
+    lblStudioPalette: 'Primary Colors & Custom Pickers',
+    lblStudioLogo: 'Insert Logo / Product Image (Optional)',
+    btnStudioDownload: '⬇️ Download PNG 2x',
+    btnStudioSvg: '📐 Download SVG Vector',
     btnStudioCopyImg: '📋 Copy Image',
     btnStudioSaveCard: '💾 Save to Card',
     toastLoadedPreset: 'Loaded preset: ',
@@ -786,11 +861,15 @@ const I18N = {
     toastSavedFav: 'Saved to favorites ❤️',
     toastRemovedFav: 'Removed from favorites',
     toastDownloaded: 'High-res poster PNG downloaded!',
+    toastDownloadedSvg: 'Vector SVG poster exported!',
     toastCopiedImg: 'Poster image copied to clipboard!',
     toastCleared: 'Input form cleared!',
     toastExportedMd: 'Exported all options to Markdown!',
+    toastExportedJson: 'Exported all options to JSON!',
     toastCardUpdated: 'Saved edits back to card!',
     toastGeneratedSuccess: 'Successfully generated {n} copy options!',
+    toastHistoryRestored: 'Restored batch from history!',
+    toastHistoryCleared: 'Cleared all generation history!',
     errApiKey: 'Please enter your API key first.',
     errTopic: 'Please enter a topic or select a preset above.',
     errCorsHelper: ' -> This is a browser CORS network error. Please switch to OpenRouter or use a Custom Base URL Proxy!',
@@ -860,13 +939,18 @@ const I18N = {
     subjectLabel: '画面主体',
     paletteLabel: '配色方案',
     modalTitle: '海报设计工作室 (Poster Studio)',
+    historyModalTitle: '历史生成记录',
+    historyDesc: '最多保留最近 8 次生成结果',
+    btnClearHistory: '🗑️ 清空全部历史记录',
     lblStudioRatio: '画面比例',
     lblStudioHeadline: '实时修改主标题',
     lblStudioFontSize: '字体大小',
     lblStudioSubhead: '实时修改副标题',
     lblStudioBrand: '海报底部品牌署名',
-    lblStudioPalette: '主基调配色',
+    lblStudioPalette: '主基调配色与取色器',
+    lblStudioLogo: '插入 Logo / 产品图片 (可选)',
     btnStudioDownload: '⬇️ 下载 2x 超清 PNG',
+    btnStudioSvg: '📐 下载矢量 SVG',
     btnStudioCopyImg: '📋 复制海报图像',
     btnStudioSaveCard: '💾 保存至卡片',
     toastLoadedPreset: '已载入预设：',
@@ -875,11 +959,15 @@ const I18N = {
     toastSavedFav: '已加入收藏夹 ❤️',
     toastRemovedFav: '已从收藏夹移除',
     toastDownloaded: '1200x1600 高清海报已下载！',
+    toastDownloadedSvg: '矢量 SVG 海报已成功导出！',
     toastCopiedImg: '海报图像已复制到剪贴板！',
     toastCleared: '已重置表单输入！',
     toastExportedMd: '已导出全部方案为 Markdown 文件！',
+    toastExportedJson: '已导出全部方案为 JSON 文件！',
     toastCardUpdated: '已成功同步修改至卡片！',
     toastGeneratedSuccess: '成功生成 {n} 个文案方案！',
+    toastHistoryRestored: '已从历史记录中恢复！',
+    toastHistoryCleared: '已清空全部历史记录！',
     errApiKey: '请先输入对应的 API Key。',
     errTopic: '请输入产品主题或点击上方的预设灵感。',
     errCorsHelper: ' -> 这是由于浏览器限制直接调用导致的跨域 CORS 错误。推荐改用 OpenRouter 或配置 Base URL 反向代理！',
@@ -1191,6 +1279,7 @@ let activeStudioItem = null;
 let activeStudioIdx = -1;
 let activeStudioTab = 'generated';
 let activeStudioPalette = ['#0E1A2E', '#E2001A', '#FFFFFF'];
+let activeStudioLogoImg = null;
 let loadingTimer = null;
 
 // Khởi tạo ứng dụng
@@ -1228,7 +1317,7 @@ function initApp(){
 
 function applyLanguage(lang){
   currentLang = lang;
-  localStorage.setItem('durex_lang', lang);
+  safeStorageSet('durex_lang', lang);
   const t = I18N[lang] || I18N.vi;
 
   document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -1316,13 +1405,19 @@ function applyLanguage(lang){
 
   // Modal texts
   document.getElementById('txtModalTitle').textContent = t.modalTitle;
+  document.getElementById('txtHistoryModalTitle').textContent = t.historyModalTitle;
+  document.getElementById('txtHistoryDesc').textContent = t.historyDesc;
+  document.getElementById('btnHistoryClearAll').textContent = t.btnClearHistory;
+
   document.getElementById('lblStudioRatio').textContent = t.lblStudioRatio;
   document.getElementById('lblStudioHeadline').textContent = t.lblStudioHeadline;
   document.getElementById('lblStudioFontSize').textContent = t.lblStudioFontSize;
   document.getElementById('lblStudioSubhead').textContent = t.lblStudioSubhead;
   document.getElementById('lblStudioBrand').textContent = t.lblStudioBrand;
   document.getElementById('lblStudioPalette').textContent = t.lblStudioPalette;
+  document.getElementById('lblStudioLogo').textContent = t.lblStudioLogo;
   document.getElementById('btnStudioDownload').textContent = t.btnStudioDownload;
+  document.getElementById('btnStudioSvg').textContent = t.btnStudioSvg;
   document.getElementById('btnStudioCopyImg').textContent = t.btnStudioCopyImg;
   document.getElementById('btnStudioSaveCard').textContent = t.btnStudioSaveCard;
 
@@ -1394,7 +1489,7 @@ function bindEvents(){
   });
 
   document.getElementById('rememberKey').addEventListener('change', function(){
-    localStorage.setItem('durex_remember_key', this.checked);
+    safeStorageSet('durex_remember_key', this.checked);
     if(this.checked){
       saveKeysIfPermitted();
     } else {
@@ -1463,10 +1558,16 @@ function bindEvents(){
     document.getElementById('topic').focus();
   });
 
-  // History button
-  document.getElementById('btnHistory').addEventListener('click', showHistoryPrompt);
+  // History button & modal
+  document.getElementById('btnHistory').addEventListener('click', openHistoryModal);
+  document.getElementById('historyCloseBtn').addEventListener('click', closeHistoryModal);
+  document.getElementById('btnHistoryClearAll').addEventListener('click', clearAllHistory);
+  document.getElementById('historyModal').addEventListener('click', function(e){
+    if(e.target === this) closeHistoryModal();
+  });
 
   document.getElementById('btnExportAll').addEventListener('click', exportAllAsMarkdown);
+  document.getElementById('btnExportJson').addEventListener('click', exportAllAsJson);
 
   // Keyboard shortcut Ctrl+Enter
   document.getElementById('topic').addEventListener('keydown', function(e){
@@ -1478,13 +1579,16 @@ function bindEvents(){
 
   document.getElementById('genBtn').addEventListener('click', generate);
 
-  // Modal Events
+  // Studio Modal Events
   document.getElementById('modalCloseBtn').addEventListener('click', closeStudioModal);
   document.getElementById('studioModal').addEventListener('click', function(e){
     if(e.target === this) closeStudioModal();
   });
   document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape') closeStudioModal();
+    if(e.key === 'Escape'){
+      closeStudioModal();
+      closeHistoryModal();
+    }
   });
 
   document.getElementById('studioRatio').addEventListener('change', updateStudioCanvas);
@@ -1496,14 +1600,29 @@ function bindEvents(){
     updateStudioCanvas();
   });
 
+  // Color Pickers
+  document.getElementById('studioBgPicker').addEventListener('input', function(){
+    activeStudioPalette[0] = this.value;
+    updateStudioCanvas();
+  });
+  document.getElementById('studioAccentPicker').addEventListener('input', function(){
+    activeStudioPalette[1] = this.value;
+    updateStudioCanvas();
+  });
+
+  // Logo upload
+  document.getElementById('studioLogoInput').addEventListener('change', handleLogoUpload);
+  document.getElementById('btnRemoveLogo').addEventListener('click', removeLogo);
+
   document.getElementById('btnStudioDownload').addEventListener('click', downloadStudioCanvas);
+  document.getElementById('btnStudioSvg').addEventListener('click', downloadStudioSvg);
   document.getElementById('btnStudioCopyImg').addEventListener('click', copyStudioCanvasImage);
   document.getElementById('btnStudioSaveCard').addEventListener('click', saveStudioChangesToCard);
 }
 
 function saveKeysIfPermitted(){
   if(document.getElementById('rememberKey').checked){
-    localStorage.setItem('durex_keys', JSON.stringify(apiKeyStore));
+    safeStorageSet('durex_keys', apiKeyStore);
   }
 }
 
@@ -1824,7 +1943,6 @@ async function generate(){
   btn.disabled = true;
   btn.textContent = t.genBtnLoading;
 
-  // Thought Progress Animation
   const thoughtSteps = [
     '🔍 Phân tích bối cảnh & đối tượng...',
     '💡 Khám phá điểm chạm 2 tầng nghĩa...',
@@ -1857,14 +1975,13 @@ async function generate(){
     document.getElementById('tabGenerated').classList.add('active');
     document.getElementById('tabFavorites').classList.remove('active');
 
-    // Lưu vào lịch sử gần đây
     historyBatches.unshift({
       timestamp: Date.now(),
       topic,
       options: [...currentOptions]
     });
     if(historyBatches.length > 8) historyBatches.pop();
-    localStorage.setItem('durex_history', JSON.stringify(historyBatches));
+    safeStorageSet('durex_history', historyBatches);
 
     renderCurrentState();
     hideStatus();
@@ -2028,7 +2145,7 @@ function toggleFavorite(idx, tab){
     showToast(t.toastSavedFav);
   }
 
-  localStorage.setItem('durex_favorites', JSON.stringify(favorites));
+  safeStorageSet('durex_favorites', favorites);
   updateFavBadges();
   renderCurrentState();
 }
@@ -2066,25 +2183,62 @@ function copyAiPrompt(idx, tab){
   });
 }
 
-function showHistoryPrompt(){
-  if(!historyBatches.length){
-    showToast('Chưa có lịch sử sinh bài.');
-    return;
-  }
+// ==========================================
+// HISTORY DRAWER / MODAL
+// ==========================================
+function openHistoryModal(){
   const t = I18N[currentLang] || I18N.vi;
-  const listItems = historyBatches.map((b, i) => `${i + 1}. [${new Date(b.timestamp).toLocaleTimeString()}] ${b.topic.slice(0, 30)}... (${b.options.length} phương án)`).join('\n');
-  const pick = prompt(`Chọn số thứ tự để xem lại lịch sử:\n\n${listItems}\n\nNhập số từ 1 đến ${historyBatches.length}:`);
-  const idx = parseInt(pick, 10);
-  if(idx >= 1 && idx <= historyBatches.length){
-    currentOptions = historyBatches[idx - 1].options;
+  const container = document.getElementById('historyList');
+  container.innerHTML = '';
+
+  if(!historyBatches.length){
+    container.innerHTML = `<div style="text-align:center;padding:40px 10px;color:var(--ink-dim);font-size:13px;">Chưa có lịch sử sinh bài nào.</div>`;
+  } else {
+    historyBatches.forEach((batch, idx) => {
+      const item = document.createElement('div');
+      item.className = 'history-item';
+      item.innerHTML = `
+        <div class="history-info">
+          <div class="history-topic">${escapeHtml(batch.topic)}</div>
+          <div class="history-meta">${new Date(batch.timestamp).toLocaleString()} • ${batch.options.length} phương án</div>
+        </div>
+        <div class="history-actions">
+          <button type="button" class="act-btn primary-act" style="font-size:11.5px;padding:4px 8px;" onclick="restoreHistory(${idx})">Khôi phục</button>
+        </div>
+      `;
+      container.appendChild(item);
+    });
+  }
+  document.getElementById('historyModal').classList.add('show');
+}
+
+function closeHistoryModal(){
+  document.getElementById('historyModal').classList.remove('show');
+}
+
+function restoreHistory(idx){
+  const t = I18N[currentLang] || I18N.vi;
+  if(historyBatches[idx]){
+    currentOptions = [...historyBatches[idx].options];
+    document.getElementById('topic').value = historyBatches[idx].topic || '';
     currentTab = 'generated';
     document.getElementById('tabGenerated').classList.add('active');
     document.getElementById('tabFavorites').classList.remove('active');
     renderCurrentState();
-    showToast('Đã khôi phục từ lịch sử!');
+    closeHistoryModal();
+    showToast(t.toastHistoryRestored);
   }
 }
 
+function clearAllHistory(){
+  const t = I18N[currentLang] || I18N.vi;
+  historyBatches = [];
+  localStorage.removeItem('durex_history');
+  openHistoryModal();
+  showToast(t.toastHistoryCleared);
+}
+
+// Xuất toàn bộ phương án ra Markdown
 function exportAllAsMarkdown(){
   const list = currentTab === 'generated' ? currentOptions : favorites;
   const t = I18N[currentLang] || I18N.vi;
@@ -2118,6 +2272,33 @@ function exportAllAsMarkdown(){
   link.click();
   URL.revokeObjectURL(url);
   showToast(t.toastExportedMd);
+}
+
+// Xuất toàn bộ phương án ra JSON
+function exportAllAsJson(){
+  const list = currentTab === 'generated' ? currentOptions : favorites;
+  const t = I18N[currentLang] || I18N.vi;
+  if(!list || !list.length){
+    showToast('Chưa có dữ liệu để xuất.');
+    return;
+  }
+
+  const topic = document.getElementById('topic').value || 'Campaign';
+  const exportData = {
+    campaign: topic,
+    createdAt: new Date().toISOString(),
+    totalOptions: list.length,
+    options: list
+  };
+
+  const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.download = `durex-campaign-${Date.now()}.json`;
+  link.href = url;
+  link.click();
+  URL.revokeObjectURL(url);
+  showToast(t.toastExportedJson);
 }
 
 function wrapTextMultilingual(ctx, text, maxW){
@@ -2165,6 +2346,9 @@ function openStudioModal(idx, tab){
   activeStudioIdx = idx;
   activeStudioTab = tab;
   activeStudioItem = JSON.parse(JSON.stringify(item));
+  activeStudioLogoImg = null;
+  document.getElementById('studioLogoInput').value = '';
+  document.getElementById('btnRemoveLogo').style.display = 'none';
   
   const rawHexList = (item.visual && item.visual.palette_hex && item.visual.palette_hex.length) 
     ? item.visual.palette_hex 
@@ -2181,6 +2365,8 @@ function openStudioModal(idx, tab){
   document.getElementById('studioRatio').value = document.getElementById('ratio').value || '3:4';
   document.getElementById('studioFontSize').value = 58;
   document.getElementById('studioFontSizeVal').textContent = '58';
+  document.getElementById('studioBgPicker').value = activeStudioPalette[0];
+  document.getElementById('studioAccentPicker').value = activeStudioPalette[1];
 
   const swatchesContainer = document.getElementById('studioSwatches');
   swatchesContainer.innerHTML = '';
@@ -2202,6 +2388,8 @@ function openStudioModal(idx, tab){
     pBtn.innerHTML = `<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${p.colors[0]};margin-right:4px;"></span> ${p.name}`;
     pBtn.onclick = () => {
       activeStudioPalette = p.colors.map(c => toValidHex(c));
+      document.getElementById('studioBgPicker').value = activeStudioPalette[0];
+      document.getElementById('studioAccentPicker').value = activeStudioPalette[1];
       updateStudioCanvas();
     };
     swatchesContainer.appendChild(pBtn);
@@ -2217,6 +2405,29 @@ function closeStudioModal(){
   activeStudioIdx = -1;
 }
 
+function handleLogoUpload(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(evt){
+    const img = new Image();
+    img.onload = function(){
+      activeStudioLogoImg = img;
+      document.getElementById('btnRemoveLogo').style.display = 'inline-flex';
+      updateStudioCanvas();
+    };
+    img.src = evt.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeLogo(){
+  activeStudioLogoImg = null;
+  document.getElementById('studioLogoInput').value = '';
+  document.getElementById('btnRemoveLogo').style.display = 'none';
+  updateStudioCanvas();
+}
+
 function saveStudioChangesToCard(){
   if(!activeStudioItem || activeStudioIdx < 0) return;
   const newHeadline = document.getElementById('studioHeadline').value.trim();
@@ -2229,7 +2440,7 @@ function saveStudioChangesToCard(){
   } else if(activeStudioTab === 'favorites' && favorites[activeStudioIdx]){
     favorites[activeStudioIdx].headline = newHeadline;
     favorites[activeStudioIdx].subhead = newSubhead;
-    localStorage.setItem('durex_favorites', JSON.stringify(favorites));
+    safeStorageSet('durex_favorites', favorites);
   }
 
   renderCurrentState();
@@ -2307,6 +2518,16 @@ function updateStudioCanvas(){
     }
   }
 
+  // Logo if uploaded
+  if(activeStudioLogoImg){
+    const logoW = 100;
+    const logoH = (activeStudioLogoImg.height / activeStudioLogoImg.width) * logoW;
+    ctx.save();
+    ctx.globalAlpha = 0.9;
+    ctx.drawImage(activeStudioLogoImg, canvasW - 70 - logoW, 60, logoW, logoH);
+    ctx.restore();
+  }
+
   // Visual hint
   if(activeStudioItem.visual && activeStudioItem.visual.subject_desc && ratio !== '16:9'){
     const vY = canvasH - 160;
@@ -2333,6 +2554,81 @@ function downloadStudioCanvas(){
   link.href = canvas.toDataURL('image/png');
   link.click();
   showToast(t.toastDownloaded);
+}
+
+function downloadStudioSvg(){
+  if(!activeStudioItem) return;
+  const t = I18N[currentLang] || I18N.vi;
+  const ratio = document.getElementById('studioRatio').value || '3:4';
+  const customFontSize = parseInt(document.getElementById('studioFontSize').value || 58, 10);
+  const brandName = (document.getElementById('studioBrand').value || 'DUREX-STYLE STUDIO').toUpperCase();
+  const headline = document.getElementById('studioHeadline').value || '';
+  const subhead = document.getElementById('studioSubhead').value || '';
+
+  let w = 900, h = 1200;
+  if(ratio === '1:1'){ w = 1000; h = 1000; }
+  else if(ratio === '9:16'){ w = 810; h = 1440; }
+  else if(ratio === '16:9'){ w = 1440; h = 810; }
+
+  const bgHex = toValidHex(activeStudioPalette[0], '#0E1A2E');
+  const accentHex = toValidHex(activeStudioPalette[1], '#E2001A');
+  const formula = activeStudioItem.formula || 'DUREX COPYWRITER';
+
+  const lines = headline.split('\n');
+  let y = h * (ratio === '16:9' ? 0.36 : 0.42);
+  const lineH = customFontSize * 1.28;
+
+  let headlineSvg = '';
+  lines.forEach(l => {
+    headlineSvg += `<text x="70" y="${y}" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="${customFontSize}" font-weight="900" fill="#FFFFFF">${escapeXml(l)}</text>\n`;
+    y += lineH;
+  });
+
+  let subheadSvg = '';
+  if(subhead){
+    y += 18;
+    subheadSvg = `<text x="70" y="${y}" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="26" font-weight="500" fill="#F2EDE3" fill-opacity="0.8">${escapeXml(subhead)}</text>\n`;
+  }
+
+  const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="35%" r="75%">
+      <stop offset="0%" stop-color="${accentHex}" stop-opacity="0.2"/>
+      <stop offset="70%" stop-color="${bgHex}"/>
+      <stop offset="100%" stop-color="#050A14"/>
+    </radialGradient>
+  </defs>
+  <rect width="${w}" height="${h}" fill="url(#bgGrad)"/>
+  <rect x="30" y="30" width="${w - 60}" height="${h - 60}" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="3"/>
+  <text x="70" y="90" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="700" fill="${accentHex}">${escapeXml(formula.toUpperCase())}</text>
+  <line x1="70" y1="102" x2="120" y2="102" stroke="${accentHex}" stroke-width="3"/>
+  ${headlineSvg}
+  ${subheadSvg}
+  <line x1="70" y1="${h - 105}" x2="${w - 70}" y2="${h - 105}" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+  <text x="70" y="${h - 70}" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="16" font-weight="600" fill="rgba(255,255,255,0.4)">DUAL-LAYER SEMANTICS</text>
+  <text x="${w - (brandName.length * 10 + 90)}" y="${h - 70}" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="16" font-weight="600" fill="rgba(255,255,255,0.4)">${escapeXml(brandName)}</text>
+</svg>`;
+
+  const blob = new Blob([svgContent], { type: 'image/svg+xml;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.download = `durex-poster-${Date.now()}.svg`;
+  link.href = url;
+  link.click();
+  URL.revokeObjectURL(url);
+  showToast(t.toastDownloadedSvg);
+}
+
+function escapeXml(unsafe) {
+  return String(unsafe || '').replace(/[<>&'"]/g, c => {
+    switch (c) {
+      case '<': return '&lt;';
+      case '>': return '&gt;';
+      case '&': return '&amp;';
+      case '\'': return '&apos;';
+      case '"': return '&quot;';
+    }
+  });
 }
 
 async function copyStudioCanvasImage(){
