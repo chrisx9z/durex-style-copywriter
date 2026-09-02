@@ -422,11 +422,13 @@
 
       <label for="provider" id="lblProvider">Nhà cung cấp AI</label>
       <select id="provider">
-        <option value="openrouter" selected>OpenRouter (Khuyên dùng - Không lo CORS)</option>
-        <option value="google">Google (Gemini - Chạy tốt từ web)</option>
+        <option value="openrouter" selected>OpenRouter (Cả Đóng & Mở — Không lo CORS)</option>
+        <option value="google">Google (Gemini & Gemma)</option>
         <option value="claude">Claude (Anthropic)</option>
-        <option value="openai">OpenAI (Cần Proxy/CORS)</option>
-        <option value="deepseek">DeepSeek (Cần Proxy/CORS)</option>
+        <option value="openai">OpenAI (GPT-4.5, o3-mini, GPT-4o)</option>
+        <option value="deepseek">DeepSeek (Open-Weight V3 & R1)</option>
+        <option value="groq">Groq (Open-Source Siêu tốc LPU)</option>
+        <option value="ollama">Ollama / Local (Chạy offline mô hình mở)</option>
       </select>
 
       <label for="apiKey" id="apiKeyLabel">OpenRouter API Key</label>
@@ -817,6 +819,17 @@ const I18N = {
     configHeader: 'Cấu hình & Dữ liệu',
     savedCount: 'Đã lưu: ',
     provider: 'Nhà cung cấp AI',
+    providers: [
+      { id: 'openrouter', label: 'OpenRouter (Cả Đóng & Mở — Không lo CORS)' },
+      { id: 'google', label: 'Google (Gemini & Gemma)' },
+      { id: 'claude', label: 'Claude (Anthropic)' },
+      { id: 'openai', label: 'OpenAI (GPT-4.5, o3-mini, GPT-4o)' },
+      { id: 'deepseek', label: 'DeepSeek (Open-Weight V3 & R1)' },
+      { id: 'groq', label: 'Groq (Open-Source Siêu tốc LPU)' },
+      { id: 'ollama', label: 'Ollama / Local (Chạy offline mô hình mở)' }
+    ],
+    groupClosed: '🔒 Mô hình Mã nguồn đóng (Closed-Source Flagships)',
+    groupOpen: '🌐 Mô hình Mã nguồn mở (Open-Source / Open-Weights)',
     apiKeySuffix: ' API Key',
     rememberKey: 'Ghi nhớ API Key trên trình duyệt này (localStorage)',
     advancedToggle: '⚙️ Tùy chọn nâng cao (Custom Base URL / Proxy)',
@@ -917,6 +930,17 @@ const I18N = {
     configHeader: 'Configuration & Inputs',
     savedCount: 'Saved: ',
     provider: 'AI Provider',
+    providers: [
+      { id: 'openrouter', label: 'OpenRouter (Closed & Open-Source — No CORS issues)' },
+      { id: 'google', label: 'Google (Gemini & Gemma)' },
+      { id: 'claude', label: 'Claude (Anthropic)' },
+      { id: 'openai', label: 'OpenAI (GPT-4.5, o3-mini, GPT-4o)' },
+      { id: 'deepseek', label: 'DeepSeek (Open-Weight V3 & R1)' },
+      { id: 'groq', label: 'Groq (Ultra-fast Open-Source LPU)' },
+      { id: 'ollama', label: 'Ollama / Local (Run offline open models on PC)' }
+    ],
+    groupClosed: '🔒 Closed-Source Flagship Models',
+    groupOpen: '🌐 Open-Source / Open-Weights Models',
     apiKeySuffix: ' API Key',
     rememberKey: 'Remember API Key in this browser (localStorage)',
     advancedToggle: '⚙️ Advanced Options (Custom Base URL / Proxy)',
@@ -1017,6 +1041,17 @@ const I18N = {
     configHeader: '配置与输入',
     savedCount: '已收藏: ',
     provider: 'AI 供应商',
+    providers: [
+      { id: 'openrouter', label: 'OpenRouter (包含闭源与开源全生态 — 免CORS)' },
+      { id: 'google', label: 'Google (Gemini & Gemma)' },
+      { id: 'claude', label: 'Claude (Anthropic)' },
+      { id: 'openai', label: 'OpenAI (GPT-4.5, o3-mini, GPT-4o)' },
+      { id: 'deepseek', label: 'DeepSeek (深度求索开源全系)' },
+      { id: 'groq', label: 'Groq (极速开源推理引擎 LPU)' },
+      { id: 'ollama', label: 'Ollama / 本地私有化 (本地离线运行开源模型)' }
+    ],
+    groupClosed: '🔒 闭源商业旗舰模型 (Closed-Source)',
+    groupOpen: '🌐 开源开放权重模型 (Open-Source / Open-Weights)',
     apiKeySuffix: ' API Key',
     rememberKey: '在当前浏览器记住 API Key (localStorage)',
     advancedToggle: '⚙️ 高级选项（自定义 Base URL / 反向代理）',
@@ -1248,7 +1283,9 @@ const PROVIDER_CONFIG = {
     keyPlaceholder: 'sk-or-v1-...',
     defaultModel: 'anthropic/claude-3.7-sonnet',
     popularModels: [
+      // 🔒 MÃ NGUỒN ĐÓNG (CLOSED-SOURCE)
       {
+        group: 'closed',
         id: 'anthropic/claude-3.7-sonnet',
         labels: {
           vi: 'Claude 3.7 Sonnet (Mới nhất 2025/2026 — Đỉnh cao văn phong)',
@@ -1257,6 +1294,7 @@ const PROVIDER_CONFIG = {
         }
       },
       {
+        group: 'closed',
         id: 'anthropic/claude-3.7-sonnet:thinking',
         labels: {
           vi: 'Claude 3.7 Sonnet (Kèm suy luận sâu Extended Thinking)',
@@ -1265,6 +1303,7 @@ const PROVIDER_CONFIG = {
         }
       },
       {
+        group: 'closed',
         id: 'openai/gpt-4.5-preview',
         labels: {
           vi: 'GPT-4.5 Preview (Model khủng nhất OpenAI, cực kỳ tự nhiên)',
@@ -1273,6 +1312,7 @@ const PROVIDER_CONFIG = {
         }
       },
       {
+        group: 'closed',
         id: 'openai/o3-mini',
         labels: {
           vi: 'OpenAI o3-mini (Suy luận logic thế hệ mới & siêu nhanh)',
@@ -1281,38 +1321,7 @@ const PROVIDER_CONFIG = {
         }
       },
       {
-        id: 'deepseek/deepseek-r1',
-        labels: {
-          vi: 'DeepSeek R1 (Tư duy suy luận sâu — Cực rẻ)',
-          en: 'DeepSeek R1 (Deep Reasoning — Highly Cost-Effective)',
-          zh: 'DeepSeek R1 (深度长思考推理 — 极高性价比)'
-        }
-      },
-      {
-        id: 'deepseek/deepseek-chat',
-        labels: {
-          vi: 'DeepSeek V3 (Nhanh & Cực kỳ sáng tạo)',
-          en: 'DeepSeek V3 (Fast & Highly Intelligent)',
-          zh: 'DeepSeek V3 (日常首选 — 快速敏捷)'
-        }
-      },
-      {
-        id: 'google/gemini-2.0-flash-001',
-        labels: {
-          vi: 'Gemini 2.0 Flash (Tốc độ cao & Tiết kiệm chi phí)',
-          en: 'Gemini 2.0 Flash (High Speed & Budget Friendly)',
-          zh: 'Gemini 2.0 Flash (极速响应，低成本)'
-        }
-      },
-      {
-        id: 'google/gemini-2.0-pro-exp-02-05:free',
-        labels: {
-          vi: 'Gemini 2.0 Pro Exp (Bản Pro thử nghiệm miễn phí)',
-          en: 'Gemini 2.0 Pro Exp (Free tier on OpenRouter)',
-          zh: 'Gemini 2.0 Pro Exp (OpenRouter 免费可用)'
-        }
-      },
-      {
+        group: 'closed',
         id: 'openai/gpt-4o',
         labels: {
           vi: 'GPT-4o (Toàn diện, ổn định cao)',
@@ -1321,11 +1330,113 @@ const PROVIDER_CONFIG = {
         }
       },
       {
+        group: 'closed',
+        id: 'google/gemini-2.0-flash-001',
+        labels: {
+          vi: 'Gemini 2.0 Flash (Tốc độ cao & Tiết kiệm chi phí)',
+          en: 'Gemini 2.0 Flash (High Speed & Budget Friendly)',
+          zh: 'Gemini 2.0 Flash (极速响应，低成本)'
+        }
+      },
+      {
+        group: 'closed',
+        id: 'google/gemini-2.0-pro-exp-02-05:free',
+        labels: {
+          vi: 'Gemini 2.0 Pro Exp (Bản Pro thử nghiệm miễn phí)',
+          en: 'Gemini 2.0 Pro Exp (Free tier on OpenRouter)',
+          zh: 'Gemini 2.0 Pro Exp (OpenRouter 免费可用)'
+        }
+      },
+      {
+        group: 'closed',
+        id: 'x-ai/grok-2-1212',
+        labels: {
+          vi: 'Grok 2 (xAI — Hóm hỉnh, hài hước, góc nhìn độc lạ)',
+          en: 'Grok 2 (xAI — Witty, unconventional humour)',
+          zh: 'Grok 2 (xAI — 辛辣幽默，独特脑洞)'
+        }
+      },
+
+      // 🌐 MÃ NGUỒN MỞ (OPEN-SOURCE / OPEN-WEIGHTS)
+      {
+        group: 'open',
+        id: 'deepseek/deepseek-r1',
+        labels: {
+          vi: 'DeepSeek R1 (Tư duy suy luận sâu — Cực rẻ)',
+          en: 'DeepSeek R1 (Deep Reasoning — Highly Cost-Effective)',
+          zh: 'DeepSeek R1 (深度长思考推理 — 极高性价比)'
+        }
+      },
+      {
+        group: 'open',
+        id: 'deepseek/deepseek-chat',
+        labels: {
+          vi: 'DeepSeek V3 (671B MoE — Nhanh & cực kỳ sáng tạo)',
+          en: 'DeepSeek V3 (671B MoE — Fast & highly intelligent)',
+          zh: 'DeepSeek V3 (671B MoE — 综合创作首选，敏捷高效)'
+        }
+      },
+      {
+        group: 'open',
+        id: 'meta-llama/llama-3.3-70b-instruct',
+        labels: {
+          vi: 'Meta Llama 3.3 70B (Flagship mã nguồn mở của Meta)',
+          en: 'Meta Llama 3.3 70B (Meta Open-Source Flagship)',
+          zh: 'Meta Llama 3.3 70B (Meta 顶配开源旗舰)'
+        }
+      },
+      {
+        group: 'open',
+        id: 'meta-llama/llama-3.1-405b-instruct',
+        labels: {
+          vi: 'Meta Llama 3.1 405B (Mô hình mã nguồn mở lớn nhất thế giới)',
+          en: 'Meta Llama 3.1 405B (World largest open-weights model)',
+          zh: 'Meta Llama 3.1 405B (全球体量最大开源模型)'
+        }
+      },
+      {
+        group: 'open',
         id: 'qwen/qwen-2.5-72b-instruct',
         labels: {
-          vi: 'Qwen 2.5 72B (Cực mạnh thơ ca & chữ Hán)',
-          en: 'Qwen 2.5 72B (Elite Literary & Multilingual)',
-          zh: 'Qwen 2.5 72B (通义千问 — 中文诗词绝佳)'
+          vi: 'Qwen 2.5 72B (Alibaba — Cực mạnh thơ ca & chữ Hán)',
+          en: 'Qwen 2.5 72B (Alibaba — Elite Literary & Multilingual)',
+          zh: 'Qwen 2.5 72B (阿里通义千问 — 中文诗词文案绝佳)'
+        }
+      },
+      {
+        group: 'open',
+        id: 'qwen/qwq-32b-preview',
+        labels: {
+          vi: 'Qwen QwQ 32B (Mô hình suy luận mở từ Alibaba)',
+          en: 'Qwen QwQ 32B (Open Reasoning Model)',
+          zh: 'Qwen QwQ 32B (通义开源长思维推理模型)'
+        }
+      },
+      {
+        group: 'open',
+        id: 'mistralai/mistral-large-2411',
+        labels: {
+          vi: 'Mistral Large 2 (Flagship mã nguồn mở châu Âu)',
+          en: 'Mistral Large 2 (European Open-Source Flagship)',
+          zh: 'Mistral Large 2 (欧洲顶级开源旗舰)'
+        }
+      },
+      {
+        group: 'open',
+        id: 'google/gemma-2-27b-it',
+        labels: {
+          vi: 'Gemma 2 27B (Mô hình mở từ Google DeepMind)',
+          en: 'Gemma 2 27B (Google DeepMind Open Weights)',
+          zh: 'Gemma 2 27B (Google DeepMind 开放权重)'
+        }
+      },
+      {
+        group: 'open',
+        id: 'microsoft/phi-4',
+        labels: {
+          vi: 'Phi-4 14B (Mô hình mở suy luận từ Microsoft)',
+          en: 'Phi-4 14B (Microsoft Open Reasoning Model)',
+          zh: 'Phi-4 14B (微软开源强推理小钢炮)'
         }
       },
       {
@@ -1341,7 +1452,7 @@ const PROVIDER_CONFIG = {
     corsDirectSafe: true
   },
   google: {
-    label: 'Google (Gemini)',
+    label: 'Google (Gemini & Gemma)',
     keyPlaceholder: 'AIzaSy...',
     defaultModel: 'gemini-2.0-flash',
     popularModels: [
@@ -1551,6 +1662,136 @@ const PROVIDER_CONFIG = {
     ],
     defaultBaseUrl: 'https://api.deepseek.com',
     corsDirectSafe: false
+  },
+  groq: {
+    label: 'Groq (Open-Source Siêu tốc LPU)',
+    keyPlaceholder: 'gsk_...',
+    defaultModel: 'llama-3.3-70b-versatile',
+    popularModels: [
+      {
+        id: 'llama-3.3-70b-versatile',
+        labels: {
+          vi: 'Llama 3.3 70B Versatile (Meta — Tốc độ cực nhanh ~300 tok/s)',
+          en: 'Llama 3.3 70B Versatile (Meta — Blazing Fast ~300 tok/s)',
+          zh: 'Llama 3.3 70B Versatile (Meta — 极致超速 ~300 tok/s)'
+        }
+      },
+      {
+        id: 'deepseek-r1-distill-llama-70b',
+        labels: {
+          vi: 'DeepSeek R1 Distill 70B (Suy luận logic siêu tốc trên Groq)',
+          en: 'DeepSeek R1 Distill 70B (Fast Logical Reasoning on Groq)',
+          zh: 'DeepSeek R1 Distill 70B (Groq 极速高阶推理)'
+        }
+      },
+      {
+        id: 'llama-3.1-8b-instant',
+        labels: {
+          vi: 'Llama 3.1 8B Instant (Phản hồi tức thì < 0.3s)',
+          en: 'Llama 3.1 8B Instant (Instant Latency < 0.3s)',
+          zh: 'Llama 3.1 8B Instant (瞬时响应 < 0.3s)'
+        }
+      },
+      {
+        id: 'mixtral-8x7b-32768',
+        labels: {
+          vi: 'Mixtral 8x7B (Mô hình mở từ Mistral AI)',
+          en: 'Mixtral 8x7B (Mistral AI MoE)',
+          zh: 'Mixtral 8x7B (欧洲顶级 MoE)'
+        }
+      },
+      {
+        id: 'gemma2-9b-it',
+        labels: {
+          vi: 'Gemma 2 9B (Mô hình mở từ Google)',
+          en: 'Gemma 2 9B (Google Open Weights)',
+          zh: 'Gemma 2 9B (Google 开放权重)'
+        }
+      },
+      {
+        id: 'custom',
+        labels: {
+          vi: '✏️ Tự nhập model khác (Custom)...',
+          en: '✏️ Enter custom model ID...',
+          zh: '✏️ 自定义输入其他模型...'
+        }
+      }
+    ],
+    defaultBaseUrl: 'https://api.groq.com/openai/v1',
+    corsDirectSafe: true
+  },
+  ollama: {
+    label: 'Ollama / Local (Chạy offline mô hình mở)',
+    keyPlaceholder: '(Tùy chọn - Chạy nội bộ không cần key)',
+    defaultModel: 'deepseek-r1',
+    popularModels: [
+      {
+        id: 'deepseek-r1',
+        labels: {
+          vi: 'deepseek-r1 (Chạy offline mô hình mở trên máy tính)',
+          en: 'deepseek-r1 (Run open model offline locally)',
+          zh: 'deepseek-r1 (本地离线运行 R1 推理模型)'
+        }
+      },
+      {
+        id: 'deepseek-r1:14b',
+        labels: {
+          vi: 'deepseek-r1:14b (Bản chưng cất cân bằng GPU)',
+          en: 'deepseek-r1:14b (Balanced GPU Distill)',
+          zh: 'deepseek-r1:14b (均衡性能蒸馏版)'
+        }
+      },
+      {
+        id: 'deepseek-r1:8b',
+        labels: {
+          vi: 'deepseek-r1:8b (Bản nhẹ chạy mượt trên laptop)',
+          en: 'deepseek-r1:8b (Lightweight for laptops)',
+          zh: 'deepseek-r1:8b (轻量笔记本流畅运行)'
+        }
+      },
+      {
+        id: 'llama3.3',
+        labels: {
+          vi: 'llama3.3 (Meta Llama 3.3 70B Local)',
+          en: 'llama3.3 (Meta Llama 3.3 70B Local)',
+          zh: 'llama3.3 (Meta 旗舰开源本地版)'
+        }
+      },
+      {
+        id: 'llama3.2',
+        labels: {
+          vi: 'llama3.2 (Meta Llama 3.2 3B Siêu nhẹ)',
+          en: 'llama3.2 (Meta Llama 3.2 3B Lightweight)',
+          zh: 'llama3.2 (Meta 超轻便本地模型)'
+        }
+      },
+      {
+        id: 'qwen2.5',
+        labels: {
+          vi: 'qwen2.5 (Alibaba Qwen 2.5 Local)',
+          en: 'qwen2.5 (Alibaba Qwen 2.5 Local)',
+          zh: 'qwen2.5 (通义千问本地版)'
+        }
+      },
+      {
+        id: 'mistral',
+        labels: {
+          vi: 'mistral (Mistral 7B Local)',
+          en: 'mistral (Mistral 7B Local)',
+          zh: 'mistral (Mistral 7B 本地版)'
+        }
+      },
+      {
+        id: 'custom',
+        labels: {
+          vi: '✏️ Tự nhập model local khác...',
+          en: '✏️ Enter other local model name...',
+          zh: '✏️ 自定义输入其他本地模型...'
+        }
+      }
+    ],
+    defaultBaseUrl: 'http://localhost:11434/v1',
+    corsDirectSafe: true
   }
 };
 
@@ -1566,10 +1807,12 @@ const baseUrlStore = {
   google: 'https://generativelanguage.googleapis.com',
   claude: 'https://api.anthropic.com/v1',
   openai: 'https://api.openai.com/v1',
-  deepseek: 'https://api.deepseek.com'
+  deepseek: 'https://api.deepseek.com',
+  groq: 'https://api.groq.com/openai/v1',
+  ollama: 'http://localhost:11434/v1'
 };
 
-const apiKeyStore = { openrouter: '', claude: '', openai: '', google: '', deepseek: '' };
+const apiKeyStore = { openrouter: '', claude: '', openai: '', google: '', deepseek: '', groq: '', ollama: '' };
 
 // Studio Modal State
 let activeStudioItem = null;
@@ -1719,6 +1962,21 @@ function applyLanguage(lang){
   document.getElementById('btnStudioCopyImg').textContent = t.btnStudioCopyImg;
   document.getElementById('btnStudioSaveCard').textContent = t.btnStudioSaveCard;
 
+  // Cập nhật nhãn nhà cung cấp đa ngữ
+  const providerSelect = document.getElementById('provider');
+  if (t.providers && t.providers.length) {
+    const prevProv = providerSelect.value;
+    providerSelect.innerHTML = '';
+    t.providers.forEach(p => {
+      const opt = document.createElement('option');
+      opt.value = p.id;
+      opt.textContent = p.label;
+      if (p.id === currentProvider) opt.selected = true;
+      providerSelect.appendChild(opt);
+    });
+    if (prevProv) providerSelect.value = prevProv;
+  }
+
   const cfg = PROVIDER_CONFIG[currentProvider];
   document.getElementById('apiKeyLabel').textContent = cfg.label + t.apiKeySuffix;
 
@@ -1731,13 +1989,62 @@ function updateModelSelectOptions(){
   const modelSelect = document.getElementById('modelSelect');
   const prevVal = modelSelect.value;
   modelSelect.innerHTML = '';
+
+  const groups = {
+    closed: {
+      vi: '🔒 Mô hình Mã nguồn đóng (Closed-Source Flagships)',
+      en: '🔒 Closed-Source Flagship Models',
+      zh: '🔒 闭源商业旗舰模型 (Closed-Source)'
+    },
+    open: {
+      vi: '🌐 Mô hình Mã nguồn mở (Open-Source / Open-Weights)',
+      en: '🌐 Open-Source / Open-Weights Models',
+      zh: '🌐 开源开放权重模型 (Open-Source)'
+    }
+  };
+
+  const grouped = {};
+  const ungrouped = [];
+
   cfg.popularModels.forEach(m => {
-    const opt = document.createElement('option');
-    opt.value = m.id;
-    opt.textContent = (m.labels && m.labels[currentLang]) ? m.labels[currentLang] : (m.label || m.id);
-    if(m.id === cfg.defaultModel) opt.selected = true;
-    modelSelect.appendChild(opt);
+    if (m.group) {
+      if (!grouped[m.group]) grouped[m.group] = [];
+      grouped[m.group].push(m);
+    } else {
+      ungrouped.push(m);
+    }
   });
+
+  if (Object.keys(grouped).length > 0) {
+    for (const [grpKey, list] of Object.entries(grouped)) {
+      const optGroup = document.createElement('optgroup');
+      optGroup.label = groups[grpKey] ? (groups[grpKey][currentLang] || groups[grpKey].vi) : grpKey;
+      list.forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = m.id;
+        opt.textContent = (m.labels && m.labels[currentLang]) ? m.labels[currentLang] : (m.label || m.id);
+        if (m.id === cfg.defaultModel) opt.selected = true;
+        optGroup.appendChild(opt);
+      });
+      modelSelect.appendChild(optGroup);
+    }
+    ungrouped.forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = m.id;
+      opt.textContent = (m.labels && m.labels[currentLang]) ? m.labels[currentLang] : (m.label || m.id);
+      if (m.id === cfg.defaultModel) opt.selected = true;
+      modelSelect.appendChild(opt);
+    });
+  } else {
+    cfg.popularModels.forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = m.id;
+      opt.textContent = (m.labels && m.labels[currentLang]) ? m.labels[currentLang] : (m.label || m.id);
+      if (m.id === cfg.defaultModel) opt.selected = true;
+      modelSelect.appendChild(opt);
+    });
+  }
+
   if(prevVal && Array.from(modelSelect.options).some(o => o.value === prevVal)){
     modelSelect.value = prevVal;
   }
@@ -2241,6 +2548,61 @@ async function callGoogle(apiKey, model, sysPrompt, userPrompt){
   return (parts && parts.map(p => p.text || '').join('')) || '';
 }
 
+async function callGroq(apiKey, model, sysPrompt, userPrompt, customBaseUrl){
+  const endpoint = (customBaseUrl || PROVIDER_CONFIG.groq.defaultBaseUrl).replace(/\/+$/, '') + '/chat/completions';
+  const reqBody = {
+    model: model || PROVIDER_CONFIG.groq.defaultModel,
+    temperature: 0.8,
+    response_format: { type: 'json_object' },
+    messages: [
+      { role: 'system', content: sysPrompt },
+      { role: 'user', content: userPrompt }
+    ]
+  };
+  const resp = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + apiKey
+    },
+    body: JSON.stringify(reqBody)
+  });
+  if(!resp.ok){
+    const errText = await resp.text();
+    throw new Error(`Groq API (${resp.status}): ${errText.slice(0,300)}`);
+  }
+  const data = await resp.json();
+  return (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '';
+}
+
+async function callOllama(apiKey, model, sysPrompt, userPrompt, customBaseUrl){
+  const endpoint = (customBaseUrl || PROVIDER_CONFIG.ollama.defaultBaseUrl).replace(/\/+$/, '') + '/chat/completions';
+  const reqBody = {
+    model: model || PROVIDER_CONFIG.ollama.defaultModel,
+    temperature: 0.8,
+    stream: false,
+    response_format: { type: 'json_object' },
+    messages: [
+      { role: 'system', content: sysPrompt },
+      { role: 'user', content: userPrompt }
+    ]
+  };
+  const headers = { 'Content-Type': 'application/json' };
+  if(apiKey) headers['Authorization'] = 'Bearer ' + apiKey;
+
+  const resp = await fetch(endpoint, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(reqBody)
+  });
+  if(!resp.ok){
+    const errText = await resp.text();
+    throw new Error(`Ollama (${resp.status}): ${errText.slice(0,300)}`);
+  }
+  const data = await resp.json();
+  return (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '';
+}
+
 async function callProvider(provider, apiKey, model, sysPrompt, userPrompt, customBaseUrl){
   switch(provider){
     case 'openrouter': return callOpenRouter(apiKey, model, sysPrompt, userPrompt, customBaseUrl);
@@ -2248,6 +2610,8 @@ async function callProvider(provider, apiKey, model, sysPrompt, userPrompt, cust
     case 'openai': return callOpenAI(apiKey, model, sysPrompt, userPrompt, customBaseUrl);
     case 'deepseek': return callDeepSeek(apiKey, model, sysPrompt, userPrompt, customBaseUrl);
     case 'google': return callGoogle(apiKey, model, sysPrompt, userPrompt);
+    case 'groq': return callGroq(apiKey, model, sysPrompt, userPrompt, customBaseUrl);
+    case 'ollama': return callOllama(apiKey, model, sysPrompt, userPrompt, customBaseUrl);
     default: throw new Error('Invalid Provider: ' + provider);
   }
 }
@@ -2263,7 +2627,7 @@ async function generate(){
   const outputLang = document.getElementById('outputLang').value || currentLang;
   const btn = document.getElementById('genBtn');
 
-  if(!apiKey){
+  if(!apiKey && provider !== 'ollama'){
     showStatus(t.errApiKey, 'error');
     document.getElementById('apiKey').focus();
     return;

@@ -2,7 +2,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](LICENSE)
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-0%20(Pure%20HTML%2FCSS%2FJS)-brightgreen.svg)](index.html)
-[![AI Providers](https://img.shields.io/badge/AI%20Providers-OpenRouter%20%7C%20Gemini%20%7C%20Claude%20%7C%20OpenAI%20%7C%20DeepSeek-blue.svg)](index.html)
+[![AI Providers](https://img.shields.io/badge/AI%20Providers-OpenRouter%20%7C%20Gemini%20%7C%20Claude%20%7C%20OpenAI%20%7C%20DeepSeek%20%7C%20Groq%20%7C%20Ollama-blue.svg)](index.html)
+[![Models: Closed & Open Source](https://img.shields.io/badge/Models-Closed%20%26%20Open%20Source%20(2025%2F2026)-purple.svg)](index.html)
 
 > **Chọn ngôn ngữ / Language / 语言选择:**  
 > 🇻🇳 **[Tiếng Việt](#-tiếng-việt)** | 🇬🇧 **[English](#-english)** | 🇨🇳 **[简体中文](#-简体中文)**
@@ -13,11 +14,28 @@
 
 Ứng dụng Web tĩnh (Client-side, Zero-dependency) giúp sáng tạo câu chữ quảng cáo tiếng Việt sắc sảo theo phương pháp luận **"Ngữ nghĩa hai lớp" (Dual-Layer Semantics)** — được đúc kết từ thời kỳ hoàng kim của các chiến dịch Durex (Huanshi Interactive 2011–2017).
 
-Công cụ tự động gợi ý: **Công thức viết, Headline, Subhead, Lý do hiệu quả (Bề mặt & Tầng chìm), Chủ thể hình ảnh, Bảng màu và Xuất ảnh Poster mockup chất lượng cao**.
+Công cụ tự động gợi ý: **Công thức viết, Headline, Subhead, Lý do hiệu quả (Bề mặt & Tầng chìm), Chủ thể hình ảnh, Bảng màu và Studio Thiết kế Poster mockup đa định dạng (PNG, SVG)**.
 
 ### 🌟 Trải nghiệm trực tiếp (Live Demo)
 👉 **[Dùng thử ngay trên GitHub Pages](https://chrisx9z.github.io/durex-style-copywriter/)**  
-*(Hoặc tải file `index.html` về máy và mở bằng bất kỳ trình duyệt nào — không cần cài đặt Node.js hay build server).*
+*(Hoặc tải file `index.html` về máy và mở bằng bất kỳ trình duyệt nào — không cần cài đặt Node.js hay build server).*  
+🎉 **Đã có nút `🎭 Dùng thử Demo`**: Trải nghiệm ngay các phương án mẫu kinh điển mà không cần nhập API Key!
+
+### 🤖 Hỗ trợ đầy đủ Model Flagship 2025/2026 (Mã nguồn Đóng & Mở)
+* **🔒 Mã nguồn đóng (Closed-Source Flagships)**:
+  * **Claude 3.7 Sonnet** & **Claude 3.7 Sonnet Thinking** (Anthropic — đỉnh cao văn phong & suy luận).
+  * **GPT-4.5 Preview**, **o3-mini**, **o1**, **GPT-4o** (OpenAI).
+  * **Gemini 2.0 Flash**, **Gemini 2.0 Pro Exp**, **Gemini 2.0 Flash-Lite** (Google).
+  * **Grok 2** (xAI — sắc sảo, hóm hỉnh và bất ngờ).
+* **🌐 Mã nguồn mở (Open-Source / Open-Weights Flagships)**:
+  * **DeepSeek R1** (Tư duy suy luận chuỗi dài) & **DeepSeek V3** (671B MoE).
+  * **Meta Llama 3.3 70B** & **Meta Llama 3.1 405B** (Mô hình mở lớn nhất thế giới).
+  * **Alibaba Qwen 2.5 72B** & **QwQ 32B Reasoning** (Cực mạnh về thơ ca & chữ Hán).
+  * **Mistral Large 2** & **Codestral** (Mã nguồn mở hàng đầu châu Âu).
+  * **Google Gemma 2 27B** & **Microsoft Phi-4 14B**.
+* **⚡ Nhà cung cấp hạ tầng chuyên biệt**:
+  * **Groq**: Suy luận mã nguồn mở siêu tốc trên chip LPU (~300-500 tokens/s).
+  * **Ollama / Local AI**: Chạy mô hình mã nguồn mở 100% offline nội bộ trên máy tính cá nhân qua `http://localhost:11434/v1` (hoàn toàn miễn phí & riêng tư).
 
 ### 🧠 Triết lý cốt lõi: "Ngữ nghĩa hai lớp" là gì?
 Khác với quảng cáo thông thường chỉ nói trực diện về sản phẩm hoặc chơi chữ bề mặt vô nghĩa ("dad jokes"), một câu copy phong cách Durex hoạt động đồng thời trên **hai tầng nghĩa**:
@@ -39,15 +57,18 @@ Khác với quảng cáo thông thường chỉ nói trực diện về sản ph
 
 ### 🚀 Tính năng nổi bật
 * **Hỗ trợ 3 ngôn ngữ giao diện & xuất copy**: Chuyển đổi linh hoạt giữa 🇻🇳 Tiếng Việt, 🇬🇧 English, 🇨🇳 简体中文.
-* **Đa nhà cung cấp AI & Dropdown chọn model**: OpenRouter (Khuyên dùng - không lo CORS), Google Gemini (Free qua AI Studio), Claude, OpenAI, DeepSeek kèm danh sách model thịnh hành.
 * **Bộ chọn Mức độ táo bạo**: 🌿 *Tinh tế (B2B)* — ⚡ *Hóm hỉnh (F&B/Retail)* — 🔥 *Táo bạo (Thời trang/Night)*.
-* **Studio Thiết kế Poster (Poster Design Studio Modal)**:
+* **Studio Thiết kế Poster (Poster Design Studio)**:
   * Xem thử mockup tỷ lệ thực tế (3:4, 1:1, 9:16, 16:9).
-  * Chỉnh sửa trực tiếp Headline & Subhead ngay trên modal.
-  * Tự do chọn bảng màu (AI đề xuất hoặc 4 theme kinh điển của Durex).
-  * Tải ảnh PNG 2x retina độ nét cao hoặc sao chép ảnh trực tiếp vào Clipboard.
-* **Tiện ích xuất bản**: Xuất toàn bộ phương án ra file Markdown (`.md`), sao chép Text và tự sinh Prompt vẽ ảnh Midjourney/Flux.
-* **Lưu trữ yêu thích**: Bookmark các câu copy tâm đắc vào `localStorage`.
+  * Chỉnh sửa trực tiếp Headline, Subhead, cỡ chữ slider (36px - 78px) và Brand Watermark.
+  * Tự do chọn mã màu nền/màu nhấn bằng HTML5 Color Picker.
+  * Chèn ảnh Logo/Sản phẩm trực tiếp lên poster.
+  * Xuất ảnh **PNG 2x retina**, vector **📐 SVG** (phóng to vô hạn không vỡ hạt), sao chép ảnh vào Clipboard.
+* **Tiện ích xuất bản & Lịch sử**:
+  * Modal xem lại **Lịch sử tạo gần đây** và khôi phục 1-click.
+  * Xuất toàn bộ chiến dịch ra **Markdown (`.md`)** hoặc **JSON (`.json`)**.
+  * Sao chép Prompt vẽ ảnh Midjourney / Flux.
+  * Phím tắt `Ctrl + Enter` (tạo nhanh) và `Esc` (đóng modal).
 
 ---
 
@@ -55,11 +76,28 @@ Khác với quảng cáo thông thường chỉ nói trực diện về sản ph
 
 A static, zero-dependency, client-side web application for generating razor-sharp advertising copy using the **"Dual-Layer Semantics"** methodology — distilled from the golden era of Durex social campaigns by Huanshi Interactive (2011–2017).
 
-The tool automatically delivers: **Copywriting Formula, Headline, Subhead, Why it Works (Surface & Submerged layers), Visual Subject, Color Palette, and Instant Poster Mockup Generation**.
+The tool automatically delivers: **Copywriting Formula, Headline, Subhead, Why it Works (Surface & Submerged layers), Visual Subject, Color Palette, and Comprehensive Poster Design Studio (PNG, SVG export)**.
 
 ### 🌟 Live Demo
 👉 **[Try it on GitHub Pages](https://chrisx9z.github.io/durex-style-copywriter/)**  
-*(Or simply download `index.html` and open it in any web browser — no Node.js or server setup required).*
+*(Or simply download `index.html` and open it in any web browser — zero build steps, zero server dependencies).*  
+🎉 **Instant 1-Click Demo Mode (`🎭 Try Demo`)**: Experience full copywriting showcases and the poster studio without entering an API Key!
+
+### 🤖 Cutting-Edge 2025/2026 Models: Closed & Open Source
+* **🔒 Closed-Source Flagships**:
+  * **Claude 3.7 Sonnet** & **Claude 3.7 Sonnet Thinking** (Anthropic flagship — superior nuance & hybrid reasoning).
+  * **GPT-4.5 Preview**, **o3-mini**, **o1**, **GPT-4o** (OpenAI).
+  * **Gemini 2.0 Flash**, **Gemini 2.0 Pro Exp**, **Gemini 2.0 Flash-Lite** (Google).
+  * **Grok 2** (xAI — witty, punchy, unconventional humor).
+* **🌐 Open-Source / Open-Weights Flagships**:
+  * **DeepSeek R1** (Long-chain reasoning) & **DeepSeek V3** (671B MoE).
+  * **Meta Llama 3.3 70B** & **Meta Llama 3.1 405B** (World's largest open-weights model).
+  * **Alibaba Qwen 2.5 72B** & **QwQ 32B Reasoning** (Elite multilingual & poetic ability).
+  * **Mistral Large 2** & **Codestral** (Leading European open-source models).
+  * **Google Gemma 2 27B** & **Microsoft Phi-4 14B**.
+* **⚡ Specialized Open-Source Runtimes**:
+  * **Groq**: Ultra-fast open-source LPU inference (~300-500 tokens/sec).
+  * **Ollama / Local AI**: Run open models completely offline on your own computer via `http://localhost:11434/v1` (100% private and free).
 
 ### 🧠 Core Philosophy: What is "Dual-Layer Semantics"?
 Unlike conventional ads that blurt out product specs or rely on shallow puns ("dad jokes"), a Durex-style copy operates simultaneously on **two semantic layers**:
@@ -74,22 +112,10 @@ Unlike conventional ads that blurt out product specs or rely on shallow puns ("d
 2. **Number Play**: Hijacking an existing number (date, time, version, price) and endowing it with new brand significance.
 3. **Domain Term Hijacking**: Borrowing specialized terminology (tech, legal, medical, aviation) and interpreting it literally for the product.
 4. **Scene Shifting / Anthropomorphism**: Letting an inanimate secondary object narrate in the first person, subtly hinting at the main character's action.
-5. **Word Deconstruction**: Splitting compound words or utilizing subtle phonetic anagrams/spoonerisms.
+5. **Word Deconstruction**: Splitting compound words or utilizing subtle phonetic twists.
 6. **Calendar / Antithetical Couplet**: Adopting the "Do's & Don'ts" structure of traditional almanacs or contrasting parallel clauses.
 7. **Three-Tier Verse**: Three ascending descriptive lines establishing atmosphere, with a sudden punchline pivot to the product in the final line.
 8. **Reverse Restraint**: Delivering a heartfelt, deeply serious statement precisely when the audience expects a witty joke.
-
-### 🚀 Key Features
-* **Full Trilingual Experience**: Complete UI and AI copywriting generation in 🇻🇳 Vietnamese, 🇬🇧 English, and 🇨🇳 Chinese.
-* **Multi-Provider AI with Popular Models Dropdown**: OpenRouter (Recommended — completely bypasses browser CORS), Google Gemini (Free via AI Studio), Claude, OpenAI, and DeepSeek.
-* **Boldness Level Slider**: 🌿 *Subtle (B2B/Corporate)* — ⚡ *Witty (F&B/Retail)* — 🔥 *Edgy (Nightlife/Fashion)*.
-* **Interactive Poster Design Studio Modal**:
-  * Live interactive mockup for any aspect ratio (3:4, 1:1, 9:16, 16:9).
-  * Direct inline editing of Headline & Subhead before exporting.
-  * Theme switcher: AI suggested palette or 4 iconic Durex palettes.
-  * Download 2x retina high-resolution PNG or copy image directly to clipboard.
-* **Export Utilities**: Export all generated options to Markdown (`.md`), 1-click text copy, and auto-generated Midjourney/Flux prompts.
-* **Local Favorites**: Save and organize your favorite copies directly in your browser (`localStorage`).
 
 ---
 
@@ -97,11 +123,28 @@ Unlike conventional ads that blurt out product specs or rely on shallow puns ("d
 
 基于**“双层语义”（Dual-Layer Semantics）**广告文案方法论的纯前端、零依赖 Web 工具。灵感源自环时互动（Huanshi Interactive）时期杜蕾斯中国（2011–2017）的经典社交营销哲学与极简视觉系统。
 
-该工具可一键自动生成：**文案公式、主标题（Headline）、副标题、双层逻辑解析（表面层与潜层）、画面主体描述、配色方案以及高清海报渲染导出**。
+该工具可一键自动生成：**文案公式、主标题（Headline）、副标题、双层逻辑拆解（表面层与潜层）、画面主体描述、配色方案以及专业海报设计工作室（支持 PNG 与 SVG 矢量导出）**。
 
 ### 🌟 在线体验 (Live Demo)
 👉 **[通过 GitHub Pages 直接体验](https://chrisx9z.github.io/durex-style-copywriter/)**  
-*(或者直接下载 `index.html` 并在任意浏览器中双击打开 — 无需安装 Node.js 或启动任何后端服务)。*
+*(或者直接下载 `index.html` 并在任意浏览器中双击打开 — 无需安装 Node.js 或启动任何后端服务)。*  
+🎉 **免密演示模式 (`🎭 演示模式`)**：无需输入 API Key，一键即可载入全套经典文案案例并体验海报工作室！
+
+### 🤖 全面支持 2025/2026 前沿闭源与开源模型
+* **🔒 闭源商业旗舰模型 (Closed-Source Flagships)**:
+  * **Claude 3.7 Sonnet** & **Claude 3.7 Sonnet Thinking** (Anthropic 顶配旗舰 — 语感与深度推理天花板).
+  * **GPT-4.5 Preview**, **o3-mini**, **o1**, **GPT-4o** (OpenAI).
+  * **Gemini 2.0 Flash**, **Gemini 2.0 Pro Exp**, **Gemini 2.0 Flash-Lite** (Google).
+  * **Grok 2** (xAI — 辛辣机智，脑洞大开).
+* **🌐 开源开放权重模型 (Open-Source / Open-Weights Flagships)**:
+  * **DeepSeek R1** (深度长思考推理) & **DeepSeek V3** (671B MoE 全能创作).
+  * **Meta Llama 3.3 70B** & **Meta Llama 3.1 405B** (全球体量最大开源模型).
+  * **阿里通义千问 Qwen 2.5 72B** & **QwQ 32B Reasoning** (中文诗词、对仗绝佳).
+  * **Mistral Large 2** & **Codestral** (欧洲顶级开源旗舰).
+  * **Google Gemma 2 27B** & **微软 Phi-4 14B**.
+* **⚡ 专用开源推理后端支持**:
+  * **Groq**: 依托 LPU 芯片提供极致超速开源推理 (~300-500 tokens/秒).
+  * **Ollama / 本地私有化**: 支持连接 `http://localhost:11434/v1` 离线运行本地开源大模型 (完全免费且数据 100% 本地安全).
 
 ### 🧠 核心理念：何为“双层语义”？
 区别于传统广告的直白推销或生硬谐音梗，杜蕾斯风格的精髓在于一条文案必须同时在**两个语义层次**上平滑运转：
@@ -120,21 +163,6 @@ Unlike conventional ads that blurt out product specs or rely on shallow puns ("d
 6. **黄历体 / 对仗句式**：模仿老黄历“宜 / 忌”的形式，或采用两句对仗工整、反差强烈的短句。
 7. **三层递进诗体**：前三句层层递进描摹环境氛围，最后一句峰回路转，引申至产品本身。
 8. **逆向克制**：在所有人都在等待你抖机灵、开玩笑的时刻，反而给出一句无比真诚、严肃且动人的真话。
-
-### 🚀 核心功能特性
-* **完整三语生态**：界面与文案生成全面支持 🇻🇳 越南语、🇬🇧 英语与 🇨🇳 简体中文。
-* **多 AI 模型支持与精选下拉列表**：
-  * **OpenRouter（强烈推荐）**：原生支持浏览器直接调用，**彻底避免跨域 CORS 拦截**，聚合 DeepSeek V3/R1、Claude 3.5、GPT-4o、Gemini 2.0 等优质模型。
-  * **Google Gemini**：支持通过 Google AI Studio 免费申请的 API Key 直接使用。
-  * **Claude / OpenAI / DeepSeek**：支持配置各供应商专属的 Base URL 反向代理。
-* **文案大胆度调节（Boldness Level）**：🌿 *克制优雅（适合 B2B、金融）* — ⚡ *机智风趣（适合餐饮零售）* — 🔥 *锐利大胆（还原经典风格）*。
-* **交互式海报设计工作室（Poster Design Studio Modal）**：
-  * 自由切换 3:4 (标准海报)、1:1 (正方方形)、9:16 (竖屏故事)、16:9 (横屏横幅)。
-  * 支持在弹窗中**直接修改主标题与副标题**，海报画布毫秒级实时重绘。
-  * 配色随心换：一键切换 AI 建议色或 4 款杜蕾斯经典色系（品牌正红、深夜幽蓝、影棚纯黑、暖调旧宣）。
-  * 一键下载 2x Retina 高清 PNG 海报，或直接复制海报图像到系统剪贴板。
-* **高效导出**：一键导出所有生成方案为 Markdown (`.md`) 文件，一键复制文案与 Midjourney/Flux 提示词。
-* **收藏与本地持久化**：支持点赞收藏心仪文案，安全保存 API Key 于浏览器 `localStorage`。
 
 ---
 
