@@ -5,6 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Durex-Style Copywriter — Máy tạo Copy 2 Lớp Ngữ Nghĩa</title>
 <meta name="description" content="Web app tạo copy quảng cáo theo phương pháp ngữ nghĩa hai lớp (Durex style 2011-2017) với đa dạng nhà cung cấp AI và hỗ trợ 3 ngôn ngữ Việt - Anh - Trung.">
+<meta name="theme-color" content="#0B1322">
+
+<!-- Open Graph / Facebook / Zalo -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://chrisx9z.github.io/durex-style-copywriter/">
+<meta property="og:title" content="Durex-Style Copywriter — Dual-Layer Semantics Generator">
+<meta property="og:description" content="Tạo copy quảng cáo tiếng Việt, tiếng Anh và tiếng Trung sắc sảo theo phương pháp ngữ nghĩa hai lớp (Durex Style).">
+<meta property="og:image" content="https://raw.githubusercontent.com/chrisx9z/durex-style-copywriter/main/preview.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Durex-Style Copywriter">
+<meta name="twitter:description" content="Generate razor-sharp advertising copy using Dual-Layer Semantics methodology.">
+
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2244%22 fill=%22%23E2001A%22/><text x=%2250%22 y=%2262%22 font-size=%2238%22 font-weight=%22bold%22 text-anchor=%22middle%22 fill=%22%23FFFFFF%22 font-family=%22sans-serif%22>2L</text></svg>">
 <style>
   :root{
@@ -180,10 +194,12 @@
   }
   button.btn-clear:hover{color:var(--ink);background:rgba(255,255,255,0.08);}
 
-  .status{font-size:13px;margin-top:12px;padding:10px 12px;border-radius:8px;display:none;line-height:1.4;}
+  .status{font-size:13px;margin-top:12px;padding:12px 14px;border-radius:8px;display:none;line-height:1.5;}
   .status.show{display:block;}
   .status.error{background:rgba(226,0,26,0.16);color:#ff9aa4;border:1px solid rgba(226,0,26,0.35);}
   .status.info{background:rgba(255,255,255,0.06);color:var(--ink-dim);border:1px solid var(--border);}
+
+  .progress-step-text{font-weight:600;color:var(--ink);display:block;margin-top:4px;font-size:12.5px;}
 
   /* Right column Header / Tabs */
   .results-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;}
@@ -202,11 +218,11 @@
   }
   .view-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
 
-  .btn-export-all{
+  .btn-action-sm{
     background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--ink-dim);
     padding:5px 11px;font-size:12px;border-radius:6px;cursor:pointer;transition:all .15s;
   }
-  .btn-export-all:hover{color:var(--ink);border-color:var(--ink-dim);}
+  .btn-action-sm:hover{color:var(--ink);border-color:var(--ink-dim);}
 
   .results{display:flex;flex-direction:column;gap:18px;}
   .empty{
@@ -296,14 +312,14 @@
 
   /* Studio Modal */
   .modal-overlay{
-    position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);
-    backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;
+    position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.82);
+    backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;
     z-index:10000;padding:20px;
   }
   .modal-overlay.show{display:flex;}
   .modal-card{
     background:var(--panel);border:1px solid var(--border-strong);border-radius:var(--radius);
-    max-width:960px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow);
+    max-width:980px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow);
     display:flex;flex-direction:column;
   }
   .modal-head{
@@ -316,14 +332,18 @@
   }
   .modal-close:hover{color:var(--ink);}
   .modal-body{
-    display:grid;grid-template-columns:1fr 340px;gap:20px;padding:20px;
+    display:grid;grid-template-columns:1fr 350px;gap:22px;padding:20px;
   }
-  @media(max-width:800px){.modal-body{grid-template-columns:1fr;}}
+  @media(max-width:820px){.modal-body{grid-template-columns:1fr;}}
   .modal-preview-col{display:flex;justify-content:center;align-items:center;background:rgba(0,0,0,0.3);border-radius:10px;padding:20px;}
   .modal-canvas-wrap{box-shadow:0 12px 36px rgba(0,0,0,0.6);border-radius:8px;overflow:hidden;max-width:100%;}
   .modal-canvas-wrap canvas{display:block;max-width:100%;height:auto;}
+  
   .studio-ctrls label{margin:10px 0 4px;font-size:11.5px;}
-  .studio-ctrls textarea{font-size:13px;min-height:50px;}
+  .studio-ctrls textarea, .studio-ctrls input[type=text]{font-size:13px;padding:8px 10px;}
+  .studio-ctrls textarea{min-height:48px;}
+  .range-row{display:flex;align-items:center;gap:10px;}
+  .range-row input[type=range]{flex:1;accent-color:var(--accent);}
 
   /* Toast */
   .toast{
@@ -411,9 +431,7 @@
       </div>
 
       <label for="modelSelect" id="lblModel">Model</label>
-      <select id="modelSelect">
-        <!-- populated dynamically -->
-      </select>
+      <select id="modelSelect"></select>
       <div class="model-input-custom" id="modelCustomWrap">
         <input type="text" id="modelCustom" placeholder="Nhập model ID...">
       </div>
@@ -442,6 +460,7 @@
 
       <label for="topic" id="lblTopic">Chủ đề / sản phẩm *</label>
       <textarea id="topic" placeholder="Ví dụ: quán cà phê 24h, app quản lý chi tiêu, khoá học tiếng Anh cấp tốc..."></textarea>
+      <div class="hint" style="text-align:right;margin-top:2px;">Phím tắt: <strong>Ctrl + Enter</strong> để tạo nhanh</div>
 
       <label for="audience" id="lblAudience">Đối tượng khách hàng (tuỳ chọn)</label>
       <input type="text" id="audience" placeholder="Ví dụ: dân văn phòng 25-35 tuổi, sinh viên năm cuối...">
@@ -504,7 +523,8 @@
           <button class="tab-btn" id="tabFavorites">Đã lưu (<span id="favCount">0</span>)</button>
         </div>
         <div class="right-actions">
-          <button class="btn-export-all" id="btnExportAll" title="Xuất toàn bộ phương án ra Markdown">📥 Markdown</button>
+          <button class="btn-action-sm" id="btnHistory" title="Xem lịch sử gần đây">🕒 Lịch sử</button>
+          <button class="btn-action-sm" id="btnExportAll" title="Xuất toàn bộ phương án ra Markdown">📥 Markdown</button>
           <div class="view-switch">
             <button class="view-btn active" id="viewCards" title="Xem dạng thẻ chi tiết">Dạng Thẻ</button>
             <button class="view-btn" id="viewPosters" title="Xem mô phỏng Poster thực tế">Mô phỏng Poster</button>
@@ -548,14 +568,26 @@
         <label id="lblStudioHeadline">Chỉnh sửa Headline trực tiếp</label>
         <textarea id="studioHeadline" rows="2"></textarea>
 
+        <div class="range-row">
+          <label id="lblStudioFontSize" style="margin:0;">Cỡ chữ</label>
+          <input type="range" id="studioFontSize" min="36" max="78" value="58">
+          <span id="studioFontSizeVal" style="font-size:12px;width:32px;">58</span>
+        </div>
+
         <label id="lblStudioSubhead">Chỉnh sửa Subhead</label>
         <textarea id="studioSubhead" rows="2"></textarea>
 
+        <label id="lblStudioBrand">Tên thương hiệu ở chân poster</label>
+        <input type="text" id="studioBrand" value="DUREX-STYLE STUDIO">
+
         <label id="lblStudioPalette">Màu sắc chủ đạo</label>
-        <div class="swatches" id="studioSwatches" style="margin-bottom:14px;"></div>
+        <div class="swatches" id="studioSwatches" style="margin-bottom:14px;flex-wrap:wrap;"></div>
 
         <button class="primary" id="btnStudioDownload" style="margin-top:10px;">⬇️ Tải ảnh PNG độ nét cao</button>
-        <button class="act-btn" id="btnStudioCopyImg" style="width:100%;margin-top:8px;justify-content:center;">📋 Sao chép ảnh vào Clipboard</button>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
+          <button class="act-btn" id="btnStudioCopyImg" style="justify-content:center;">📋 Sao chép ảnh</button>
+          <button class="act-btn" id="btnStudioSaveCard" style="justify-content:center;">💾 Lưu vào thẻ</button>
+        </div>
       </div>
     </div>
   </div>
@@ -564,6 +596,32 @@
 <div class="toast" id="toast">Thông báo</div>
 
 <script>
+// ==========================================
+// COLOR NORMALIZATION HELPER (Canvas Safe)
+// ==========================================
+function toValidHex(colorStr, fallback = '#E2001A') {
+  if (!colorStr) return fallback;
+  const s = String(colorStr).trim();
+  if (/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(s)) {
+    if (s.length === 4) {
+      return '#' + s[1] + s[1] + s[2] + s[2] + s[3] + s[3];
+    }
+    return s;
+  }
+  const colorMap = {
+    'white': '#FFFFFF',
+    'black': '#000000',
+    'red': '#E2001A',
+    'blue': '#0E1A2E',
+    'navy': '#0B1322',
+    'gray': '#888888',
+    'grey': '#888888',
+    'pink': '#FCEDF1',
+    'cream': '#F2EDE3'
+  };
+  return colorMap[s.toLowerCase()] || fallback;
+}
+
 // ==========================================
 // ĐA NGÔN NGỮ (i18n): VIỆT - ANH - TRUNG
 // ==========================================
@@ -611,6 +669,7 @@ const I18N = {
     genBtnLoading: 'Đang kích hoạt tư duy sáng tạo...',
     tabGenerated: 'Kết quả vừa tạo',
     tabFavorites: 'Đã lưu',
+    btnHistory: '🕒 Lịch sử',
     viewCards: 'Dạng Thẻ',
     viewPosters: 'Mô phỏng Poster',
     emptyGenerated: 'Kết quả sẽ hiện ở đây. Hãy chọn một mẫu gợi ý bên trên hoặc nhập chủ đề rồi bấm "Tạo copy ngay".',
@@ -625,10 +684,13 @@ const I18N = {
     modalTitle: 'Studio Thiết kế Poster',
     lblStudioRatio: 'Tỷ lệ khung hình',
     lblStudioHeadline: 'Chỉnh sửa Headline trực tiếp',
+    lblStudioFontSize: 'Cỡ chữ',
     lblStudioSubhead: 'Chỉnh sửa Subhead',
+    lblStudioBrand: 'Tên thương hiệu ở chân poster',
     lblStudioPalette: 'Màu sắc chủ đạo',
     btnStudioDownload: '⬇️ Tải ảnh PNG độ nét cao',
-    btnStudioCopyImg: '📋 Sao chép ảnh vào Clipboard',
+    btnStudioCopyImg: '📋 Sao chép ảnh',
+    btnStudioSaveCard: '💾 Lưu vào thẻ',
     toastLoadedPreset: 'Đã nạp mẫu: ',
     toastCopiedText: 'Đã sao chép nội dung copy!',
     toastCopiedAi: 'Đã sao chép prompt Midjourney/Flux!',
@@ -638,6 +700,7 @@ const I18N = {
     toastCopiedImg: 'Đã sao chép ảnh poster vào clipboard!',
     toastCleared: 'Đã làm mới form nhập liệu!',
     toastExportedMd: 'Đã xuất file Markdown thành công!',
+    toastCardUpdated: 'Đã cập nhật thay đổi vào thẻ!',
     toastGeneratedSuccess: 'Tạo thành công {n} phương án copy!',
     errApiKey: 'Vui lòng nhập API key trước.',
     errTopic: 'Vui lòng nhập chủ đề hoặc chọn một mẫu gợi ý bên trên.',
@@ -695,6 +758,7 @@ const I18N = {
     genBtnLoading: 'Triggering creative genius...',
     tabGenerated: 'Generated Results',
     tabFavorites: 'Favorites',
+    btnHistory: '🕒 History',
     viewCards: 'Card View',
     viewPosters: 'Poster Mockup',
     emptyGenerated: 'Results will appear here. Choose a preset above or enter a topic and click "Generate Copy".',
@@ -709,10 +773,13 @@ const I18N = {
     modalTitle: 'Poster Design Studio',
     lblStudioRatio: 'Aspect Ratio',
     lblStudioHeadline: 'Live Edit Headline',
+    lblStudioFontSize: 'Font Size',
     lblStudioSubhead: 'Live Edit Subhead',
+    lblStudioBrand: 'Brand Name on Poster Footer',
     lblStudioPalette: 'Primary Color Palette',
     btnStudioDownload: '⬇️ Download High-Res PNG',
-    btnStudioCopyImg: '📋 Copy Image to Clipboard',
+    btnStudioCopyImg: '📋 Copy Image',
+    btnStudioSaveCard: '💾 Save to Card',
     toastLoadedPreset: 'Loaded preset: ',
     toastCopiedText: 'Copy text copied to clipboard!',
     toastCopiedAi: 'Midjourney/Flux prompt copied!',
@@ -722,6 +789,7 @@ const I18N = {
     toastCopiedImg: 'Poster image copied to clipboard!',
     toastCleared: 'Input form cleared!',
     toastExportedMd: 'Exported all options to Markdown!',
+    toastCardUpdated: 'Saved edits back to card!',
     toastGeneratedSuccess: 'Successfully generated {n} copy options!',
     errApiKey: 'Please enter your API key first.',
     errTopic: 'Please enter a topic or select a preset above.',
@@ -779,6 +847,7 @@ const I18N = {
     genBtnLoading: '正在激发双层创意灵感...',
     tabGenerated: '生成结果',
     tabFavorites: '我的收藏',
+    btnHistory: '🕒 历史记录',
     viewCards: '卡片视图',
     viewPosters: '海报模拟',
     emptyGenerated: '生成结果将显示在此处。请在上方选择预设灵感或输入产品主题，然后点击“立即生成文案”。',
@@ -793,10 +862,13 @@ const I18N = {
     modalTitle: '海报设计工作室 (Poster Studio)',
     lblStudioRatio: '画面比例',
     lblStudioHeadline: '实时修改主标题',
+    lblStudioFontSize: '字体大小',
     lblStudioSubhead: '实时修改副标题',
+    lblStudioBrand: '海报底部品牌署名',
     lblStudioPalette: '主基调配色',
     btnStudioDownload: '⬇️ 下载 2x 超清 PNG',
-    btnStudioCopyImg: '📋 复制海报图像到剪贴板',
+    btnStudioCopyImg: '📋 复制海报图像',
+    btnStudioSaveCard: '💾 保存至卡片',
     toastLoadedPreset: '已载入预设：',
     toastCopiedText: '文案内容已成功复制！',
     toastCopiedAi: 'Midjourney/Flux 提示词已复制！',
@@ -806,6 +878,7 @@ const I18N = {
     toastCopiedImg: '海报图像已复制到剪贴板！',
     toastCleared: '已重置表单输入！',
     toastExportedMd: '已导出全部方案为 Markdown 文件！',
+    toastCardUpdated: '已成功同步修改至卡片！',
     toastGeneratedSuccess: '成功生成 {n} 个文案方案！',
     errApiKey: '请先输入对应的 API Key。',
     errTopic: '请输入产品主题或点击上方的预设灵感。',
@@ -823,7 +896,6 @@ const I18N = {
 
 let currentLang = 'vi';
 
-// Prompt Generator theo từng ngôn ngữ xuất
 function getSystemPrompt(outputLang){
   if(outputLang === 'zh'){
     return `你是一位顶级创意总监与广告文案大师，深谙杜蕾斯黄金时期（环时互动 2011–2017）沉淀的“双层语义”（Dual-Layer Semantics）文案与极简视觉哲学。
@@ -865,6 +937,16 @@ function getSystemPrompt(outputLang){
 - Subhead: "热气腾腾，20分钟准时送达。"
 - 构思拆解：表面层是恶劣天气里吃上一口热汤面；潜层是被及时守护、安抚心灵的温暖与安全感。
 - 画面：凝结着水雾的玻璃窗，倒映着雨夜模糊温润的街灯。配色：暖调旧宣。
+
+画面与配色系统：
+- 画面主体：产品本身 | 日常物件 | 纯文字排版 | 局部肢体
+- 经典配色：
+  * "品牌正红": #E2001A, #FFFFFF, #000000
+  * "深夜幽蓝": #0E1A2E, #16233F, #E2001A
+  * "影棚纯黑": #0B0B0B, #F2EDE3, #C8102E
+  * "柔粉渐变": #FCEDF1, #E8558F, #2A101C
+  * "暖调旧宣": #F2EDE3, #C8102E, #1A1A1A
+  * "主题借色": 依据主题挑选和谐互衬的3个十六进制色值。
 
 严格伦理界限：
 绝不消费灾难、疾病或悲剧；绝不物化女性；面向常规大众产品时，严格聚焦产品真实商业价值，杜绝低俗下流。
@@ -1092,8 +1174,8 @@ let currentOptions = [];
 let currentView = 'cards';
 let currentTab = 'generated';
 let favorites = [];
+let historyBatches = [];
 
-// Lưu trữ riêng base URL của từng provider tránh ghi đè
 const baseUrlStore = {
   openrouter: 'https://openrouter.ai/api/v1',
   google: 'https://generativelanguage.googleapis.com',
@@ -1106,7 +1188,10 @@ const apiKeyStore = { openrouter: '', claude: '', openai: '', google: '', deepse
 
 // Studio Modal State
 let activeStudioItem = null;
+let activeStudioIdx = -1;
+let activeStudioTab = 'generated';
 let activeStudioPalette = ['#0E1A2E', '#E2001A', '#FFFFFF'];
+let loadingTimer = null;
 
 // Khởi tạo ứng dụng
 function initApp(){
@@ -1118,6 +1203,9 @@ function initApp(){
   try{
     const savedFav = localStorage.getItem('durex_favorites');
     if(savedFav) favorites = JSON.parse(savedFav);
+
+    const savedHist = localStorage.getItem('durex_history');
+    if(savedHist) historyBatches = JSON.parse(savedHist);
   }catch(e){ console.warn(e); }
 
   const savedRemember = localStorage.getItem('durex_remember_key') === 'true';
@@ -1220,6 +1308,7 @@ function applyLanguage(lang){
   // Right column tabs
   document.getElementById('tabGenerated').textContent = t.tabGenerated;
   document.getElementById('tabFavorites').innerHTML = `${t.tabFavorites} (<span id="favCount">${favorites.length}</span>)`;
+  document.getElementById('btnHistory').textContent = t.btnHistory;
   document.getElementById('viewCards').textContent = t.viewCards;
   document.getElementById('viewPosters').textContent = t.viewPosters;
   document.getElementById('txtEmptyResults').textContent = t.emptyGenerated;
@@ -1229,10 +1318,13 @@ function applyLanguage(lang){
   document.getElementById('txtModalTitle').textContent = t.modalTitle;
   document.getElementById('lblStudioRatio').textContent = t.lblStudioRatio;
   document.getElementById('lblStudioHeadline').textContent = t.lblStudioHeadline;
+  document.getElementById('lblStudioFontSize').textContent = t.lblStudioFontSize;
   document.getElementById('lblStudioSubhead').textContent = t.lblStudioSubhead;
+  document.getElementById('lblStudioBrand').textContent = t.lblStudioBrand;
   document.getElementById('lblStudioPalette').textContent = t.lblStudioPalette;
   document.getElementById('btnStudioDownload').textContent = t.btnStudioDownload;
   document.getElementById('btnStudioCopyImg').textContent = t.btnStudioCopyImg;
+  document.getElementById('btnStudioSaveCard').textContent = t.btnStudioSaveCard;
 
   const cfg = PROVIDER_CONFIG[currentProvider];
   document.getElementById('apiKeyLabel').textContent = cfg.label + t.apiKeySuffix;
@@ -1251,7 +1343,6 @@ function onProviderChange(){
   document.getElementById('apiKey').value = apiKeyStore[currentProvider] || '';
   document.getElementById('baseUrl').value = baseUrlStore[currentProvider] || cfg.defaultBaseUrl;
 
-  // Cập nhật danh sách models
   const modelSelect = document.getElementById('modelSelect');
   modelSelect.innerHTML = '';
   cfg.popularModels.forEach(m => {
@@ -1327,7 +1418,6 @@ function bindEvents(){
     box.classList.toggle('show');
   });
 
-  // Radio boldness
   document.querySelectorAll('.boldness-pills .bold-label').forEach(label => {
     label.addEventListener('click', function(){
       document.querySelectorAll('.boldness-pills .bold-label').forEach(l => l.classList.remove('active'));
@@ -1335,7 +1425,6 @@ function bindEvents(){
     });
   });
 
-  // View switch
   document.getElementById('viewCards').addEventListener('click', function(){
     currentView = 'cards';
     this.classList.add('active');
@@ -1349,7 +1438,6 @@ function bindEvents(){
     renderCurrentState();
   });
 
-  // Tab Switch
   document.getElementById('tabGenerated').addEventListener('click', function(){
     currentTab = 'generated';
     this.classList.add('active');
@@ -1366,7 +1454,6 @@ function bindEvents(){
     document.getElementById('tabFavorites').click();
   });
 
-  // Clear Form Button
   document.getElementById('btnClear').addEventListener('click', function(){
     document.getElementById('topic').value = '';
     document.getElementById('audience').value = '';
@@ -1376,8 +1463,18 @@ function bindEvents(){
     document.getElementById('topic').focus();
   });
 
-  // Export All as Markdown
+  // History button
+  document.getElementById('btnHistory').addEventListener('click', showHistoryPrompt);
+
   document.getElementById('btnExportAll').addEventListener('click', exportAllAsMarkdown);
+
+  // Keyboard shortcut Ctrl+Enter
+  document.getElementById('topic').addEventListener('keydown', function(e){
+    if((e.ctrlKey || e.metaKey) && e.key === 'Enter'){
+      e.preventDefault();
+      generate();
+    }
+  });
 
   document.getElementById('genBtn').addEventListener('click', generate);
 
@@ -1386,11 +1483,22 @@ function bindEvents(){
   document.getElementById('studioModal').addEventListener('click', function(e){
     if(e.target === this) closeStudioModal();
   });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeStudioModal();
+  });
+
   document.getElementById('studioRatio').addEventListener('change', updateStudioCanvas);
   document.getElementById('studioHeadline').addEventListener('input', updateStudioCanvas);
   document.getElementById('studioSubhead').addEventListener('input', updateStudioCanvas);
+  document.getElementById('studioBrand').addEventListener('input', updateStudioCanvas);
+  document.getElementById('studioFontSize').addEventListener('input', function(){
+    document.getElementById('studioFontSizeVal').textContent = this.value;
+    updateStudioCanvas();
+  });
+
   document.getElementById('btnStudioDownload').addEventListener('click', downloadStudioCanvas);
   document.getElementById('btnStudioCopyImg').addEventListener('click', copyStudioCanvasImage);
+  document.getElementById('btnStudioSaveCard').addEventListener('click', saveStudioChangesToCard);
 }
 
 function saveKeysIfPermitted(){
@@ -1403,17 +1511,18 @@ function showToast(msg){
   const el = document.getElementById('toast');
   el.textContent = msg;
   el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 2400);
+  setTimeout(() => el.classList.remove('show'), 2500);
 }
 
-function showStatus(msg, type){
+function showStatus(msg, type, stepText = ''){
   const el = document.getElementById('status');
-  el.textContent = msg;
+  el.innerHTML = `<div>${msg}</div>${stepText ? `<span class="progress-step-text">${stepText}</span>` : ''}`;
   el.className = 'status show ' + (type || 'info');
 }
 function hideStatus(){
   const el = document.getElementById('status');
   el.className = 'status';
+  if(loadingTimer) { clearInterval(loadingTimer); loadingTimer = null; }
 }
 
 function getSelectedModel(){
@@ -1488,7 +1597,6 @@ function buildUserPrompt(outLang){
   ].join('\n');
 }
 
-// Bóc tách JSON siêu bền bỉ (hỗ trợ cả Array, Reasoning tags, trailing commas)
 function extractJson(text){
   let t = String(text || '').trim();
   t = t.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
@@ -1548,7 +1656,6 @@ async function callOpenRouter(apiKey, model, sysPrompt, userPrompt, customBaseUr
     ]
   };
 
-  // Tránh lỗi 400 của OpenRouter với Anthropic Claude khi dùng response_format
   const mLower = String(model || '').toLowerCase();
   if (!mLower.includes('anthropic') && !mLower.includes('claude')) {
     reqBody.response_format = { type: 'json_object' };
@@ -1716,7 +1823,24 @@ async function generate(){
   hideStatus();
   btn.disabled = true;
   btn.textContent = t.genBtnLoading;
-  showStatus(`Đang kết nối ${cfg.label} (${model})...`, 'info');
+
+  // Thought Progress Animation
+  const thoughtSteps = [
+    '🔍 Phân tích bối cảnh & đối tượng...',
+    '💡 Khám phá điểm chạm 2 tầng nghĩa...',
+    '🎨 Thiết lập bảng màu & bố cục visual...'
+  ];
+  let stepIdx = 0;
+  let seconds = 0;
+  showStatus(`Đang kết nối ${cfg.label} (${model})... [0s]`, 'info', thoughtSteps[0]);
+
+  loadingTimer = setInterval(() => {
+    seconds++;
+    if(seconds % 3 === 0 && stepIdx < thoughtSteps.length - 1) {
+      stepIdx++;
+    }
+    showStatus(`Đang kết nối ${cfg.label} (${model})... [${seconds}s]`, 'info', thoughtSteps[stepIdx]);
+  }, 1000);
 
   try{
     const sysPrompt = getSystemPrompt(outputLang);
@@ -1733,6 +1857,15 @@ async function generate(){
     document.getElementById('tabGenerated').classList.add('active');
     document.getElementById('tabFavorites').classList.remove('active');
 
+    // Lưu vào lịch sử gần đây
+    historyBatches.unshift({
+      timestamp: Date.now(),
+      topic,
+      options: [...currentOptions]
+    });
+    if(historyBatches.length > 8) historyBatches.pop();
+    localStorage.setItem('durex_history', JSON.stringify(historyBatches));
+
     renderCurrentState();
     hideStatus();
     showToast(t.toastGeneratedSuccess.replace('{n}', currentOptions.length));
@@ -1746,6 +1879,7 @@ async function generate(){
   }finally{
     btn.disabled = false;
     btn.textContent = t.genBtn;
+    if(loadingTimer) { clearInterval(loadingTimer); loadingTimer = null; }
   }
 }
 
@@ -1777,7 +1911,7 @@ function renderCards(list){
     card.className = 'opt-card';
 
     const hexList = (opt.visual && opt.visual.palette_hex) || ['#0E1A2E', '#E2001A', '#FFFFFF'];
-    const swatchesHtml = hexList.map(hex => `<div class="swatch" style="background:${hex}" title="${hex}"></div>`).join('');
+    const swatchesHtml = hexList.map(hex => `<div class="swatch" style="background:${toValidHex(hex)}" title="${hex}"></div>`).join('');
 
     card.innerHTML = `
       <div class="opt-head">
@@ -1839,9 +1973,9 @@ function renderPosters(list){
   list.forEach((opt, idx) => {
     const box = document.createElement('div');
     const hexList = (opt.visual && opt.visual.palette_hex) || ['#0E1A2E', '#E2001A', '#FFFFFF'];
-    const bgCol = hexList[0] || '#0E1A2E';
-    const accentCol = hexList[1] || '#E2001A';
-    const textCol = hexList[2] || '#F2EDE3';
+    const bgCol = toValidHex(hexList[0], '#0E1A2E');
+    const accentCol = toValidHex(hexList[1], '#E2001A');
+    const textCol = toValidHex(hexList[2], '#F2EDE3');
 
     box.className = `poster-box ${ratioClass}`;
     box.style.background = `radial-gradient(circle at 50% 25%, ${accentCol}22 0%, ${bgCol} 80%)`;
@@ -1932,7 +2066,25 @@ function copyAiPrompt(idx, tab){
   });
 }
 
-// Xuất toàn bộ phương án ra Markdown
+function showHistoryPrompt(){
+  if(!historyBatches.length){
+    showToast('Chưa có lịch sử sinh bài.');
+    return;
+  }
+  const t = I18N[currentLang] || I18N.vi;
+  const listItems = historyBatches.map((b, i) => `${i + 1}. [${new Date(b.timestamp).toLocaleTimeString()}] ${b.topic.slice(0, 30)}... (${b.options.length} phương án)`).join('\n');
+  const pick = prompt(`Chọn số thứ tự để xem lại lịch sử:\n\n${listItems}\n\nNhập số từ 1 đến ${historyBatches.length}:`);
+  const idx = parseInt(pick, 10);
+  if(idx >= 1 && idx <= historyBatches.length){
+    currentOptions = historyBatches[idx - 1].options;
+    currentTab = 'generated';
+    document.getElementById('tabGenerated').classList.add('active');
+    document.getElementById('tabFavorites').classList.remove('active');
+    renderCurrentState();
+    showToast('Đã khôi phục từ lịch sử!');
+  }
+}
+
 function exportAllAsMarkdown(){
   const list = currentTab === 'generated' ? currentOptions : favorites;
   const t = I18N[currentLang] || I18N.vi;
@@ -1968,7 +2120,6 @@ function exportAllAsMarkdown(){
   showToast(t.toastExportedMd);
 }
 
-// Bẻ dòng hỗ trợ cả Tiếng Việt, Tiếng Anh và Chữ Hán/CJK
 function wrapTextMultilingual(ctx, text, maxW){
   const lines = [];
   const paragraphs = String(text || '').split('\n');
@@ -2011,29 +2162,38 @@ function openStudioModal(idx, tab){
   const item = getItem(idx, tab);
   if(!item) return;
 
+  activeStudioIdx = idx;
+  activeStudioTab = tab;
   activeStudioItem = JSON.parse(JSON.stringify(item));
-  activeStudioPalette = (item.visual && item.visual.palette_hex && item.visual.palette_hex.length) 
-    ? [...item.visual.palette_hex] 
+  
+  const rawHexList = (item.visual && item.visual.palette_hex && item.visual.palette_hex.length) 
+    ? item.visual.palette_hex 
     : ['#0E1A2E', '#E2001A', '#FFFFFF'];
+  
+  activeStudioPalette = [
+    toValidHex(rawHexList[0], '#0E1A2E'),
+    toValidHex(rawHexList[1], '#E2001A'),
+    toValidHex(rawHexList[2], '#FFFFFF')
+  ];
 
   document.getElementById('studioHeadline').value = activeStudioItem.headline || '';
   document.getElementById('studioSubhead').value = activeStudioItem.subhead || '';
   document.getElementById('studioRatio').value = document.getElementById('ratio').value || '3:4';
+  document.getElementById('studioFontSize').value = 58;
+  document.getElementById('studioFontSizeVal').textContent = '58';
 
-  // Render swatches
   const swatchesContainer = document.getElementById('studioSwatches');
   swatchesContainer.innerHTML = '';
 
-  // Theme presets
   const presetPalettes = [
-    { name: 'Gợi ý từ AI', colors: activeStudioPalette },
+    { name: 'AI Gợi ý', colors: activeStudioPalette },
     { name: 'Đỏ thương hiệu', colors: ['#E2001A', '#FFFFFF', '#000000'] },
     { name: 'Xanh đêm sâu', colors: ['#0E1A2E', '#16233F', '#E2001A'] },
     { name: 'Đen studio', colors: ['#0B0B0B', '#F2EDE3', '#C8102E'] },
     { name: 'Giấy ấm', colors: ['#F2EDE3', '#C8102E', '#1A1A1A'] }
   ];
 
-  presetPalettes.forEach((p, pIdx) => {
+  presetPalettes.forEach((p) => {
     const pBtn = document.createElement('button');
     pBtn.type = 'button';
     pBtn.className = 'act-btn';
@@ -2041,7 +2201,7 @@ function openStudioModal(idx, tab){
     pBtn.style.fontSize = '11.5px';
     pBtn.innerHTML = `<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${p.colors[0]};margin-right:4px;"></span> ${p.name}`;
     pBtn.onclick = () => {
-      activeStudioPalette = [...p.colors];
+      activeStudioPalette = p.colors.map(c => toValidHex(c));
       updateStudioCanvas();
     };
     swatchesContainer.appendChild(pBtn);
@@ -2054,6 +2214,26 @@ function openStudioModal(idx, tab){
 function closeStudioModal(){
   document.getElementById('studioModal').classList.remove('show');
   activeStudioItem = null;
+  activeStudioIdx = -1;
+}
+
+function saveStudioChangesToCard(){
+  if(!activeStudioItem || activeStudioIdx < 0) return;
+  const newHeadline = document.getElementById('studioHeadline').value.trim();
+  const newSubhead = document.getElementById('studioSubhead').value.trim();
+  const t = I18N[currentLang] || I18N.vi;
+
+  if(activeStudioTab === 'generated' && currentOptions[activeStudioIdx]){
+    currentOptions[activeStudioIdx].headline = newHeadline;
+    currentOptions[activeStudioIdx].subhead = newSubhead;
+  } else if(activeStudioTab === 'favorites' && favorites[activeStudioIdx]){
+    favorites[activeStudioIdx].headline = newHeadline;
+    favorites[activeStudioIdx].subhead = newSubhead;
+    localStorage.setItem('durex_favorites', JSON.stringify(favorites));
+  }
+
+  renderCurrentState();
+  showToast(t.toastCardUpdated);
 }
 
 function updateStudioCanvas(){
@@ -2061,6 +2241,8 @@ function updateStudioCanvas(){
 
   const canvas = document.getElementById('studioCanvas');
   const ratio = document.getElementById('studioRatio').value || '3:4';
+  const customFontSize = parseInt(document.getElementById('studioFontSize').value || 58, 10);
+  const brandName = (document.getElementById('studioBrand').value || 'DUREX-STYLE STUDIO').toUpperCase();
 
   let canvasW = 900;
   let canvasH = 1200; // 3:4
@@ -2073,11 +2255,10 @@ function updateStudioCanvas(){
   canvas.height = canvasH;
   const ctx = canvas.getContext('2d');
 
-  const bgCol = activeStudioPalette[0] || '#0E1A2E';
-  const accentCol = activeStudioPalette[1] || '#E2001A';
-  const textCol = activeStudioPalette[2] || '#FFFFFF';
+  const bgCol = toValidHex(activeStudioPalette[0], '#0E1A2E');
+  const accentCol = toValidHex(activeStudioPalette[1], '#E2001A');
 
-  // Background
+  // Background gradient
   const grad = ctx.createRadialGradient(canvasW * 0.5, canvasH * 0.35, 60, canvasW * 0.5, canvasH * 0.5, canvasW * 0.85);
   grad.addColorStop(0, accentCol + '33');
   grad.addColorStop(0.7, bgCol);
@@ -2100,13 +2281,13 @@ function updateStudioCanvas(){
 
   // Live Headline
   const headlineText = document.getElementById('studioHeadline').value || '';
-  ctx.font = '900 56px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif';
+  ctx.font = `900 ${customFontSize}px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif`;
   ctx.fillStyle = '#FFFFFF';
   
   const maxTextWidth = canvasW - 140;
   const headlineLines = wrapTextMultilingual(ctx, headlineText, maxTextWidth);
-  let y = canvasH * 0.42;
-  const lineHeight = 72;
+  let y = canvasH * (ratio === '16:9' ? 0.36 : 0.42);
+  const lineHeight = customFontSize * 1.28;
 
   for(const l of headlineLines){
     ctx.fillText(l.trim(), 70, y);
@@ -2117,17 +2298,17 @@ function updateStudioCanvas(){
   const subheadText = document.getElementById('studioSubhead').value || '';
   if(subheadText){
     y += 18;
-    ctx.font = '500 28px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif';
+    ctx.font = '500 26px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif';
     ctx.fillStyle = 'rgba(242,237,227,0.78)';
     const subheadLines = wrapTextMultilingual(ctx, subheadText, maxTextWidth);
     for(const sl of subheadLines){
       ctx.fillText(sl.trim(), 70, y);
-      y += 38;
+      y += 36;
     }
   }
 
   // Visual hint
-  if(activeStudioItem.visual && activeStudioItem.visual.subject_desc){
+  if(activeStudioItem.visual && activeStudioItem.visual.subject_desc && ratio !== '16:9'){
     const vY = canvasH - 160;
     ctx.font = '400 18px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif';
     ctx.fillStyle = 'rgba(255,255,255,0.4)';
@@ -2141,7 +2322,7 @@ function updateStudioCanvas(){
   ctx.font = '600 16px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif';
   ctx.fillStyle = 'rgba(255,255,255,0.4)';
   ctx.fillText('DUAL-LAYER SEMANTICS', 70, canvasH - 70);
-  ctx.fillText('DUREX-STYLE STUDIO', canvasW - 320, canvasH - 70);
+  ctx.fillText(brandName, canvasW - (brandName.length * 10 + 90), canvasH - 70);
 }
 
 function downloadStudioCanvas(){
@@ -2167,7 +2348,7 @@ async function copyStudioCanvasImage(){
     });
   }catch(err){
     console.warn(err);
-    showToast('Trình duyệt chưa hỗ trợ sao chép ảnh trực tiếp. Vui lòng bấm Tải ảnh.');
+    showToast('Trình duyệt yêu cầu HTTPS để sao chép ảnh trực tiếp. Vui lòng bấm Tải ảnh PNG.');
   }
 }
 
