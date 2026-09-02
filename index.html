@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Durex-Style Copywriter — Máy tạo Copy 2 Lớp Ngữ Nghĩa</title>
-<meta name="description" content="Web app tạo copy quảng cáo theo phương pháp ngữ nghĩa hai lớp (Durex style 2011-2017) với đa dạng nhà cung cấp AI (OpenRouter, Claude, OpenAI, Gemini, DeepSeek).">
+<meta name="description" content="Web app tạo copy quảng cáo theo phương pháp ngữ nghĩa hai lớp (Durex style 2011-2017) với đa dạng nhà cung cấp AI và hỗ trợ 3 ngôn ngữ Việt - Anh - Trung.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2244%22 fill=%22%23E2001A%22/><text x=%2250%22 y=%2262%22 font-size=%2238%22 font-weight=%22bold%22 text-anchor=%22middle%22 fill=%22%23FFFFFF%22 font-family=%22sans-serif%22>2L</text></svg>">
 <style>
   :root{
@@ -27,7 +27,7 @@
   html{color-scheme:dark;}
   body{
     margin:0;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
     background:radial-gradient(circle at 15% -10%, #1B2C4E 0%, #0B1322 55%, #070D18 100%);
     color:var(--ink);
     min-height:100vh;
@@ -43,6 +43,16 @@
     padding:6px 14px;background:rgba(255,255,255,0.02);
   }
   .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent);}
+  
+  .header-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .lang-switch{display:inline-flex;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:999px;padding:2px;}
+  .lang-btn{
+    background:none;border:none;color:var(--ink-dim);padding:4px 10px;font-size:11.5px;font-weight:600;
+    border-radius:999px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:4px;
+  }
+  .lang-btn:hover{color:var(--ink);}
+  .lang-btn.active{background:var(--accent);color:#fff;box-shadow:0 2px 8px var(--accent-glow);}
+
   .github-badge{
     display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-dim);
     text-decoration:none;border:1px solid var(--border);border-radius:999px;padding:5px 12px;
@@ -283,39 +293,42 @@
 <div class="wrap">
   <header>
     <div class="header-top">
-      <span class="eyebrow"><span class="dot"></span>Phương pháp "Ngữ nghĩa hai lớp" (Durex Style)</span>
-      <a href="https://github.com/chrisx9z/durex-style-copywriter" target="_blank" rel="noopener" class="github-badge">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-        GitHub Repo
-      </a>
+      <span class="eyebrow"><span class="dot"></span><span id="txtEyebrow">Phương pháp "Ngữ nghĩa hai lớp" (Durex Style)</span></span>
+      <div class="header-actions">
+        <div class="lang-switch" id="langSwitch">
+          <button type="button" class="lang-btn active" data-lang="vi">🇻🇳 Tiếng Việt</button>
+          <button type="button" class="lang-btn" data-lang="en">🇬🇧 English</button>
+          <button type="button" class="lang-btn" data-lang="zh">🇨🇳 中文</button>
+        </div>
+        <a href="https://github.com/chrisx9z/durex-style-copywriter" target="_blank" rel="noopener" class="github-badge">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
+      </div>
     </div>
-    <h1>Máy tạo Copy <span>2 Lớp Ngữ Nghĩa</span></h1>
-    <p class="sub">Tạo copy quảng cáo tiếng Việt sắc sảo dựa trên 8 công thức và hệ thống hình ảnh đúc kết từ phong cách Durex 2011–2017. Tự động đề xuất ý tưởng bề mặt, ẩn dụ chìm, bảng màu và bố cục visual.</p>
+    <h1><span id="txtTitleMain">Máy tạo Copy</span> <span id="txtTitleHighlight">2 Lớp Ngữ Nghĩa</span></h1>
+    <p class="sub" id="txtSub">Tạo copy quảng cáo tiếng Việt sắc sảo dựa trên 8 công thức và hệ thống hình ảnh đúc kết từ phong cách Durex 2011–2017. Tự động đề xuất ý tưởng bề mặt, ẩn dụ chìm, bảng màu và bố cục visual.</p>
   </header>
 
   <!-- Presets Bar -->
   <div class="presets-wrap">
     <div class="presets-title">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2h7.6l-6.1 4.5 2.3 7.3-6.2-4.6-6.2 4.6 2.3-7.3-6.1-4.5h7.6z"/></svg>
-      Ý tưởng mẫu (Bấm thử ngay 1-click):
+      <span id="txtPresetsTitle">Ý tưởng mẫu (Bấm thử ngay 1-click):</span>
     </div>
     <div class="presets-list" id="presetsList">
-      <button class="preset-btn" data-topic="Quán cà phê mở cửa 24/7 không ngủ" data-audience="Sinh viên, lập trình viên, dân chạy deadline" data-hook="Mùa thi cử / Deadline cuối tháng" data-channel="mạng xã hội (Facebook/Instagram)">☕ Cà phê 24/7 (Mùa deadline)</button>
-      <button class="preset-btn" data-topic="App quản lý tài chính và tiết kiệm thông minh" data-audience="Người trẻ đi làm từ 22-30 tuổi" data-hook="Đầu tháng nhận lương" data-channel="mạng xã hội (Facebook/Instagram)">📱 App tài chính (Ngày lương về)</button>
-      <button class="preset-btn" data-topic="Dịch vụ giao đồ ăn nóng hổi thần tốc" data-audience="Cú đêm, dân văn phòng làm tăng ca" data-hook="Trời mưa rả rích ban đêm" data-channel="mạng xã hội (Facebook/Instagram)">🛵 Giao đồ ăn (Đêm mưa lạnh)</button>
-      <button class="preset-btn" data-topic="Phòng tập thể hình Gym & Fitness chuyên nghiệp" data-audience="Dân văn phòng, người muốn cải thiện vóc dáng" data-hook="Đầu năm mới / Sau kỳ nghỉ Tết" data-channel="poster ngoài trời">🏋️ Phòng gym (Hết Tết giảm cân)</button>
-      <button class="preset-btn" data-topic="Khóa học phản xạ tiếng Anh giao tiếp cấp tốc" data-audience="Sinh viên năm cuối, người chuẩn bị nhảy việc" data-hook="Mùa tuyển dụng / Phỏng vấn" data-channel="banner website">📚 Khóa tiếng Anh (Mùa phỏng vấn)</button>
+      <!-- Generated via JS according to selected language -->
     </div>
   </div>
 
   <div class="layout">
     <div class="card">
       <h2>
-        <span>Cấu hình & Dữ liệu</span>
+        <span id="txtConfigHeader">Cấu hình & Dữ liệu</span>
         <span id="savedCountBadge" style="font-size:11px;font-weight:normal;color:var(--accent);cursor:pointer;">Đã lưu: 0</span>
       </h2>
 
-      <label for="provider">Nhà cung cấp AI</label>
+      <label for="provider" id="lblProvider">Nhà cung cấp AI</label>
       <select id="provider">
         <option value="openrouter" selected>OpenRouter (Khuyên dùng - Không lo CORS)</option>
         <option value="google">Google (Gemini - Chạy tốt từ web)</option>
@@ -332,7 +345,7 @@
       
       <label class="checkbox-line">
         <input type="checkbox" id="rememberKey">
-        <span>Ghi nhớ API Key trên trình duyệt này (localStorage)</span>
+        <span id="txtRememberKey">Ghi nhớ API Key trên trình duyệt này (localStorage)</span>
       </label>
 
       <!-- Advanced Base URL -->
@@ -340,59 +353,78 @@
       <div class="advanced-box" id="advancedBox">
         <label for="baseUrl" style="margin-top:0;">Custom Base URL</label>
         <input type="text" id="baseUrl" placeholder="https://openrouter.ai/api/v1">
-        <div class="hint">Dùng khi bạn muốn kết nối qua Cloudflare Worker, Reverse Proxy hoặc API trung gian tương thích OpenAI.</div>
+        <div class="hint" id="txtBaseUrlHint">Dùng khi bạn muốn kết nối qua Cloudflare Worker, Reverse Proxy hoặc API trung gian tương thích OpenAI.</div>
       </div>
 
       <div class="cors-warning" id="corsWarning">
-        ⚠️ <strong>Lưu ý CORS:</strong> Gọi trực tiếp nhà cung cấp này từ trình duyệt web có thể bị chặn bởi chính sách bảo mật mạng (CORS). Bạn nên dùng <strong>OpenRouter</strong> (hỗ trợ cả Claude, GPT-4o, DeepSeek mà không bị chặn) hoặc dùng proxy qua Custom Base URL.
+        ⚠️ <span id="txtCorsWarning">Lưu ý CORS: Gọi trực tiếp nhà cung cấp này từ trình duyệt web có thể bị chặn bởi chính sách bảo mật mạng (CORS). Bạn nên dùng OpenRouter hoặc Custom Base URL Proxy.</span>
       </div>
 
-      <label for="model">Model</label>
+      <label for="model" id="lblModel">Model</label>
       <input type="text" id="model" value="deepseek/deepseek-chat">
-      <div class="hint" id="modelHint">Đổi sang model khác nếu bạn muốn (ví dụ anthropic/claude-3.5-sonnet, openai/gpt-4o).</div>
+      <div class="hint" id="modelHint">Đổi sang model khác nếu bạn muốn.</div>
 
-      <hr style="border:none;border-top:1px solid var(--border);margin:18px 0;">
+      <div class="row2" style="margin-top:12px;">
+        <div>
+          <label for="outputLang" id="lblOutputLang">Ngôn ngữ xuất copy</label>
+          <select id="outputLang">
+            <option value="vi" selected>🇻🇳 Tiếng Việt</option>
+            <option value="en">🇬🇧 English</option>
+            <option value="zh">🇨🇳 简体中文</option>
+          </select>
+        </div>
+        <div>
+          <label for="count" id="lblCount">Số phương án</label>
+          <select id="count">
+            <option value="3">3</option>
+            <option value="4" selected>4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+      </div>
 
-      <label for="topic">Chủ đề / sản phẩm *</label>
+      <hr style="border:none;border-top:1px solid var(--border);margin:16px 0;">
+
+      <label for="topic" id="lblTopic">Chủ đề / sản phẩm *</label>
       <textarea id="topic" placeholder="Ví dụ: quán cà phê 24h, app quản lý chi tiêu, khoá học tiếng Anh cấp tốc..."></textarea>
 
-      <label for="audience">Đối tượng khách hàng (tuỳ chọn)</label>
+      <label for="audience" id="lblAudience">Đối tượng khách hàng (tuỳ chọn)</label>
       <input type="text" id="audience" placeholder="Ví dụ: dân văn phòng 25-35 tuổi, sinh viên năm cuối...">
 
-      <label for="hook">Cớ / dịp đặc biệt (tuỳ chọn)</label>
+      <label for="hook" id="lblHook">Cớ / dịp đặc biệt (tuỳ chọn)</label>
       <input type="text" id="hook" placeholder="Ví dụ: Black Friday, mùa thi cử, đêm lương về, sau Tết...">
 
-      <label>Mức độ táo bạo (Tone / Boldness)</label>
+      <label id="lblBoldness">Mức độ táo bạo (Tone / Boldness)</label>
       <div class="boldness-pills">
         <label class="bold-label" id="bold-subtle">
           <input type="radio" name="boldness" value="subtle">
-          <span>🌿 Tinh tế</span>
-          <span style="font-size:10px;opacity:0.75;">B2B, Tài chính</span>
+          <span id="txtBoldSubtle">🌿 Tinh tế</span>
+          <span style="font-size:10px;opacity:0.75;" id="txtBoldSubtleDesc">B2B, Tài chính</span>
         </label>
         <label class="bold-label active" id="bold-witty">
           <input type="radio" name="boldness" value="witty" checked>
-          <span>⚡ Hóm hỉnh</span>
-          <span style="font-size:10px;opacity:0.75;">F&B, Bán lẻ</span>
+          <span id="txtBoldWitty">⚡ Hóm hỉnh</span>
+          <span style="font-size:10px;opacity:0.75;" id="txtBoldWittyDesc">F&B, Bán lẻ</span>
         </label>
         <label class="bold-label" id="bold-edgy">
           <input type="radio" name="boldness" value="edgy">
-          <span>🔥 Táo bạo</span>
-          <span style="font-size:10px;opacity:0.75;">Thời trang, Đêm</span>
+          <span id="txtBoldEdgy">🔥 Táo bạo</span>
+          <span style="font-size:10px;opacity:0.75;" id="txtBoldEdgyDesc">Thời trang, Đêm</span>
         </label>
       </div>
 
       <div class="row2">
         <div>
-          <label for="channel">Kênh truyền thông</label>
+          <label for="channel" id="lblChannel">Kênh truyền thông</label>
           <select id="channel">
-            <option value="mạng xã hội (Facebook/Instagram)">MXH (FB/IG)</option>
+            <option value="mạng xã hội (Facebook/Instagram/TikTok)">MXH (FB/IG)</option>
             <option value="poster ngoài trời">Poster ngoài trời</option>
             <option value="banner website">Banner website</option>
             <option value="TikTok/story dọc">TikTok / Story</option>
           </select>
         </div>
         <div>
-          <label for="ratio">Tỷ lệ khung hình</label>
+          <label for="ratio" id="lblRatio">Tỷ lệ khung hình</label>
           <select id="ratio">
             <option value="3:4" selected>3:4 (poster dọc)</option>
             <option value="1:1">1:1 (vuông)</option>
@@ -401,13 +433,6 @@
           </select>
         </div>
       </div>
-
-      <label for="count">Số phương án</label>
-      <select id="count">
-        <option value="3">3 phương án</option>
-        <option value="4" selected>4 phương án</option>
-        <option value="5">5 phương án</option>
-      </select>
 
       <button class="primary" id="genBtn">Tạo copy ngay</button>
       <div class="status" id="status"></div>
@@ -427,22 +452,393 @@
       </div>
 
       <div class="results" id="results">
-        <div class="empty">Kết quả sẽ hiện ở đây. Hãy chọn một mẫu gợi ý bên trên hoặc nhập chủ đề rồi bấm "Tạo copy ngay".</div>
+        <div class="empty" id="txtEmptyResults">Kết quả sẽ hiện ở đây. Hãy chọn một mẫu gợi ý bên trên hoặc nhập chủ đề rồi bấm "Tạo copy ngay".</div>
       </div>
     </div>
   </div>
 
   <footer>
-    Dự án được truyền cảm hứng từ skill mã nguồn mở 
-    <a href="https://github.com/crawfordxx/xiaoma-durex-copywriter" target="_blank" rel="noopener">crawfordxx/xiaoma-durex-copywriter</a> 
-    về phương pháp "ngữ nghĩa hai lớp" từ các chiến dịch Durex 2011–2017. Công cụ tự động áp dụng các giới hạn đạo đức khắt khe: Không đụng tới thảm hoạ/chết chóc, không vật thể hoá phụ nữ, không gợi dục nhắm vào người thật hay trẻ em — với sản phẩm ngoài ngành hàng người lớn, lối chơi chữ luôn gắn chặt với giá trị sản phẩm, tuyệt đối không dung tục.
+    <span id="txtFooter">Dự án được truyền cảm hứng từ skill mã nguồn mở crawfordxx/xiaoma-durex-copywriter về phương pháp "ngữ nghĩa hai lớp" từ các chiến dịch Durex 2011–2017. Luôn tuân thủ giới hạn đạo đức khắt khe: Không đụng tới thảm hoạ, không vật thể hoá phụ nữ, luôn gắn với giá trị thật của sản phẩm.</span>
   </footer>
 </div>
 
 <div class="toast" id="toast">Thông báo</div>
 
 <script>
-const SYSTEM_PROMPT = `Bạn là một giám đốc sáng tạo và chuyên gia copywriting bậc thầy, áp dụng phương pháp "ngữ nghĩa hai lớp" (dual-layer semantics) được đúc kết từ các chiến dịch quảng cáo huyền thoại của Durex (thời Huanshi Interactive 2011–2017).
+// ==========================================
+// ĐA NGÔN NGỮ (i18n): VIỆT - ANH - TRUNG
+// ==========================================
+const I18N = {
+  vi: {
+    eyebrow: 'Phương pháp "Ngữ nghĩa hai lớp" (Durex Style)',
+    titleMain: 'Máy tạo Copy',
+    titleHighlight: '2 Lớp Ngữ Nghĩa',
+    sub: 'Tạo copy quảng cáo tiếng Việt sắc sảo dựa trên 8 công thức và hệ thống hình ảnh đúc kết từ phong cách Durex 2011–2017. Tự động đề xuất ý tưởng bề mặt, ẩn dụ chìm, bảng màu và bố cục visual.',
+    presetsTitle: 'Ý tưởng mẫu (Bấm thử ngay 1-click):',
+    configHeader: 'Cấu hình & Dữ liệu',
+    savedCount: 'Đã lưu: ',
+    provider: 'Nhà cung cấp AI',
+    apiKeySuffix: ' API Key',
+    rememberKey: 'Ghi nhớ API Key trên trình duyệt này (localStorage)',
+    advancedToggle: '⚙️ Tùy chọn nâng cao (Custom Base URL / Proxy)',
+    baseUrlHint: 'Dùng khi bạn muốn kết nối qua Cloudflare Worker, Reverse Proxy hoặc API trung gian tương thích OpenAI.',
+    corsWarning: 'Lưu ý CORS: Gọi trực tiếp nhà cung cấp này từ trình duyệt web có thể bị chặn bởi chính sách bảo mật mạng (CORS). Bạn nên dùng OpenRouter hoặc Custom Base URL Proxy.',
+    model: 'Model',
+    modelHintDefault: 'Đổi sang model khác nếu bạn muốn.',
+    outputLang: 'Ngôn ngữ xuất copy',
+    count: 'Số phương án',
+    countUnit: 'phương án',
+    topic: 'Chủ đề / sản phẩm *',
+    topicPh: 'Ví dụ: quán cà phê 24h, app quản lý chi tiêu, khoá học tiếng Anh cấp tốc...',
+    audience: 'Đối tượng khách hàng (tuỳ chọn)',
+    audiencePh: 'Ví dụ: dân văn phòng 25-35 tuổi, sinh viên năm cuối...',
+    hook: 'Cớ / dịp đặc biệt (tuỳ chọn)',
+    hookPh: 'Ví dụ: Black Friday, mùa thi cử, đêm lương về, sau Tết...',
+    boldness: 'Mức độ táo bạo (Tone / Boldness)',
+    boldSubtle: '🌿 Tinh tế',
+    boldSubtleDesc: 'B2B, Tài chính',
+    boldWitty: '⚡ Hóm hỉnh',
+    boldWittyDesc: 'F&B, Bán lẻ',
+    boldEdgy: '🔥 Táo bạo',
+    boldEdgyDesc: 'Thời trang, Đêm',
+    channel: 'Kênh truyền thông',
+    channels: [
+      { val: 'mạng xã hội (Facebook/Instagram/TikTok)', label: 'MXH (FB/IG/TikTok)' },
+      { val: 'poster ngoài trời', label: 'Poster ngoài trời' },
+      { val: 'banner website', label: 'Banner website' },
+      { val: 'TikTok/story dọc', label: 'TikTok / Story dọc' }
+    ],
+    ratio: 'Tỷ lệ khung hình',
+    genBtn: 'Tạo copy ngay',
+    genBtnLoading: 'Đang kích hoạt tư duy sáng tạo...',
+    tabGenerated: 'Kết quả vừa tạo',
+    tabFavorites: 'Đã lưu',
+    viewCards: 'Dạng Thẻ',
+    viewPosters: 'Mô phỏng Poster',
+    emptyGenerated: 'Kết quả sẽ hiện ở đây. Hãy chọn một mẫu gợi ý bên trên hoặc nhập chủ đề rồi bấm "Tạo copy ngay".',
+    emptyFavorites: 'Kho yêu thích đang trống. Hãy bấm biểu tượng trái tim ở các phương án để lưu lại!',
+    copyTextBtn: '📋 Sao chép Text',
+    copyAiPromptBtn: '🎨 Prompt Midjourney / Flux',
+    downloadPosterBtn: '🖼️ Tải Poster PNG',
+    downloadSingleBtn: '⬇️ Tải ảnh PNG',
+    whyLabel: 'Vì sao hiệu quả:',
+    subjectLabel: 'Chủ thể hình ảnh',
+    paletteLabel: 'Bảng màu',
+    toastLoadedPreset: 'Đã nạp mẫu: ',
+    toastCopiedText: 'Đã sao chép nội dung copy!',
+    toastCopiedAi: 'Đã sao chép prompt Midjourney/Flux!',
+    toastSavedFav: 'Đã thêm vào mục yêu thích ❤️',
+    toastRemovedFav: 'Đã xoá khỏi mục yêu thích',
+    toastDownloaded: 'Đã tải poster độ phân giải cao PNG!',
+    toastGeneratedSuccess: 'Tạo thành công {n} phương án copy!',
+    errApiKey: 'Vui lòng nhập API key trước.',
+    errTopic: 'Vui lòng nhập chủ đề hoặc chọn một mẫu gợi ý bên trên.',
+    errCorsHelper: ' -> Đây là lỗi CORS do trình duyệt chặn gọi API trực tiếp. Hãy chuyển sang OpenRouter hoặc dùng Custom Base URL Proxy!',
+    footer: 'Dự án được truyền cảm hứng từ skill mã nguồn mở crawfordxx/xiaoma-durex-copywriter về phương pháp "ngữ nghĩa hai lớp" từ các chiến dịch Durex 2011–2017. Luôn tuân thủ giới hạn đạo đức khắt khe: Không đụng tới thảm hoạ, không vật thể hoá phụ nữ, luôn gắn với giá trị thật của sản phẩm.',
+    presets: [
+      { topic: 'Quán cà phê mở cửa 24/7 không ngủ', audience: 'Sinh viên, lập trình viên, dân chạy deadline', hook: 'Mùa thi cử / Deadline cuối tháng', channel: 'mạng xã hội (Facebook/Instagram/TikTok)', label: '☕ Cà phê 24/7 (Mùa deadline)' },
+      { topic: 'App quản lý tài chính và tiết kiệm thông minh', audience: 'Người trẻ đi làm từ 22-30 tuổi', hook: 'Đầu tháng nhận lương', channel: 'mạng xã hội (Facebook/Instagram/TikTok)', label: '📱 App tài chính (Ngày lương về)' },
+      { topic: 'Dịch vụ giao đồ ăn nóng hổi thần tốc', audience: 'Cú đêm, dân văn phòng làm tăng ca', hook: 'Trời mưa rả rích ban đêm', channel: 'mạng xã hội (Facebook/Instagram/TikTok)', label: '🛵 Giao đồ ăn (Đêm mưa lạnh)' },
+      { topic: 'Phòng tập thể hình Gym & Fitness chuyên nghiệp', audience: 'Dân văn phòng, người muốn cải thiện vóc dáng', hook: 'Đầu năm mới / Sau kỳ nghỉ Tết', channel: 'poster ngoài trời', label: '🏋️ Phòng gym (Hết Tết giảm cân)' },
+      { topic: 'Khóa học phản xạ tiếng Anh giao tiếp cấp tốc', audience: 'Sinh viên năm cuối, người chuẩn bị nhảy việc', hook: 'Mùa tuyển dụng / Phỏng vấn', channel: 'banner website', label: '📚 Khóa tiếng Anh (Mùa phỏng vấn)' }
+    ]
+  },
+
+  en: {
+    eyebrow: '"Dual-Layer Semantics" Methodology (Durex Style)',
+    titleMain: 'Durex Copywriter',
+    titleHighlight: 'Dual-Layer Semantics',
+    sub: 'Generate razor-sharp advertising copy based on 8 classic formulas and visual systems distilled from Durex (2011–2017). Automatically generates surface topics, submerged metaphors, color palettes, and poster layouts.',
+    presetsTitle: 'Quick Inspirations (1-Click Fill):',
+    configHeader: 'Configuration & Inputs',
+    savedCount: 'Saved: ',
+    provider: 'AI Provider',
+    apiKeySuffix: ' API Key',
+    rememberKey: 'Remember API Key in this browser (localStorage)',
+    advancedToggle: '⚙️ Advanced Options (Custom Base URL / Proxy)',
+    baseUrlHint: 'Use when routing requests through Cloudflare Worker, Reverse Proxy, or OpenAI-compatible gateways.',
+    corsWarning: 'CORS Notice: Direct browser requests to this provider might be blocked by browser CORS policy. Please use OpenRouter or a Custom Base URL Proxy.',
+    model: 'Model',
+    modelHintDefault: 'Change to another model if needed.',
+    outputLang: 'Copy Output Language',
+    count: 'Number of Options',
+    countUnit: 'options',
+    topic: 'Topic / Product *',
+    topicPh: 'e.g. 24/7 coffee shop, personal finance app, express spoken English course...',
+    audience: 'Target Audience (optional)',
+    audiencePh: 'e.g. 25-35 office workers, graduating students, night owls...',
+    hook: 'Hook / Occasion (optional)',
+    hookPh: 'e.g. Black Friday, final exam season, payday night, post-holiday reset...',
+    boldness: 'Tone & Boldness Level',
+    boldSubtle: '🌿 Subtle',
+    boldSubtleDesc: 'B2B, Finance',
+    boldWitty: '⚡ Witty',
+    boldWittyDesc: 'F&B, Retail',
+    boldEdgy: '🔥 Edgy',
+    boldEdgyDesc: 'Fashion, Night',
+    channel: 'Channel',
+    channels: [
+      { val: 'social media (Facebook/Instagram/X/TikTok)', label: 'Social Media (FB/IG/TikTok)' },
+      { val: 'outdoor billboard poster', label: 'Outdoor Poster' },
+      { val: 'website banner', label: 'Website Banner' },
+      { val: 'TikTok / Vertical Story', label: 'TikTok / Vertical Story' }
+    ],
+    ratio: 'Aspect Ratio',
+    genBtn: 'Generate Copy',
+    genBtnLoading: 'Triggering creative genius...',
+    tabGenerated: 'Generated Results',
+    tabFavorites: 'Favorites',
+    viewCards: 'Card View',
+    viewPosters: 'Poster Mockup',
+    emptyGenerated: 'Results will appear here. Choose a preset above or enter a topic and click "Generate Copy".',
+    emptyFavorites: 'Favorites is empty. Click the heart icon on any card to save it here!',
+    copyTextBtn: '📋 Copy Text',
+    copyAiPromptBtn: '🎨 Midjourney / Flux Prompt',
+    downloadPosterBtn: '🖼️ Download Poster PNG',
+    downloadSingleBtn: '⬇️ Download PNG',
+    whyLabel: 'Why it works:',
+    subjectLabel: 'Visual Subject',
+    paletteLabel: 'Color Palette',
+    toastLoadedPreset: 'Loaded preset: ',
+    toastCopiedText: 'Copy text copied to clipboard!',
+    toastCopiedAi: 'Midjourney/Flux prompt copied!',
+    toastSavedFav: 'Saved to favorites ❤️',
+    toastRemovedFav: 'Removed from favorites',
+    toastDownloaded: 'High-res poster PNG downloaded!',
+    toastGeneratedSuccess: 'Successfully generated {n} copy options!',
+    errApiKey: 'Please enter your API key first.',
+    errTopic: 'Please enter a topic or select a preset above.',
+    errCorsHelper: ' -> This is a browser CORS network error. Please switch to OpenRouter or use a Custom Base URL Proxy!',
+    footer: 'Inspired by the open-source skill crawfordxx/xiaoma-durex-copywriter on "dual-layer semantics" from Durex campaigns (2011–2017). Strictly abides by ethical boundaries: No tragedy exploitation, no objectification of women, always anchored in genuine product value.',
+    presets: [
+      { topic: '24/7 all-night coffee shop for students and coders', audience: 'College students, software engineers, deadline chasers', hook: 'Final exam season / End of month deadline', channel: 'social media (Facebook/Instagram/X/TikTok)', label: '☕ 24/7 Coffee (Deadline)' },
+      { topic: 'Smart personal budgeting & automated saving app', audience: 'Young working professionals aged 22-30', hook: 'Payday night at start of month', channel: 'social media (Facebook/Instagram/X/TikTok)', label: '📱 Budget App (Payday)' },
+      { topic: 'Lightning-fast piping hot food delivery service', audience: 'Night owls, overtime workers, midnight snackers', hook: 'Freezing rainy night', channel: 'social media (Facebook/Instagram/X/TikTok)', label: '🛵 Food Delivery (Rainy Night)' },
+      { topic: 'Professional 24h gym & fitness club', audience: 'Sedentary office workers wanting fitness resets', hook: 'New Year resolutions / Post-holiday', channel: 'outdoor billboard poster', label: '🏋️ Gym Club (Post-Holiday)' },
+      { topic: 'Express spoken English reflex training course', audience: 'Graduates, job-switchers, interviewees', hook: 'Hiring season / Job interview month', channel: 'website banner', label: '📚 English Course (Interviews)' }
+    ]
+  },
+
+  zh: {
+    eyebrow: '“双层语义”文案方法论（杜蕾斯经典风格）',
+    titleMain: '杜蕾斯风格',
+    titleHighlight: '双层语义文案生成器',
+    sub: '基于杜蕾斯黄金时期（环时互动 2011–2017）沉淀的 8 大经典文案公式与极简视觉系统。自动构思表面热点、潜层暗喻、配色方案与海报排版。',
+    presetsTitle: '灵感预设（一键填入）：',
+    configHeader: '配置与输入',
+    savedCount: '已收藏: ',
+    provider: 'AI 供应商',
+    apiKeySuffix: ' API Key',
+    rememberKey: '在当前浏览器记住 API Key (localStorage)',
+    advancedToggle: '⚙️ 高级选项（自定义 Base URL / 反向代理）',
+    baseUrlHint: '用于通过 Cloudflare Worker、自建反代或兼容 OpenAI 的中转 API 调用。',
+    corsWarning: '跨域提示：从浏览器直接调用该供应商可能会被浏览器 CORS 策略拦截。推荐优先使用 OpenRouter 或配置自定义 Base URL。',
+    model: '模型 (Model)',
+    modelHintDefault: '可随意更换为您需要的模型名称。',
+    outputLang: '生成文案语言',
+    count: '方案数量',
+    countUnit: '个方案',
+    topic: '主题 / 产品 *',
+    topicPh: '例如：24小时不打烊咖啡馆、智能记账理财App、零基础口语速成课...',
+    audience: '目标受众（可选）',
+    audiencePh: '例如：25-35岁职场白领、冲刺期大学生、夜猫子...',
+    hook: '契机 / 借势节点（可选）',
+    hookPh: '例如：黑五狂欢、期末考季、发薪之夜、节后减脂...',
+    boldness: '文案大胆度（Tone / 大胆度）',
+    boldSubtle: '🌿 克制优雅',
+    boldSubtleDesc: 'B2B、金融理财',
+    boldWitty: '⚡ 机智风趣',
+    boldWittyDesc: '餐饮快消、零售',
+    boldEdgy: '🔥 锐利大胆',
+    boldEdgyDesc: '时尚、夜生活',
+    channel: '投放渠道',
+    channels: [
+      { val: '社交媒体 (微信/小红书/微博/抖音)', label: '社交媒体 (微信/小红书/微博)' },
+      { val: '户外海报 (Outdoor Poster)', label: '户外海报' },
+      { val: '网页横幅 (Web Banner)', label: '网页横幅' },
+      { val: '短视频 / 竖版故事 (TikTok/Reels)', label: '短视频 / 竖屏故事' }
+    ],
+    ratio: '画面比例',
+    genBtn: '立即生成文案',
+    genBtnLoading: '正在激发双层创意灵感...',
+    tabGenerated: '生成结果',
+    tabFavorites: '我的收藏',
+    viewCards: '卡片视图',
+    viewPosters: '海报模拟',
+    emptyGenerated: '生成结果将显示在此处。请在上方选择预设灵感或输入产品主题，然后点击“立即生成文案”。',
+    emptyFavorites: '收藏夹还是空的。点击卡片右上角的爱心图标即可收藏！',
+    copyTextBtn: '📋 复制文案',
+    copyAiPromptBtn: '🎨 Midjourney / Flux 提示词',
+    downloadPosterBtn: '🖼️ 下载高清海报',
+    downloadSingleBtn: '⬇️ 下载 PNG',
+    whyLabel: '构思拆解：',
+    subjectLabel: '画面主体',
+    paletteLabel: '配色方案',
+    toastLoadedPreset: '已载入预设：',
+    toastCopiedText: '文案内容已成功复制！',
+    toastCopiedAi: 'Midjourney/Flux 提示词已复制！',
+    toastSavedFav: '已加入收藏夹 ❤️',
+    toastRemovedFav: '已从收藏夹移除',
+    toastDownloaded: '1200x1600 高清海报已下载！',
+    toastGeneratedSuccess: '成功生成 {n} 个文案方案！',
+    errApiKey: '请先输入对应的 API Key。',
+    errTopic: '请输入产品主题或点击上方的预设灵感。',
+    errCorsHelper: ' -> 这是由于浏览器限制直接调用导致的跨域 CORS 错误。推荐改用 OpenRouter 或配置 Base URL 反向代理！',
+    footer: '致敬开源技能 crawfordxx/xiaoma-durex-copywriter。传承环时互动杜蕾斯 2011–2017 经典“双层语义”方法论。严守伦理红线：绝不消费灾难悲剧，绝不物化女性，始终锚定产品本身真实价值。',
+    presets: [
+      { topic: '24小时不打烊的备考自习深夜咖啡馆', audience: '期末冲刺大学生、程序员、熬夜赶工族', hook: '考试周 / 月末冲刺 Deadline', channel: '社交媒体 (微信/小红书/微博/抖音)', label: '☕ 24小时咖啡（冲刺期）' },
+      { topic: '智能省钱记账与资产管理 App', audience: '22-30岁初入职场的年轻人群', hook: '月初发薪之夜', channel: '社交媒体 (微信/小红书/微博/抖音)', label: '📱 记账理财（发薪之夜）' },
+      { topic: '雨夜20分钟极速热气腾腾美食外卖', audience: '加班白领、深夜追剧党、寒夜独居者', hook: '降温寒夜 / 阴雨绵绵', channel: '社交媒体 (微信/小红书/微博/抖音)', label: '🛵 极速外卖（雨夜暖心）' },
+      { topic: '24小时智能健身房与私教减脂塑形', audience: '久坐办公族、节后想要重塑体态人群', hook: '新年伊始 / 春节假期结束', channel: '户外海报 (Outdoor Poster)', label: '🏋️ 健身塑形（节后重启）' },
+      { topic: '30天面试高频英语口语突击训练营', audience: '应届毕业生、跳槽求职者、外企求职人群', hook: '春招秋招季 / 跳槽面试潮', channel: '网页横幅 (Web Banner)', label: '📚 职场口语（面试旺季）' }
+    ]
+  }
+};
+
+let currentLang = 'vi';
+
+// Prompt Generator theo từng ngôn ngữ xuất
+function getSystemPrompt(outputLang){
+  if(outputLang === 'zh'){
+    return `你是一位顶级创意总监与广告文案大师，深谙杜蕾斯黄金时期（环时互动 2011–2017）沉淀的“双层语义”（Dual-Layer Semantics）文案与极简视觉哲学。
+
+核心机制：
+一条经典的双层文案必须在两个语义层次上平滑运转：
+- 表面层：一个真实生活场景、天气变化、节庆日常、热点节点 — 字面上合情合理、自然贴切且完全健康。
+- 潜层（潜台词）：产品核心卖点、品牌精神或深层心理动机。
+读者必须在脑海中瞬间“一步联想”完成连通。如果只需一步顿悟，文案便具绝佳传播力；若需两步或需额外解释，文案即告失败。绝不直白道破。
+
+杜蕾斯经典 8 大文案公式：
+1. 谐音借义：替换大众熟知语句中的一个字词，转换为与产品同音/近音的词汇（克制使用）。
+2. 借数发威：巧妙借用热点自带的数字（日期、版本、数量、比分），赋予其与产品相关的全新含义。
+3. 跨界术语借用：借用工程、医学、法律、交通等严谨领域的专有名词，但在字面上用来描述产品。
+4. 借物拟人 / 旁观自叙：让场景中的次要物品（如台灯、钥匙、窗户）以第一人称自述，侧面烘托主角的行为。
+5. 拆字组义：拆分词组或汉字，重新解构其各部分的独立含义。
+6. 黄历体 / 对仗句式：模仿老黄历“宜 / 忌”的形式，或采用两句对仗工整、反差强烈的短句。
+7. 三层递进诗体：前三句层层递进描摹环境氛围，最后一句峰回路转，引申至产品本身。
+8. 逆向克制：在所有人都在等待你抖机灵、开玩笑的时刻，反而给出一句无比真诚、严肃且动人的真话。
+
+中文实战经典示例（FEW-SHOT EXAMPLES）：
+示例 1：24小时不打烊咖啡馆（契机：考试周 / 冲刺 Deadline）
+- 公式：逆向克制
+- Headline: "今夜不眠，免留遗憾。"
+- Subhead: "浓郁醇厚，24小时守护每刻清醒。"
+- 构思拆解：表面层是通宵复习备考不留遗憾；潜层是长夜漫漫中的坚定相伴，并肩作战到底。
+- 画面：暗黑静谧的书房中，一盏孤灯照亮一杯热气袅袅的黑咖啡。配色：深夜幽蓝。
+
+示例 2：智能个人记账 App（契机：发薪日）
+- 公式：跨界术语借用
+- Headline: "进得从容，出得节制。"
+- Subhead: "掌控每一笔现金流，守住整月战果。"
+- 构思拆解：表面层是收入与开支节奏的科学管理；潜层是掌控全局、懂得克制与安全退场的成熟态度。
+- 画面：微张的精致皮夹中透出一道利落的高光。配色：影棚纯黑。
+
+示例 3：夜间热食极速外卖（契机：雨夜降温）
+- 公式：借物拟人 / 旁观自叙
+- Headline: "风雨在外，温度在内。"
+- Subhead: "热气腾腾，20分钟准时送达。"
+- 构思拆解：表面层是恶劣天气里吃上一口热汤面；潜层是被及时守护、安抚心灵的温暖与安全感。
+- 画面：凝结着水雾的玻璃窗，倒映着雨夜模糊温润的街灯。配色：暖调旧宣。
+
+画面与配色系统：
+- 画面主体：产品本身 | 日常物件 | 纯文字排版 (Typography) | 局部肢体 (剪影、手部特写)
+- 经典配色：
+  * "品牌正红": #E2001A, #FFFFFF, #000000
+  * "深夜幽蓝": #0E1A2E, #16233F, #E2001A
+  * "影棚纯黑": #0B0B0B, #F2EDE3, #C8102E
+  * "柔粉渐变": #FCEDF1, #E8558F, #2A101C
+  * "暖调旧宣": #F2EDE3, #C8102E, #1A1A1A
+  * "主题借色": 依据主题挑选和谐互衬的3个十六进制色值。
+
+严格伦理界限：
+绝不消费灾难、疾病或悲剧；绝不物化女性；面向常规大众产品时，严格聚焦产品真实商业价值，杜绝低俗下流。
+
+输出格式要求：
+必须严格返回以下 JSON 格式（无 Markdown 代码块，无多余文字）：
+{
+  "options": [
+    {
+      "formula": "公式名称（中文，如：跨界术语借用）",
+      "headline": "主标题中文文案，短小精悍，富有张力，不超过14字",
+      "subhead": "简短有力的副标题",
+      "why_it_works": "简要解析两层含义：[表面层]是什么，[潜层]是什么",
+      "visual": {
+        "subject_type": "产品本身 | 日常物件 | 纯文字排版 | 局部肢体",
+        "subject_desc": "极简视觉画面描述（中文）",
+        "palette_name": "配色名称",
+        "palette_hex": ["#xxxxxx", "#xxxxxx", "#xxxxxx"],
+        "layout_note": "适配该比例的海报排版建议"
+      }
+    }
+  ]
+}`;
+  } else if(outputLang === 'en'){
+    return `You are an elite Creative Director and Copywriting Master skilled in the "Dual-Layer Semantics" methodology distilled from Durex's legendary golden era (Huanshi Interactive 2011–2017).
+
+CORE MECHANISM:
+A classic dual-layer copy operates simultaneously on two semantic planes:
+- Surface Layer: A real-life scenario, weather, everyday habit, seasonal milestone — literally logical, innocent, and natural.
+- Submerged Layer: The genuine product value, brand soul, or emotional truth.
+The audience must connect these two layers in their own mind through ONE step of mental association. If it clicks in one step, the copy explodes virally; if it requires multiple steps or verbal explanation, it dies. Never state the obvious.
+
+8 CLASSIC FORMULAS:
+1. Homophonic / Near-sound Pun: Swap a word in a famous idiom with a phonetically close word tied to the product.
+2. Number Play: Hijack existing numbers (date, time, version, score, price) and endow them with new brand meaning.
+3. Domain Term Hijacking: Borrow technical, medical, legal, or aviation jargon and interpret it literally for the product.
+4. Scene Shifting / Anthropomorphism: Let an inanimate secondary object speak in first-person, subtly hinting at the main character's action.
+5. Word Deconstruction: Deconstruct compound words or use clever linguistic twists.
+6. Calendar / Antithetical Couplet: Use traditional almanac "Do's & Don'ts" or two strongly contrasting parallel clauses.
+7. Three-Tier Verse: Three progressive scene-setting lines, with an unexpected punchline pivot to the product in the final line.
+8. Reverse Restraint: Delivering a deeply sincere, profound statement precisely when the audience expects a joke.
+
+FEW-SHOT EXAMPLES (ENGLISH):
+Example 1: 24/7 Coffee Shop (Occasion: Exam Week / Late Night Deadline)
+- Formula: Reverse Restraint
+- Headline: "Stay up tonight. Regret nothing tomorrow."
+- Subhead: "Rich coffee, keeping you company all 24 hours."
+- Why it works: Surface layer is pulling an all-nighter to ace exams; submerged layer is loyal, steadfast companionship through the darkest hours.
+- Visual: A steaming black coffee cup next to a lone desk lamp in a quiet dark room. Palette: Deep Night Blue.
+
+Example 2: Smart Budgeting App (Occasion: Payday)
+- Formula: Domain Term Hijacking
+- Headline: "Fast in, slow out."
+- Subhead: "Master your cash flow, protect your monthly wins."
+- Why it works: Surface layer is managing the velocity of income vs spending; submerged layer is self-control and knowing when to pull back safely.
+- Visual: A sleek leather wallet slightly ajar with a beam of studio light. Palette: Studio Black.
+
+Example 3: Hot Food Express Delivery (Occasion: Freezing Rainy Night)
+- Formula: Scene Shifting / Anthropomorphism
+- Headline: "Fierce winds outside. Warm hearts inside."
+- Subhead: "Piping hot meals delivered in 20 minutes."
+- Why it works: Surface layer is enjoying hot soup during bitter cold; submerged layer is comforting shelter, timely warmth, and care.
+- Visual: Condensation on a window pane looking out at blurred rainy streetlights. Palette: Warm Paper.
+
+ETHICAL BOUNDARIES:
+Never touch disasters, tragedies, death, or illnesses. No objectification of women. For consumer goods, keep the copy anchored in real product value with zero vulgarity.
+
+OUTPUT FORMAT:
+Return ONLY valid JSON with no markdown code fences or conversational text:
+{
+  "options": [
+    {
+      "formula": "Formula name in English (e.g., Domain Term Hijacking)",
+      "headline": "Main English headline, punchy, under 12 words, thought-provoking",
+      "subhead": "Crisp supporting subhead",
+      "why_it_works": "Brief breakdown: [Surface] meaning vs [Submerged] meaning",
+      "visual": {
+        "subject_type": "Product Centered | Everyday Object | Typography | Partial Human",
+        "subject_desc": "Minimalist visual description in English",
+        "palette_name": "Palette name",
+        "palette_hex": ["#xxxxxx", "#xxxxxx", "#xxxxxx"],
+        "layout_note": "Layout guidance for the selected aspect ratio"
+      }
+    }
+  ]
+}`;
+  }
+
+  // Mặc định: Tiếng Việt
+  return `Bạn là một giám đốc sáng tạo và chuyên gia copywriting bậc thầy, áp dụng phương pháp "ngữ nghĩa hai lớp" (dual-layer semantics) được đúc kết từ các chiến dịch quảng cáo huyền thoại của Durex (thời Huanshi Interactive 2011–2017).
 
 CƠ CHẾ CỐT LÕI:
 Một câu copy Durex hoạt động đồng thời trên hai tầng nghĩa:
@@ -482,27 +878,25 @@ Ví dụ 3: Dịch vụ giao đồ ăn nóng (Dịp: Đêm mưa bão)
 - Why it works: Bề mặt là thời tiết lạnh được ăn bát phở nóng; tầng chìm là cảm giác được che chở, chăm sóc kịp thời.
 - Visual: Hơi nước mờ trên khung cửa sổ nhìn ra ánh đèn đường mưa rơi. Bảng màu: Giấy ấm.
 
-HỆ THỐNG HÌNH ẢNH (VISUAL MOCKUP):
+HỆ THỐNG HÌNH ẢNH:
 - Loại chủ thể: (a) Sản phẩm làm trung tâm; (b) Vật dụng đời thường làm trung tâm; (c) Typography làm trung tâm; (d) Con người (chỉ dùng một phần cơ thể: bóng, bàn tay, góc nhìn POV).
 - 6 bảng màu tham khảo:
-  * "Đỏ thương hiệu": #E2001A, #FFFFFF, #000000 (tuyên ngôn, ăn mừng, năng lượng)
-  * "Xanh đêm sâu": #0E1A2E, #16233F, #E2001A (tinh tế, đêm khuya, chiều sâu)
-  * "Đen studio": #0B0B0B, #F2EDE3, #C8102E (cận cảnh, cao cấp, tương phản cao)
-  * "Gradient hồng": #FCEDF1, #E8558F, #2A101C (mềm mại, tình cảm, tinh khôi)
-  * "Giấy ấm": #F2EDE3, #C8102E, #1A1A1A (truyền thống, thư pháp, hoài niệm)
-  * "Màu mượn theo chủ đề": chọn 3 mã hex phù hợp nhất với chủ đề.
+  * "Đỏ thương hiệu": #E2001A, #FFFFFF, #000000
+  * "Xanh đêm sâu": #0E1A2E, #16233F, #E2001A
+  * "Đen studio": #0B0B0B, #F2EDE3, #C8102E
+  * "Gradient hồng": #FCEDF1, #E8558F, #2A101C
+  * "Giấy ấm": #F2EDE3, #C8102E, #1A1A1A
+  * "Màu mượn theo chủ đề": chọn 3 mã hex phù hợp nhất.
 
 GIỚI HẠN ĐẠO ĐỨC:
-- Tuyệt đối không đụng tới thảm hoạ, chết chóc, dịch bệnh.
-- Không vật thể hoá phụ nữ hay hạ thấp bất kỳ ai.
-- Với các sản phẩm thông thường (F&B, Edtech, Fintech...): Lối chơi chữ phải gắn với GIÁ TRỊ THẬT của sản phẩm, không suy diễn sang dung tục hay người lớn. Giữ kỹ thuật tinh hoa, loại bỏ yếu tố thô tục.
+Tuyệt đối không đụng tới thảm hoạ, chết chóc, dịch bệnh; không vật thể hoá phụ nữ; với sản phẩm thông thường, luôn gắn chặt với GIÁ TRỊ THẬT, tuyệt đối không dung tục.
 
 SCHEMA TRẢ VỀ:
-Bắt buộc trả về duy nhất chuỗi JSON hợp lệ (không markdown fences, không giải thích ngoài lề):
+Bắt buộc trả về duy nhất chuỗi JSON hợp lệ (không markdown code fences):
 {
   "options": [
     {
-      "formula": "Tên công thức tiếng Việt (ví dụ: 'Chiếm dụng thuật ngữ')",
+      "formula": "Tên công thức tiếng Việt",
       "headline": "Câu copy chính, tiếng Việt, tối đa 14 từ, đắt giá, giàu sức gợi",
       "subhead": "Câu bổ trợ ngắn làm rõ tính năng/sản phẩm",
       "why_it_works": "Giải thích ngắn 2 tầng nghĩa: [Bề mặt] là gì, [Tầng chìm] là gì",
@@ -516,13 +910,18 @@ Bắt buộc trả về duy nhất chuỗi JSON hợp lệ (không markdown fenc
     }
   ]
 }`;
+}
 
 const PROVIDER_CONFIG = {
   openrouter: {
     label: 'OpenRouter',
     keyPlaceholder: 'sk-or-v1-...',
     defaultModel: 'deepseek/deepseek-chat',
-    modelHint: 'Không lo CORS! Hỗ trợ deepseek/deepseek-chat, anthropic/claude-3.5-sonnet, openai/gpt-4o, google/gemini-2.5-flash...',
+    modelHint: {
+      vi: 'Không lo CORS! Hỗ trợ deepseek/deepseek-chat, anthropic/claude-3.5-sonnet, openai/gpt-4o, google/gemini-2.5-flash...',
+      en: 'Zero CORS issues! Supports deepseek/deepseek-chat, anthropic/claude-3.5-sonnet, openai/gpt-4o, google/gemini-2.5-flash...',
+      zh: '无跨域困扰！完美支持 deepseek/deepseek-chat, anthropic/claude-3.5-sonnet, openai/gpt-4o, google/gemini-2.5-flash...'
+    },
     defaultBaseUrl: 'https://openrouter.ai/api/v1',
     corsDirectSafe: true
   },
@@ -530,7 +929,11 @@ const PROVIDER_CONFIG = {
     label: 'Google (Gemini)',
     keyPlaceholder: 'AIzaSy...',
     defaultModel: 'gemini-2.5-flash',
-    modelHint: 'Đổi sang gemini-2.5-pro nếu muốn chiều sâu sáng tạo cao hơn.',
+    modelHint: {
+      vi: 'Đổi sang gemini-2.5-pro nếu muốn chiều sâu sáng tạo cao hơn.',
+      en: 'Switch to gemini-2.5-pro for higher creative depth.',
+      zh: '可切换为 gemini-2.5-pro 以获得更高水准的创意输出。'
+    },
     defaultBaseUrl: 'https://generativelanguage.googleapis.com',
     corsDirectSafe: true
   },
@@ -538,7 +941,11 @@ const PROVIDER_CONFIG = {
     label: 'Claude (Anthropic)',
     keyPlaceholder: 'sk-ant-...',
     defaultModel: 'claude-3-7-sonnet-20250219',
-    modelHint: 'Claude hỗ trợ gọi trực tiếp từ browser với dangerous direct access.',
+    modelHint: {
+      vi: 'Claude hỗ trợ gọi trực tiếp từ browser với dangerous direct access header.',
+      en: 'Claude supports direct browser calling with dangerous direct access header.',
+      zh: 'Claude 支持在浏览器端开启 dangerous direct access 后直接调用。'
+    },
     defaultBaseUrl: 'https://api.anthropic.com/v1',
     corsDirectSafe: true
   },
@@ -546,7 +953,11 @@ const PROVIDER_CONFIG = {
     label: 'OpenAI',
     keyPlaceholder: 'sk-...',
     defaultModel: 'gpt-4o',
-    modelHint: 'Lưu ý: api.openai.com chặn CORS browser. Nên dùng proxy qua Custom Base URL hoặc dùng OpenRouter.',
+    modelHint: {
+      vi: 'Lưu ý: api.openai.com chặn CORS browser. Nên dùng OpenRouter hoặc Custom Base URL Proxy.',
+      en: 'Notice: api.openai.com blocks browser CORS. Use OpenRouter or a Custom Base URL Proxy.',
+      zh: '注意：api.openai.com 拦截浏览器直接跨域。推荐使用 OpenRouter 或配置 Base URL 反代。'
+    },
     defaultBaseUrl: 'https://api.openai.com/v1',
     corsDirectSafe: false
   },
@@ -554,7 +965,11 @@ const PROVIDER_CONFIG = {
     label: 'DeepSeek',
     keyPlaceholder: 'sk-...',
     defaultModel: 'deepseek-chat',
-    modelHint: 'Lưu ý: api.deepseek.com chặn CORS browser. Khuyên dùng OpenRouter để gọi DeepSeek mượt mà.',
+    modelHint: {
+      vi: 'Lưu ý: api.deepseek.com chặn CORS browser. Khuyên dùng OpenRouter để gọi DeepSeek mượt mà.',
+      en: 'Notice: api.deepseek.com blocks browser CORS. We recommend OpenRouter for DeepSeek.',
+      zh: '注意：api.deepseek.com 拦截浏览器直接跨域。强烈推荐使用 OpenRouter 直接调用。'
+    },
     defaultBaseUrl: 'https://api.deepseek.com',
     corsDirectSafe: false
   }
@@ -566,13 +981,20 @@ let currentView = 'cards';
 let currentTab = 'generated';
 let favorites = [];
 
-// Khởi tạo và nạp dữ liệu từ localStorage
+const apiKeyStore = { openrouter: '', claude: '', openai: '', google: '', deepseek: '' };
+
+// Khởi tạo ứng dụng
 function initApp(){
+  // Đọc ngôn ngữ lưu trữ
+  const savedLang = localStorage.getItem('durex_lang');
+  if(savedLang && I18N[savedLang]) {
+    currentLang = savedLang;
+  }
+
   try{
     const savedFav = localStorage.getItem('durex_favorites');
     if(savedFav) favorites = JSON.parse(savedFav);
-    updateFavBadges();
-  }catch(e){ console.warn('Lỗi đọc favorites:', e); }
+  }catch(e){ console.warn(e); }
 
   const savedRemember = localStorage.getItem('durex_remember_key') === 'true';
   document.getElementById('rememberKey').checked = savedRemember;
@@ -587,22 +1009,122 @@ function initApp(){
     }
   }
 
+  // Đồng bộ giao diện theo ngôn ngữ
+  applyLanguage(currentLang);
   onProviderChange();
   bindEvents();
 }
 
-const apiKeyStore = { openrouter: '', claude: '', openai: '', google: '', deepseek: '' };
+function applyLanguage(lang){
+  currentLang = lang;
+  localStorage.setItem('durex_lang', lang);
+  const t = I18N[lang] || I18N.vi;
+
+  // Cập nhật các nút ngôn ngữ trên header
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+
+  // Header & Description
+  document.getElementById('txtEyebrow').textContent = t.eyebrow;
+  document.getElementById('txtTitleMain').textContent = t.titleMain;
+  document.getElementById('txtTitleHighlight').textContent = t.titleHighlight;
+  document.getElementById('txtSub').textContent = t.sub;
+
+  // Presets Bar
+  document.getElementById('txtPresetsTitle').textContent = t.presetsTitle;
+  const presetsContainer = document.getElementById('presetsList');
+  presetsContainer.innerHTML = '';
+  t.presets.forEach(p => {
+    const btn = document.createElement('button');
+    btn.className = 'preset-btn';
+    btn.dataset.topic = p.topic;
+    btn.dataset.audience = p.audience;
+    btn.dataset.hook = p.hook;
+    btn.dataset.channel = p.channel;
+    btn.textContent = p.label;
+    btn.addEventListener('click', function(){
+      document.getElementById('topic').value = this.dataset.topic || '';
+      document.getElementById('audience').value = this.dataset.audience || '';
+      document.getElementById('hook').value = this.dataset.hook || '';
+      document.getElementById('channel').value = this.dataset.channel || t.channels[0].val;
+      showToast(t.toastLoadedPreset + this.textContent.trim());
+      document.getElementById('topic').focus();
+    });
+    presetsContainer.appendChild(btn);
+  });
+
+  // Config panel labels
+  document.getElementById('txtConfigHeader').textContent = t.configHeader;
+  document.getElementById('savedCountBadge').textContent = t.savedCount + favorites.length;
+  document.getElementById('lblProvider').textContent = t.provider;
+  document.getElementById('txtRememberKey').textContent = t.rememberKey;
+  document.getElementById('advancedToggle').textContent = t.advancedToggle;
+  document.getElementById('txtBaseUrlHint').textContent = t.baseUrlHint;
+  document.getElementById('txtCorsWarning').textContent = t.corsWarning;
+  document.getElementById('lblModel').textContent = t.model;
+  document.getElementById('lblOutputLang').textContent = t.outputLang;
+  document.getElementById('lblCount').textContent = t.count;
+  document.getElementById('lblTopic').textContent = t.topic;
+  document.getElementById('topic').placeholder = t.topicPh;
+  document.getElementById('lblAudience').textContent = t.audience;
+  document.getElementById('audience').placeholder = t.audiencePh;
+  document.getElementById('lblHook').textContent = t.hook;
+  document.getElementById('hook').placeholder = t.hookPh;
+  document.getElementById('lblBoldness').textContent = t.boldness;
+  document.getElementById('txtBoldSubtle').textContent = t.boldSubtle;
+  document.getElementById('txtBoldSubtleDesc').textContent = t.boldSubtleDesc;
+  document.getElementById('txtBoldWitty').textContent = t.boldWitty;
+  document.getElementById('txtBoldWittyDesc').textContent = t.boldWittyDesc;
+  document.getElementById('txtBoldEdgy').textContent = t.boldEdgy;
+  document.getElementById('txtBoldEdgyDesc').textContent = t.boldEdgyDesc;
+  document.getElementById('lblChannel').textContent = t.channel;
+  document.getElementById('lblRatio').textContent = t.ratio;
+  document.getElementById('genBtn').textContent = t.genBtn;
+
+  // Channels dropdown
+  const channelSelect = document.getElementById('channel');
+  const prevChannelVal = channelSelect.value;
+  channelSelect.innerHTML = '';
+  t.channels.forEach((ch, idx) => {
+    const opt = document.createElement('option');
+    opt.value = ch.val;
+    opt.textContent = ch.label;
+    if(idx === 0) opt.selected = true;
+    channelSelect.appendChild(opt);
+  });
+  if(prevChannelVal) channelSelect.value = prevChannelVal;
+
+  // Tự động đồng bộ ngôn ngữ xuất sang ngôn ngữ UI vừa chọn
+  document.getElementById('outputLang').value = lang;
+
+  // Right column tabs & views
+  document.getElementById('tabGenerated').textContent = t.tabGenerated;
+  document.getElementById('tabFavorites').innerHTML = `${t.tabFavorites} (<span id="favCount">${favorites.length}</span>)`;
+  document.getElementById('viewCards').textContent = t.viewCards;
+  document.getElementById('viewPosters').textContent = t.viewPosters;
+  document.getElementById('txtEmptyResults').textContent = t.emptyGenerated;
+  document.getElementById('txtFooter').textContent = t.footer;
+
+  // Cập nhật nhãn key và hint
+  const cfg = PROVIDER_CONFIG[currentProvider];
+  document.getElementById('apiKeyLabel').textContent = cfg.label + t.apiKeySuffix;
+  document.getElementById('modelHint').textContent = cfg.modelHint[lang] || cfg.modelHint.vi;
+
+  renderCurrentState();
+}
 
 function onProviderChange(){
   const select = document.getElementById('provider');
   currentProvider = select.value;
   const cfg = PROVIDER_CONFIG[currentProvider];
+  const t = I18N[currentLang] || I18N.vi;
 
-  document.getElementById('apiKeyLabel').textContent = cfg.label + ' API Key';
+  document.getElementById('apiKeyLabel').textContent = cfg.label + t.apiKeySuffix;
   document.getElementById('apiKey').placeholder = cfg.keyPlaceholder;
   document.getElementById('apiKey').value = apiKeyStore[currentProvider] || '';
   document.getElementById('model').value = cfg.defaultModel;
-  document.getElementById('modelHint').textContent = cfg.modelHint;
+  document.getElementById('modelHint').textContent = cfg.modelHint[currentLang] || cfg.modelHint.vi;
   document.getElementById('baseUrl').value = cfg.defaultBaseUrl;
 
   const corsBox = document.getElementById('corsWarning');
@@ -614,6 +1136,13 @@ function onProviderChange(){
 }
 
 function bindEvents(){
+  // Chuyển ngôn ngữ 🇻🇳 🇬🇧 🇨🇳
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', function(){
+      applyLanguage(this.dataset.lang);
+    });
+  });
+
   document.getElementById('provider').addEventListener('change', onProviderChange);
   
   document.getElementById('apiKey').addEventListener('input', function(){
@@ -651,18 +1180,6 @@ function bindEvents(){
     label.addEventListener('click', function(){
       document.querySelectorAll('.boldness-pills .bold-label').forEach(l => l.classList.remove('active'));
       this.classList.add('active');
-    });
-  });
-
-  // Presets 1-click
-  document.querySelectorAll('.preset-btn').forEach(btn => {
-    btn.addEventListener('click', function(){
-      document.getElementById('topic').value = this.dataset.topic || '';
-      document.getElementById('audience').value = this.dataset.audience || '';
-      document.getElementById('hook').value = this.dataset.hook || '';
-      document.getElementById('channel').value = this.dataset.channel || 'mạng xã hội (Facebook/Instagram)';
-      showToast('Đã nạp mẫu: ' + this.textContent.trim());
-      document.getElementById('topic').focus();
     });
   });
 
@@ -723,40 +1240,74 @@ function hideStatus(){
   el.className = 'status';
 }
 
-function buildUserPrompt(){
+function buildUserPrompt(outLang){
   const topic = document.getElementById('topic').value.trim();
   const audience = document.getElementById('audience').value.trim();
   const hook = document.getElementById('hook').value.trim();
   const channel = document.getElementById('channel').value;
   const ratio = document.getElementById('ratio').value;
   const count = document.getElementById('count').value;
-
   const boldnessVal = document.querySelector('input[name="boldness"]:checked') ? document.querySelector('input[name="boldness"]:checked').value : 'witty';
+
+  if(outLang === 'zh'){
+    const boldnessMap = {
+      subtle: '克制优雅（深入暗喻，适合B2B/金融理财/高客单）',
+      witty: '机智风趣（灵巧双关，兼顾雅致与趣味，适合餐饮快消/生活方式）',
+      edgy: '锐利大胆（还原经典杜蕾斯风格，极具张力与想象空间，适合时尚夜生活）'
+    };
+    return [
+      `产品/主题：${topic}`,
+      `目标受众：${audience || '根据产品自定核心客群'}`,
+      `契机节点：${hook || '选择贴切的生活化契机'}`,
+      `文案大胆度：${boldnessMap[boldnessVal]}`,
+      `投放渠道：${channel}`,
+      `海报画面比例：${ratio}`,
+      `生成方案数量：${count}`,
+      '',
+      '请严格依据 System Prompt 的 JSON Schema 输出方案，必须全部使用中文。禁止重复使用相同的公式。'
+    ].join('\n');
+  } else if(outLang === 'en'){
+    const boldnessMap = {
+      subtle: 'Subtle & Elegant (profound metaphor, dignified, ideal for B2B, finance, luxury)',
+      witty: 'Witty & Playful (clever puns, balanced and smart, ideal for F&B, consumer retail)',
+      edgy: 'Edgy & Bold (true Durex heritage, high tension, provocative imagination, nightlife/fashion)'
+    };
+    return [
+      `Product/Topic: ${topic}`,
+      `Target Audience: ${audience || 'Infer appropriately from the topic'}`,
+      `Occasion / Hook: ${hook || 'Choose an authentic everyday moment or occasion'}`,
+      `Boldness Level: ${boldnessMap[boldnessVal]}`,
+      `Media Channel: ${channel}`,
+      `Aspect Ratio: ${ratio}`,
+      `Number of Options: ${count}`,
+      '',
+      'Generate advertising copy options strictly matching the JSON schema specified in the system prompt. Output entirely in English. Do not repeat formulas.'
+    ].join('\n');
+  }
+
+  // Tiếng Việt
   const boldnessMap = {
     subtle: 'Thanh lịch & Tinh tế (ẩn dụ sâu sắc, trang nhã, phù hợp doanh nghiệp/B2B/tài chính)',
     witty: 'Hóm hỉnh & Duyên dáng (chơi chữ thông minh, hóm hỉnh, cân bằng giữa ẩn ý và dễ hiểu)',
     edgy: 'Táo bạo & Sắc bén (đậm chất Durex nguyên bản, kích thích trí tưởng tượng, độc lạ, bứt phá)'
   };
-
-  let lines = [];
-  lines.push(`Chủ đề / sản phẩm: ${topic}`);
-  lines.push(`Đối tượng mục tiêu: ${audience || '(tự suy luận hợp lý từ chủ đề)'}`);
-  lines.push(`Cớ / dịp đặc biệt: ${hook || '(tự chọn một cớ hợp lý, gần gũi)'}`);
-  lines.push(`Mức độ táo bạo yêu cầu: ${boldnessMap[boldnessVal]}`);
-  lines.push(`Kênh truyền thông: ${channel}`);
-  lines.push(`Tỷ lệ khung hình: ${ratio}`);
-  lines.push(`Số lượng phương án cần tạo: ${count}`);
-  lines.push('');
-  lines.push('Hãy tạo các phương án copy theo đúng schema JSON đã quy định trong system prompt. Không lặp công thức.');
-  return lines.join('\n');
+  return [
+    `Chủ đề / sản phẩm: ${topic}`,
+    `Đối tượng mục tiêu: ${audience || '(tự suy luận hợp lý từ chủ đề)'}`,
+    `Cớ / dịp đặc biệt: ${hook || '(tự chọn một cớ hợp lý, gần gũi)'}`,
+    `Mức độ táo bạo yêu cầu: ${boldnessMap[boldnessVal]}`,
+    `Kênh truyền thông: ${channel}`,
+    `Tỷ lệ khung hình: ${ratio}`,
+    `Số lượng phương án cần tạo: ${count}`,
+    '',
+    'Hãy tạo các phương án copy theo đúng schema JSON đã quy định trong system prompt, toàn bộ bằng tiếng Việt. Không lặp công thức.'
+  ].join('\n');
 }
 
-// Chống vỡ JSON khi gặp Reasoning model (<think>) hoặc Markdown
+// Chống vỡ JSON khi gặp Reasoning model (<think>) hoặc Markdown fences
 function extractJson(text){
   let t = String(text || '').trim();
-  // Xóa thẻ suy luận <think>...</think> của DeepSeek R1
   t = t.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
-  // Xóa code fences
   t = t.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();
   const start = t.indexOf('{');
   const end = t.lastIndexOf('}');
@@ -767,7 +1318,7 @@ function extractJson(text){
 }
 
 // API Callers
-async function callOpenRouter(apiKey, model, userPrompt, customBaseUrl){
+async function callOpenRouter(apiKey, model, sysPrompt, userPrompt, customBaseUrl){
   const endpoint = (customBaseUrl || PROVIDER_CONFIG.openrouter.defaultBaseUrl).replace(/\/+$/, '') + '/chat/completions';
   const resp = await fetch(endpoint, {
     method: 'POST',
@@ -782,20 +1333,20 @@ async function callOpenRouter(apiKey, model, userPrompt, customBaseUrl){
       temperature: 0.8,
       response_format: { type: 'json_object' },
       messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'system', content: sysPrompt },
         { role: 'user', content: userPrompt }
       ]
     })
   });
   if(!resp.ok){
     const errText = await resp.text();
-    throw new Error(`OpenRouter lỗi (${resp.status}): ${errText.slice(0,300)}`);
+    throw new Error(`OpenRouter (${resp.status}): ${errText.slice(0,300)}`);
   }
   const data = await resp.json();
   return (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '';
 }
 
-async function callClaude(apiKey, model, userPrompt, customBaseUrl){
+async function callClaude(apiKey, model, sysPrompt, userPrompt, customBaseUrl){
   const endpoint = (customBaseUrl || PROVIDER_CONFIG.claude.defaultBaseUrl).replace(/\/+$/, '') + '/messages';
   const resp = await fetch(endpoint, {
     method: 'POST',
@@ -809,19 +1360,19 @@ async function callClaude(apiKey, model, userPrompt, customBaseUrl){
       model: model || PROVIDER_CONFIG.claude.defaultModel,
       max_tokens: 3500,
       temperature: 0.8,
-      system: SYSTEM_PROMPT,
+      system: sysPrompt,
       messages: [{ role: 'user', content: userPrompt }]
     })
   });
   if(!resp.ok){
     const errText = await resp.text();
-    throw new Error(`Claude API lỗi (${resp.status}): ${errText.slice(0,300)}`);
+    throw new Error(`Claude API (${resp.status}): ${errText.slice(0,300)}`);
   }
   const data = await resp.json();
   return (data.content && data.content[0] && data.content[0].text) || '';
 }
 
-async function callOpenAI(apiKey, model, userPrompt, customBaseUrl){
+async function callOpenAI(apiKey, model, sysPrompt, userPrompt, customBaseUrl){
   const endpoint = (customBaseUrl || PROVIDER_CONFIG.openai.defaultBaseUrl).replace(/\/+$/, '') + '/chat/completions';
   const resp = await fetch(endpoint, {
     method: 'POST',
@@ -834,20 +1385,20 @@ async function callOpenAI(apiKey, model, userPrompt, customBaseUrl){
       temperature: 0.8,
       response_format: { type: 'json_object' },
       messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'system', content: sysPrompt },
         { role: 'user', content: userPrompt }
       ]
     })
   });
   if(!resp.ok){
     const errText = await resp.text();
-    throw new Error(`OpenAI API lỗi (${resp.status}): ${errText.slice(0,300)}`);
+    throw new Error(`OpenAI API (${resp.status}): ${errText.slice(0,300)}`);
   }
   const data = await resp.json();
   return (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '';
 }
 
-async function callDeepSeek(apiKey, model, userPrompt, customBaseUrl){
+async function callDeepSeek(apiKey, model, sysPrompt, userPrompt, customBaseUrl){
   const endpoint = (customBaseUrl || PROVIDER_CONFIG.deepseek.defaultBaseUrl).replace(/\/+$/, '') + '/chat/completions';
   const resp = await fetch(endpoint, {
     method: 'POST',
@@ -860,27 +1411,27 @@ async function callDeepSeek(apiKey, model, userPrompt, customBaseUrl){
       temperature: 0.8,
       response_format: { type: 'json_object' },
       messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'system', content: sysPrompt },
         { role: 'user', content: userPrompt }
       ]
     })
   });
   if(!resp.ok){
     const errText = await resp.text();
-    throw new Error(`DeepSeek API lỗi (${resp.status}): ${errText.slice(0,300)}`);
+    throw new Error(`DeepSeek API (${resp.status}): ${errText.slice(0,300)}`);
   }
   const data = await resp.json();
   return (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '';
 }
 
-async function callGoogle(apiKey, model, userPrompt){
+async function callGoogle(apiKey, model, sysPrompt, userPrompt){
   const m = model || PROVIDER_CONFIG.google.defaultModel;
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(m)}:generateContent?key=${encodeURIComponent(apiKey)}`;
   const resp = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+      systemInstruction: { parts: [{ text: sysPrompt }] },
       contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
       generationConfig: {
         responseMimeType: 'application/json',
@@ -890,40 +1441,42 @@ async function callGoogle(apiKey, model, userPrompt){
   });
   if(!resp.ok){
     const errText = await resp.text();
-    throw new Error(`Google API lỗi (${resp.status}): ${errText.slice(0,300)}`);
+    throw new Error(`Google API (${resp.status}): ${errText.slice(0,300)}`);
   }
   const data = await resp.json();
   const parts = data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts;
   return (parts && parts.map(p => p.text || '').join('')) || '';
 }
 
-async function callProvider(provider, apiKey, model, userPrompt, customBaseUrl){
+async function callProvider(provider, apiKey, model, sysPrompt, userPrompt, customBaseUrl){
   switch(provider){
-    case 'openrouter': return callOpenRouter(apiKey, model, userPrompt, customBaseUrl);
-    case 'claude': return callClaude(apiKey, model, userPrompt, customBaseUrl);
-    case 'openai': return callOpenAI(apiKey, model, userPrompt, customBaseUrl);
-    case 'deepseek': return callDeepSeek(apiKey, model, userPrompt, customBaseUrl);
-    case 'google': return callGoogle(apiKey, model, userPrompt);
-    default: throw new Error('Nhà cung cấp không hợp lệ: ' + provider);
+    case 'openrouter': return callOpenRouter(apiKey, model, sysPrompt, userPrompt, customBaseUrl);
+    case 'claude': return callClaude(apiKey, model, sysPrompt, userPrompt, customBaseUrl);
+    case 'openai': return callOpenAI(apiKey, model, sysPrompt, userPrompt, customBaseUrl);
+    case 'deepseek': return callDeepSeek(apiKey, model, sysPrompt, userPrompt, customBaseUrl);
+    case 'google': return callGoogle(apiKey, model, sysPrompt, userPrompt);
+    default: throw new Error('Invalid Provider: ' + provider);
   }
 }
 
 async function generate(){
+  const t = I18N[currentLang] || I18N.vi;
   const provider = document.getElementById('provider').value;
   const cfg = PROVIDER_CONFIG[provider];
   const apiKey = document.getElementById('apiKey').value.trim();
   const model = document.getElementById('model').value.trim();
   const customBaseUrl = document.getElementById('baseUrl').value.trim();
   const topic = document.getElementById('topic').value.trim();
+  const outputLang = document.getElementById('outputLang').value || currentLang;
   const btn = document.getElementById('genBtn');
 
   if(!apiKey){
-    showStatus(`Vui lòng nhập ${cfg.label} API key trước.`, 'error');
+    showStatus(t.errApiKey, 'error');
     document.getElementById('apiKey').focus();
     return;
   }
   if(!topic){
-    showStatus('Vui lòng nhập chủ đề hoặc chọn một mẫu gợi ý bên trên.', 'error');
+    showStatus(t.errTopic, 'error');
     document.getElementById('topic').focus();
     return;
   }
@@ -933,16 +1486,17 @@ async function generate(){
 
   hideStatus();
   btn.disabled = true;
-  btn.textContent = 'Đang kích hoạt tư duy sáng tạo...';
-  showStatus(`Đang kết nối ${cfg.label} để sinh copy đa tầng nghĩa, vui lòng chờ...`, 'info');
+  btn.textContent = t.genBtnLoading;
+  showStatus(`${cfg.label} ...`, 'info');
 
   try{
-    const promptText = buildUserPrompt();
-    const rawText = await callProvider(provider, apiKey, model, promptText, customBaseUrl);
+    const sysPrompt = getSystemPrompt(outputLang);
+    const userPrompt = buildUserPrompt(outputLang);
+    const rawText = await callProvider(provider, apiKey, model, sysPrompt, userPrompt, customBaseUrl);
     const parsed = extractJson(rawText);
     
     if(!parsed.options || !parsed.options.length){
-      throw new Error('Dữ liệu trả về không chứa danh sách phương án hợp lệ.');
+      throw new Error('Response did not contain valid options array.');
     }
 
     currentOptions = parsed.options;
@@ -952,17 +1506,17 @@ async function generate(){
 
     renderCurrentState();
     hideStatus();
-    showToast('Tạo thành công ' + currentOptions.length + ' phương án copy!');
+    showToast(t.toastGeneratedSuccess.replace('{n}', currentOptions.length));
   }catch(err){
     console.error(err);
-    let errorMsg = err.message || 'Lỗi không xác định';
+    let errorMsg = err.message || 'Error';
     if(errorMsg.includes('Failed to fetch') || errorMsg.includes('NetworkError')){
-      errorMsg += ' -> Đây là lỗi CORS do trình duyệt chặn gọi API trực tiếp. Hãy chuyển sang OpenRouter hoặc dùng Custom Base URL Proxy!';
+      errorMsg += t.errCorsHelper;
     }
-    showStatus('Lỗi: ' + errorMsg, 'error');
+    showStatus('Lỗi / Error: ' + errorMsg, 'error');
   }finally{
     btn.disabled = false;
-    btn.textContent = 'Tạo copy ngay';
+    btn.textContent = t.genBtn;
   }
 }
 
@@ -977,14 +1531,13 @@ function renderCurrentState(){
 }
 
 function renderCards(list){
+  const t = I18N[currentLang] || I18N.vi;
   const container = document.getElementById('results');
   container.className = 'results';
   container.innerHTML = '';
 
   if(!list || !list.length){
-    const msg = currentTab === 'generated'
-      ? 'Chưa có kết quả nào. Hãy nhập chủ đề và bấm "Tạo copy ngay" nhé!'
-      : 'Kho yêu thích đang trống. Hãy bấm biểu tượng trái tim ở các phương án để lưu lại!';
+    const msg = currentTab === 'generated' ? t.emptyGenerated : t.emptyFavorites;
     container.innerHTML = `<div class="empty">${msg}</div>`;
     return;
   }
@@ -1000,10 +1553,10 @@ function renderCards(list){
     card.innerHTML = `
       <div class="opt-head">
         <div class="head-tags">
-          <span class="formula-tag">${escapeHtml(opt.formula || 'Ngữ nghĩa 2 lớp')}</span>
-          <span class="bold-tag">Tầng chìm sắc sảo</span>
+          <span class="formula-tag">${escapeHtml(opt.formula || 'Dual-Layer Semantics')}</span>
+          <span class="bold-tag">2-Layer</span>
         </div>
-        <button class="fav-btn ${isFav ? 'active' : ''}" title="${isFav ? 'Bỏ lưu' : 'Lưu vào yêu thích'}" onclick="toggleFavorite(${idx}, '${currentTab}')">
+        <button class="fav-btn ${isFav ? 'active' : ''}" title="${isFav ? 'Unfavorite' : 'Favorite'}" onclick="toggleFavorite(${idx}, '${currentTab}')">
           ${isFav ? '❤️' : '🤍'}
         </button>
       </div>
@@ -1013,26 +1566,26 @@ function renderCards(list){
 
       ${opt.why_it_works ? `
         <div class="why">
-          <strong>Vì sao hiệu quả:</strong> ${escapeHtml(opt.why_it_works)}
+          <strong>${t.whyLabel}</strong> ${escapeHtml(opt.why_it_works)}
         </div>
       ` : ''}
 
       <div class="visual-block">
         <div>
-          <div class="vlabel">Chủ thể hình ảnh (${escapeHtml(opt.visual?.subject_type || 'Tối giản')})</div>
+          <div class="vlabel">${t.subjectLabel} (${escapeHtml(opt.visual?.subject_type || 'Minimal')})</div>
           <div style="color:var(--ink);">${escapeHtml(opt.visual?.subject_desc || '')}</div>
         </div>
         <div>
-          <div class="vlabel">Bảng màu — ${escapeHtml(opt.visual?.palette_name || 'Đặc trưng')}</div>
+          <div class="vlabel">${t.paletteLabel} — ${escapeHtml(opt.visual?.palette_name || '')}</div>
           <div class="swatches">${swatchesHtml}</div>
           <div style="color:var(--ink-dim);margin-top:6px;font-size:12px;">${escapeHtml(opt.visual?.layout_note || '')}</div>
         </div>
       </div>
 
       <div class="card-actions">
-        <button class="act-btn" onclick="copyText(${idx}, '${currentTab}')">📋 Sao chép Text</button>
-        <button class="act-btn" onclick="copyAiPrompt(${idx}, '${currentTab}')">🎨 Prompt Midjourney / Flux</button>
-        <button class="act-btn primary-act" onclick="downloadPosterDirect(${idx}, '${currentTab}')">🖼️ Tải Poster PNG</button>
+        <button class="act-btn" onclick="copyText(${idx}, '${currentTab}')">${t.copyTextBtn}</button>
+        <button class="act-btn" onclick="copyAiPrompt(${idx}, '${currentTab}')">${t.copyAiPromptBtn}</button>
+        <button class="act-btn primary-act" onclick="downloadPosterDirect(${idx}, '${currentTab}')">${t.downloadPosterBtn}</button>
       </div>
     `;
     container.appendChild(card);
@@ -1040,14 +1593,13 @@ function renderCards(list){
 }
 
 function renderPosters(list){
+  const t = I18N[currentLang] || I18N.vi;
   const container = document.getElementById('results');
   container.className = 'poster-grid';
   container.innerHTML = '';
 
   if(!list || !list.length){
-    const msg = currentTab === 'generated'
-      ? 'Chưa có kết quả để hiển thị poster. Bấm "Tạo copy ngay" trước nhé!'
-      : 'Chưa có poster yêu thích nào.';
+    const msg = currentTab === 'generated' ? t.emptyGenerated : t.emptyFavorites;
     container.innerHTML = `<div class="empty" style="grid-column:1/-1;">${msg}</div>`;
     return;
   }
@@ -1068,7 +1620,7 @@ function renderPosters(list){
 
     box.innerHTML = `
       <button class="poster-dl-btn" onclick="downloadPosterDirect(${idx}, '${currentTab}')">
-        ⬇️ Tải ảnh PNG
+        ${t.downloadSingleBtn}
       </button>
 
       <div class="poster-header">
@@ -1099,16 +1651,17 @@ function getItem(idx, tab){
 }
 
 function toggleFavorite(idx, tab){
+  const t = I18N[currentLang] || I18N.vi;
   const item = getItem(idx, tab);
   if(!item) return;
 
   const foundIndex = favorites.findIndex(f => f.headline === item.headline);
   if(foundIndex >= 0){
     favorites.splice(foundIndex, 1);
-    showToast('Đã xoá khỏi mục yêu thích');
+    showToast(t.toastRemovedFav);
   } else {
     favorites.push(item);
-    showToast('Đã thêm vào mục yêu thích ❤️');
+    showToast(t.toastSavedFav);
   }
 
   localStorage.setItem('durex_favorites', JSON.stringify(favorites));
@@ -1118,35 +1671,76 @@ function toggleFavorite(idx, tab){
 
 function updateFavBadges(){
   const count = favorites.length;
-  document.getElementById('favCount').textContent = count;
-  document.getElementById('savedCountBadge').textContent = `Đã lưu: ${count}`;
+  const t = I18N[currentLang] || I18N.vi;
+  const badge = document.getElementById('favCount');
+  if(badge) badge.textContent = count;
+  document.getElementById('savedCountBadge').textContent = t.savedCount + count;
 }
 
 function copyText(idx, tab){
+  const t = I18N[currentLang] || I18N.vi;
   const item = getItem(idx, tab);
   if(!item) return;
-  const content = `${item.headline}\n${item.subhead || ''}\n\n[Công thức: ${item.formula}] — ${item.why_it_works || ''}`;
+  const content = `${item.headline}\n${item.subhead || ''}\n\n[${item.formula}] — ${item.why_it_works || ''}`;
   navigator.clipboard.writeText(content).then(() => {
-    showToast('Đã sao chép nội dung copy!');
+    showToast(t.toastCopiedText);
   });
 }
 
 function copyAiPrompt(idx, tab){
+  const t = I18N[currentLang] || I18N.vi;
   const item = getItem(idx, tab);
   if(!item) return;
   const ratio = document.getElementById('ratio').value || '3:4';
   const desc = item.visual?.subject_desc || 'Minimalist concept';
   const palette = (item.visual?.palette_hex || []).join(', ');
   
-  const aiPrompt = `Minimalist advertising photography, ${desc}, Durex visual style, ultra negative space, high contrast, clean typography layout, color palette: ${palette}, cinematic studio lighting, 8k resolution --ar ${ratio.replace(':',':')}`;
+  const aiPrompt = `Minimalist advertising photography, ${desc}, Durex visual aesthetic, negative space, strong contrast, clean layout, color palette: ${palette}, cinematic studio lighting, 8k resolution --ar ${ratio.replace(':',':')}`;
   
   navigator.clipboard.writeText(aiPrompt).then(() => {
-    showToast('Đã sao chép prompt Midjourney/Flux!');
+    showToast(t.toastCopiedAi);
   });
+}
+
+// Bẻ dòng hỗ trợ cả Tiếng Việt, Tiếng Anh và Chữ Hán/CJK
+function wrapTextMultilingual(ctx, text, maxW){
+  const lines = [];
+  const paragraphs = String(text || '').split('\n');
+  for (const para of paragraphs) {
+    let currentLine = '';
+    const isCJK = /[\u4e00-\u9fa5\u3040-\u30ff]/.test(para);
+    if (isCJK) {
+      const chars = Array.from(para);
+      for (let i = 0; i < chars.length; i++) {
+        const test = currentLine + chars[i];
+        if (ctx.measureText(test).width > maxW && currentLine.length > 0) {
+          lines.push(currentLine);
+          currentLine = chars[i];
+        } else {
+          currentLine = test;
+        }
+      }
+      if (currentLine) lines.push(currentLine);
+    } else {
+      const words = para.split(' ');
+      for (let i = 0; i < words.length; i++) {
+        const test = currentLine ? currentLine + ' ' + words[i] : words[i];
+        if (ctx.measureText(test).width > maxW && currentLine.length > 0) {
+          lines.push(currentLine);
+          currentLine = words[i];
+        } else {
+          currentLine = test;
+        }
+      }
+      if (currentLine) lines.push(currentLine);
+    }
+  }
+  return lines;
 }
 
 // Native Canvas Renderer & High-Resolution PNG Exporter
 function downloadPosterDirect(idx, tab){
+  const t = I18N[currentLang] || I18N.vi;
   const opt = getItem(idx, tab);
   if(!opt) return;
 
@@ -1167,7 +1761,7 @@ function downloadPosterDirect(idx, tab){
   const bgCol = hexList[0] || '#0E1A2E';
   const accentCol = hexList[1] || '#E2001A';
 
-  // Background
+  // Background gradient
   const grad = ctx.createRadialGradient(canvasW * 0.5, canvasH * 0.35, 80, canvasW * 0.5, canvasH * 0.5, canvasW * 0.85);
   grad.addColorStop(0, accentCol + '33');
   grad.addColorStop(0.7, bgCol);
@@ -1181,7 +1775,7 @@ function downloadPosterDirect(idx, tab){
   ctx.strokeRect(40, 40, canvasW - 80, canvasH - 80);
 
   // Eyebrow tag
-  ctx.font = '700 24px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+  ctx.font = '700 24px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif';
   ctx.fillStyle = accentCol;
   ctx.fillText(String(opt.formula || 'DUREX COPYWRITER').toUpperCase(), 90, 110);
 
@@ -1189,51 +1783,45 @@ function downloadPosterDirect(idx, tab){
   ctx.fillStyle = accentCol;
   ctx.fillRect(90, 126, 60, 4);
 
-  // Headline lớn tự wrap
-  const headline = opt.headline || '';
-  ctx.font = '900 68px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+  // Headline lớn tự wrap (hỗ trợ Việt / Anh / Trung)
+  ctx.font = '900 66px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif';
   ctx.fillStyle = '#FFFFFF';
   
   const maxTextWidth = canvasW - 180;
-  const words = headline.split(' ');
-  let line = '';
+  const headlineLines = wrapTextMultilingual(ctx, opt.headline || '', maxTextWidth);
   let y = canvasH * 0.42;
-  const lineHeight = 86;
+  const lineHeight = 84;
 
-  for(let n = 0; n < words.length; n++){
-    const testLine = line + words[n] + ' ';
-    const metrics = ctx.measureText(testLine);
-    if(metrics.width > maxTextWidth && n > 0){
-      ctx.fillText(line.trim(), 90, y);
-      line = words[n] + ' ';
-      y += lineHeight;
-    } else {
-      line = testLine;
-    }
+  for(const l of headlineLines){
+    ctx.fillText(l.trim(), 90, y);
+    y += lineHeight;
   }
-  ctx.fillText(line.trim(), 90, y);
 
   // Subhead
   if(opt.subhead){
-    y += 36;
-    ctx.font = '500 34px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    y += 24;
+    ctx.font = '500 32px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif';
     ctx.fillStyle = 'rgba(242,237,227,0.75)';
-    ctx.fillText(opt.subhead, 90, y);
+    const subheadLines = wrapTextMultilingual(ctx, opt.subhead, maxTextWidth);
+    for(const sl of subheadLines){
+      ctx.fillText(sl.trim(), 90, y);
+      y += 44;
+    }
   }
 
   // Visual Hint Box
   if(opt.visual && opt.visual.subject_desc){
     const vY = canvasH - 220;
-    ctx.font = '400 22px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.font = '400 22px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif';
     ctx.fillStyle = 'rgba(255,255,255,0.45)';
-    ctx.fillText('VISUAL: ' + opt.visual.subject_desc.slice(0, 70), 90, vY);
+    ctx.fillText('VISUAL: ' + opt.visual.subject_desc.slice(0, 65), 90, vY);
   }
 
   // Footer branding
   ctx.fillStyle = 'rgba(255,255,255,0.12)';
   ctx.fillRect(90, canvasH - 140, canvasW - 180, 2);
 
-  ctx.font = '600 20px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+  ctx.font = '600 20px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif';
   ctx.fillStyle = 'rgba(255,255,255,0.4)';
   ctx.fillText('DUAL-LAYER SEMANTICS', 90, canvasH - 95);
   ctx.fillText('DUREX-STYLE COPYWRITER', canvasW - 420, canvasH - 95);
@@ -1243,7 +1831,7 @@ function downloadPosterDirect(idx, tab){
   link.download = `durex-copy-${Date.now()}.png`;
   link.href = canvas.toDataURL('image/png');
   link.click();
-  showToast('Đã tải poster độ phân giải cao PNG!');
+  showToast(t.toastDownloaded);
 }
 
 function escapeHtml(str){
