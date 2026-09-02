@@ -1246,14 +1246,96 @@ const PROVIDER_CONFIG = {
   openrouter: {
     label: 'OpenRouter',
     keyPlaceholder: 'sk-or-v1-...',
-    defaultModel: 'deepseek/deepseek-chat',
+    defaultModel: 'anthropic/claude-3.7-sonnet',
     popularModels: [
-      { id: 'deepseek/deepseek-chat', label: 'DeepSeek V3 (Nhanh & Thông minh)' },
-      { id: 'deepseek/deepseek-r1', label: 'DeepSeek R1 (Suy luận sâu)' },
-      { id: 'anthropic/claude-3.5-sonnet', label: 'Claude 3.5 Sonnet (Văn phong sắc sảo)' },
-      { id: 'google/gemini-2.0-flash-001', label: 'Gemini 2.0 Flash (Tốc độ cao)' },
-      { id: 'openai/gpt-4o', label: 'GPT-4o (Toàn diện)' },
-      { id: 'custom', label: '✏️ Tự nhập model khác (Custom)...' }
+      {
+        id: 'anthropic/claude-3.7-sonnet',
+        labels: {
+          vi: 'Claude 3.7 Sonnet (Mới nhất 2025/2026 — Đỉnh cao văn phong)',
+          en: 'Claude 3.7 Sonnet (Newest 2025/2026 — Creative Master)',
+          zh: 'Claude 3.7 Sonnet (2025/2026 最新巅峰 — 顶级文笔)'
+        }
+      },
+      {
+        id: 'anthropic/claude-3.7-sonnet:thinking',
+        labels: {
+          vi: 'Claude 3.7 Sonnet (Kèm suy luận sâu Extended Thinking)',
+          en: 'Claude 3.7 Sonnet (With Extended Thinking)',
+          zh: 'Claude 3.7 Sonnet (附带长思考深度推理)'
+        }
+      },
+      {
+        id: 'openai/gpt-4.5-preview',
+        labels: {
+          vi: 'GPT-4.5 Preview (Model khủng nhất OpenAI, cực kỳ tự nhiên)',
+          en: 'GPT-4.5 Preview (OpenAI Flagship, human-level nuance)',
+          zh: 'GPT-4.5 Preview (OpenAI 顶配旗舰，极佳语感)'
+        }
+      },
+      {
+        id: 'openai/o3-mini',
+        labels: {
+          vi: 'OpenAI o3-mini (Suy luận logic thế hệ mới & siêu nhanh)',
+          en: 'OpenAI o3-mini (Next-gen Fast Reasoning)',
+          zh: 'OpenAI o3-mini (新一代高阶逻辑推理)'
+        }
+      },
+      {
+        id: 'deepseek/deepseek-r1',
+        labels: {
+          vi: 'DeepSeek R1 (Tư duy suy luận sâu — Cực rẻ)',
+          en: 'DeepSeek R1 (Deep Reasoning — Highly Cost-Effective)',
+          zh: 'DeepSeek R1 (深度长思考推理 — 极高性价比)'
+        }
+      },
+      {
+        id: 'deepseek/deepseek-chat',
+        labels: {
+          vi: 'DeepSeek V3 (Nhanh & Cực kỳ sáng tạo)',
+          en: 'DeepSeek V3 (Fast & Highly Intelligent)',
+          zh: 'DeepSeek V3 (日常首选 — 快速敏捷)'
+        }
+      },
+      {
+        id: 'google/gemini-2.0-flash-001',
+        labels: {
+          vi: 'Gemini 2.0 Flash (Tốc độ cao & Tiết kiệm chi phí)',
+          en: 'Gemini 2.0 Flash (High Speed & Budget Friendly)',
+          zh: 'Gemini 2.0 Flash (极速响应，低成本)'
+        }
+      },
+      {
+        id: 'google/gemini-2.0-pro-exp-02-05:free',
+        labels: {
+          vi: 'Gemini 2.0 Pro Exp (Bản Pro thử nghiệm miễn phí)',
+          en: 'Gemini 2.0 Pro Exp (Free tier on OpenRouter)',
+          zh: 'Gemini 2.0 Pro Exp (OpenRouter 免费可用)'
+        }
+      },
+      {
+        id: 'openai/gpt-4o',
+        labels: {
+          vi: 'GPT-4o (Toàn diện, ổn định cao)',
+          en: 'GPT-4o (Omni, Robust & Stable)',
+          zh: 'GPT-4o (多模态通用全能旗舰)'
+        }
+      },
+      {
+        id: 'qwen/qwen-2.5-72b-instruct',
+        labels: {
+          vi: 'Qwen 2.5 72B (Cực mạnh thơ ca & chữ Hán)',
+          en: 'Qwen 2.5 72B (Elite Literary & Multilingual)',
+          zh: 'Qwen 2.5 72B (通义千问 — 中文诗词绝佳)'
+        }
+      },
+      {
+        id: 'custom',
+        labels: {
+          vi: '✏️ Tự nhập model khác (Custom)...',
+          en: '✏️ Enter custom model ID...',
+          zh: '✏️ 自定义输入其他模型...'
+        }
+      }
     ],
     defaultBaseUrl: 'https://openrouter.ai/api/v1',
     corsDirectSafe: true
@@ -1263,10 +1345,62 @@ const PROVIDER_CONFIG = {
     keyPlaceholder: 'AIzaSy...',
     defaultModel: 'gemini-2.0-flash',
     popularModels: [
-      { id: 'gemini-2.0-flash', label: 'Gemini 2.0 Flash (Khuyên dùng)' },
-      { id: 'gemini-1.5-flash', label: 'Gemini 1.5 Flash (Ổn định)' },
-      { id: 'gemini-1.5-pro', label: 'Gemini 1.5 Pro (Sâu sắc)' },
-      { id: 'custom', label: '✏️ Tự nhập model khác (Custom)...' }
+      {
+        id: 'gemini-2.0-flash',
+        labels: {
+          vi: 'Gemini 2.0 Flash (Mới nhất, siêu nhanh — Khuyên dùng)',
+          en: 'Gemini 2.0 Flash (Newest, Ultra-fast — Recommended)',
+          zh: 'Gemini 2.0 Flash (最新超速，首推推荐)'
+        }
+      },
+      {
+        id: 'gemini-2.0-flash-lite-preview-02-05',
+        labels: {
+          vi: 'Gemini 2.0 Flash-Lite (Bản cực nhẹ, phản hồi tức thì)',
+          en: 'Gemini 2.0 Flash-Lite (Ultra-light, instant latency)',
+          zh: 'Gemini 2.0 Flash-Lite (轻量极速体验)'
+        }
+      },
+      {
+        id: 'gemini-2.0-pro-exp-02-05',
+        labels: {
+          vi: 'Gemini 2.0 Pro Exp (Mạnh nhất của Google, phân tích sâu)',
+          en: 'Gemini 2.0 Pro Exp (Google Flagship, Deep Analysis)',
+          zh: 'Gemini 2.0 Pro Exp (Google 顶配推理旗舰)'
+        }
+      },
+      {
+        id: 'gemini-2.0-flash-thinking-exp-01-21',
+        labels: {
+          vi: 'Gemini 2.0 Flash Thinking (Suy luận từng bước)',
+          en: 'Gemini 2.0 Flash Thinking (Step-by-step reasoning)',
+          zh: 'Gemini 2.0 Flash Thinking (分步思考推理版)'
+        }
+      },
+      {
+        id: 'gemini-1.5-pro',
+        labels: {
+          vi: 'Gemini 1.5 Pro (Ổn định, phân tích sâu)',
+          en: 'Gemini 1.5 Pro (Stable, rich context)',
+          zh: 'Gemini 1.5 Pro (稳定成熟旗舰)'
+        }
+      },
+      {
+        id: 'gemini-1.5-flash',
+        labels: {
+          vi: 'Gemini 1.5 Flash (Hạn mức miễn phí cao)',
+          en: 'Gemini 1.5 Flash (High free quota)',
+          zh: 'Gemini 1.5 Flash (高并发免费额度)'
+        }
+      },
+      {
+        id: 'custom',
+        labels: {
+          vi: '✏️ Tự nhập model khác (Custom)...',
+          en: '✏️ Enter custom model ID...',
+          zh: '✏️ 自定义输入其他模型...'
+        }
+      }
     ],
     defaultBaseUrl: 'https://generativelanguage.googleapis.com',
     corsDirectSafe: true
@@ -1276,10 +1410,46 @@ const PROVIDER_CONFIG = {
     keyPlaceholder: 'sk-ant-...',
     defaultModel: 'claude-3-7-sonnet-20250219',
     popularModels: [
-      { id: 'claude-3-7-sonnet-20250219', label: 'Claude 3.7 Sonnet (Mới nhất)' },
-      { id: 'claude-3-5-sonnet-20241022', label: 'Claude 3.5 Sonnet (Đỉnh cao)' },
-      { id: 'claude-3-5-haiku-20241022', label: 'Claude 3.5 Haiku (Siêu tốc)' },
-      { id: 'custom', label: '✏️ Tự nhập model khác (Custom)...' }
+      {
+        id: 'claude-3-7-sonnet-20250219',
+        labels: {
+          vi: 'Claude 3.7 Sonnet (Mới nhất 2025/2026 — Khuyên dùng)',
+          en: 'Claude 3.7 Sonnet (Newest 2025/2026 — Recommended)',
+          zh: 'Claude 3.7 Sonnet (2025/2026 最新巅峰版 — 强烈推荐)'
+        }
+      },
+      {
+        id: 'claude-3-5-sonnet-20241022',
+        labels: {
+          vi: 'Claude 3.5 Sonnet v2 (Văn phong sắc sảo, ẩn dụ tinh tế)',
+          en: 'Claude 3.5 Sonnet v2 (Razor-sharp metaphors)',
+          zh: 'Claude 3.5 Sonnet v2 (文笔犀利暗喻极佳)'
+        }
+      },
+      {
+        id: 'claude-3-5-haiku-20241022',
+        labels: {
+          vi: 'Claude 3.5 Haiku (Siêu tốc độ, tiết kiệm token)',
+          en: 'Claude 3.5 Haiku (Ultra-fast & economical)',
+          zh: 'Claude 3.5 Haiku (极速响应省Token)'
+        }
+      },
+      {
+        id: 'claude-3-opus-20240229',
+        labels: {
+          vi: 'Claude 3 Opus (Sáng tạo văn học chuyên sâu)',
+          en: 'Claude 3 Opus (Profound literary creativity)',
+          zh: 'Claude 3 Opus (深度文学创意旗舰)'
+        }
+      },
+      {
+        id: 'custom',
+        labels: {
+          vi: '✏️ Tự nhập model khác (Custom)...',
+          en: '✏️ Enter custom model ID...',
+          zh: '✏️ 自定义输入其他模型...'
+        }
+      }
     ],
     defaultBaseUrl: 'https://api.anthropic.com/v1',
     corsDirectSafe: true
@@ -1289,10 +1459,62 @@ const PROVIDER_CONFIG = {
     keyPlaceholder: 'sk-...',
     defaultModel: 'gpt-4o',
     popularModels: [
-      { id: 'gpt-4o', label: 'GPT-4o (Mạnh mẽ)' },
-      { id: 'gpt-4o-mini', label: 'GPT-4o Mini (Tiết kiệm)' },
-      { id: 'chatgpt-4o-latest', label: 'ChatGPT-4o Latest' },
-      { id: 'custom', label: '✏️ Tự nhập model khác (Custom)...' }
+      {
+        id: 'gpt-4.5-preview',
+        labels: {
+          vi: 'GPT-4.5 Preview (Model mới nhất 2025/2026, hiểu ngữ cảnh tinh vi)',
+          en: 'GPT-4.5 Preview (Newest 2025/2026, most human-like)',
+          zh: 'GPT-4.5 Preview (2025/2026 最新旗舰，拟人化语感)'
+        }
+      },
+      {
+        id: 'o3-mini',
+        labels: {
+          vi: 'OpenAI o3-mini (Suy luận logic thế hệ mới & rất nhanh)',
+          en: 'OpenAI o3-mini (Next-gen Fast Logical Reasoning)',
+          zh: 'OpenAI o3-mini (全新一代快速逻辑推理)'
+        }
+      },
+      {
+        id: 'o1',
+        labels: {
+          vi: 'OpenAI o1 (Suy luận toàn diện, giải bài toán khó)',
+          en: 'OpenAI o1 (Full Reasoning Flagship)',
+          zh: 'OpenAI o1 (高阶深度全量推理)'
+        }
+      },
+      {
+        id: 'chatgpt-4o-latest',
+        labels: {
+          vi: 'ChatGPT-4o Latest (Bản nâng cấp liên tục mới nhất)',
+          en: 'ChatGPT-4o Latest (Dynamic continuously updated checkpoint)',
+          zh: 'ChatGPT-4o Latest (始终同步最新调优版本)'
+        }
+      },
+      {
+        id: 'gpt-4o',
+        labels: {
+          vi: 'GPT-4o (Toàn diện, tốc độ & chất lượng cân bằng)',
+          en: 'GPT-4o (Balanced Speed & Quality)',
+          zh: 'GPT-4o (均衡全能主力模型)'
+        }
+      },
+      {
+        id: 'gpt-4o-mini',
+        labels: {
+          vi: 'GPT-4o Mini (Tiết kiệm chi phí, tốc độ cao)',
+          en: 'GPT-4o Mini (Fast & Cost-efficient)',
+          zh: 'GPT-4o Mini (轻巧高性价比)'
+        }
+      },
+      {
+        id: 'custom',
+        labels: {
+          vi: '✏️ Tự nhập model khác (Custom)...',
+          en: '✏️ Enter custom model ID...',
+          zh: '✏️ 自定义输入其他模型...'
+        }
+      }
     ],
     defaultBaseUrl: 'https://api.openai.com/v1',
     corsDirectSafe: false
@@ -1302,9 +1524,30 @@ const PROVIDER_CONFIG = {
     keyPlaceholder: 'sk-...',
     defaultModel: 'deepseek-chat',
     popularModels: [
-      { id: 'deepseek-chat', label: 'DeepSeek-V3 (Trò chuyện & Sáng tạo)' },
-      { id: 'deepseek-reasoner', label: 'DeepSeek-R1 (Suy luận chuyên sâu)' },
-      { id: 'custom', label: '✏️ Tự nhập model khác (Custom)...' }
+      {
+        id: 'deepseek-chat',
+        labels: {
+          vi: 'DeepSeek-V3 (671B MoE — Sáng tạo nhanh & chi phí rẻ)',
+          en: 'DeepSeek-V3 (671B MoE — Fast & Cost-efficient)',
+          zh: 'DeepSeek-V3 (671B MoE — 综合创作首选，极高性价比)'
+        }
+      },
+      {
+        id: 'deepseek-reasoner',
+        labels: {
+          vi: 'DeepSeek-R1 (Suy luận chuyên sâu — Đỉnh cao tư duy)',
+          en: 'DeepSeek-R1 (Deep Reasoning — Top-tier Logic)',
+          zh: 'DeepSeek-R1 (深度长思考推理 — 媲美 o1)'
+        }
+      },
+      {
+        id: 'custom',
+        labels: {
+          vi: '✏️ Tự nhập model khác (Custom)...',
+          en: '✏️ Enter custom model ID...',
+          zh: '✏️ 自定义输入其他模型...'
+        }
+      }
     ],
     defaultBaseUrl: 'https://api.deepseek.com',
     corsDirectSafe: false
@@ -1479,7 +1722,25 @@ function applyLanguage(lang){
   const cfg = PROVIDER_CONFIG[currentProvider];
   document.getElementById('apiKeyLabel').textContent = cfg.label + t.apiKeySuffix;
 
+  updateModelSelectOptions();
   renderCurrentState();
+}
+
+function updateModelSelectOptions(){
+  const cfg = PROVIDER_CONFIG[currentProvider];
+  const modelSelect = document.getElementById('modelSelect');
+  const prevVal = modelSelect.value;
+  modelSelect.innerHTML = '';
+  cfg.popularModels.forEach(m => {
+    const opt = document.createElement('option');
+    opt.value = m.id;
+    opt.textContent = (m.labels && m.labels[currentLang]) ? m.labels[currentLang] : (m.label || m.id);
+    if(m.id === cfg.defaultModel) opt.selected = true;
+    modelSelect.appendChild(opt);
+  });
+  if(prevVal && Array.from(modelSelect.options).some(o => o.value === prevVal)){
+    modelSelect.value = prevVal;
+  }
 }
 
 function onProviderChange(){
@@ -1493,15 +1754,7 @@ function onProviderChange(){
   document.getElementById('apiKey').value = apiKeyStore[currentProvider] || '';
   document.getElementById('baseUrl').value = baseUrlStore[currentProvider] || cfg.defaultBaseUrl;
 
-  const modelSelect = document.getElementById('modelSelect');
-  modelSelect.innerHTML = '';
-  cfg.popularModels.forEach(m => {
-    const opt = document.createElement('option');
-    opt.value = m.id;
-    opt.textContent = m.label;
-    if(m.id === cfg.defaultModel) opt.selected = true;
-    modelSelect.appendChild(opt);
-  });
+  updateModelSelectOptions();
 
   const customWrap = document.getElementById('modelCustomWrap');
   customWrap.classList.remove('show');
@@ -1836,17 +2089,22 @@ function extractJson(text){
 // API Callers
 async function callOpenRouter(apiKey, model, sysPrompt, userPrompt, customBaseUrl){
   const endpoint = (customBaseUrl || PROVIDER_CONFIG.openrouter.defaultBaseUrl).replace(/\/+$/, '') + '/chat/completions';
+  const mLower = String(model || '').toLowerCase();
+  const isReasoning = mLower.includes('o1') || mLower.includes('o3');
+  const isClaude = mLower.includes('anthropic') || mLower.includes('claude');
+
   const reqBody = {
     model: model || PROVIDER_CONFIG.openrouter.defaultModel,
-    temperature: 0.8,
     messages: [
-      { role: 'system', content: sysPrompt },
+      { role: isReasoning ? 'user' : 'system', content: sysPrompt },
       { role: 'user', content: userPrompt }
     ]
   };
 
-  const mLower = String(model || '').toLowerCase();
-  if (!mLower.includes('anthropic') && !mLower.includes('claude')) {
+  if (!isReasoning) {
+    reqBody.temperature = 0.8;
+  }
+  if (!isClaude && !isReasoning) {
     reqBody.response_format = { type: 'json_object' };
   }
 
@@ -1896,21 +2154,31 @@ async function callClaude(apiKey, model, sysPrompt, userPrompt, customBaseUrl){
 
 async function callOpenAI(apiKey, model, sysPrompt, userPrompt, customBaseUrl){
   const endpoint = (customBaseUrl || PROVIDER_CONFIG.openai.defaultBaseUrl).replace(/\/+$/, '') + '/chat/completions';
+  const mLower = String(model || '').toLowerCase();
+  const isReasoning = mLower.includes('o1') || mLower.includes('o3');
+
+  const reqBody = {
+    model: model || PROVIDER_CONFIG.openai.defaultModel,
+    messages: []
+  };
+
+  if (isReasoning) {
+    reqBody.messages.push({ role: 'developer', content: sysPrompt });
+    reqBody.messages.push({ role: 'user', content: userPrompt });
+  } else {
+    reqBody.temperature = 0.8;
+    reqBody.response_format = { type: 'json_object' };
+    reqBody.messages.push({ role: 'system', content: sysPrompt });
+    reqBody.messages.push({ role: 'user', content: userPrompt });
+  }
+
   const resp = await fetch(endpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + apiKey
     },
-    body: JSON.stringify({
-      model: model || PROVIDER_CONFIG.openai.defaultModel,
-      temperature: 0.8,
-      response_format: { type: 'json_object' },
-      messages: [
-        { role: 'system', content: sysPrompt },
-        { role: 'user', content: userPrompt }
-      ]
-    })
+    body: JSON.stringify(reqBody)
   });
   if(!resp.ok){
     const errText = await resp.text();
