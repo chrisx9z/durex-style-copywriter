@@ -33,7 +33,7 @@
     min-height:100vh;
     line-height:1.6;
   }
-  .wrap{max-width:1160px;margin:0 auto;padding:36px 20px 80px;}
+  .wrap{max-width:1180px;margin:0 auto;padding:36px 20px 80px;}
   header{margin-bottom:28px;}
   .header-top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:12px;}
   .eyebrow{
@@ -61,7 +61,7 @@
   .github-badge:hover{color:var(--ink);border-color:var(--ink-dim);background:rgba(255,255,255,0.05);}
   h1{font-size:clamp(26px,4vw,38px);margin:0 0 8px;font-weight:800;letter-spacing:-0.02em;}
   h1 span{color:var(--accent);}
-  .sub{color:var(--ink-dim);font-size:15px;max-width:760px;margin:0;}
+  .sub{color:var(--ink-dim);font-size:15px;max-width:780px;margin:0;}
 
   /* Presets Bar */
   .presets-wrap{margin-bottom:24px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;}
@@ -74,8 +74,8 @@
   .preset-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent);transform:translateY(-1px);}
 
   /* Layout */
-  .layout{display:grid;grid-template-columns:360px 1fr;gap:24px;align-items:start;}
-  @media (max-width:920px){.layout{grid-template-columns:1fr;}}
+  .layout{display:grid;grid-template-columns:370px 1fr;gap:24px;align-items:start;}
+  @media (max-width:960px){.layout{grid-template-columns:1fr;}}
   
   .card{
     background:var(--panel);
@@ -138,6 +138,10 @@
   }
   .advanced-box.show{display:block;}
 
+  /* Model input switch */
+  .model-input-custom{margin-top:8px;display:none;}
+  .model-input-custom.show{display:block;}
+
   /* Radio Pills for Boldness */
   .boldness-pills{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:6px;}
   .bold-label{
@@ -158,8 +162,9 @@
 
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 
+  .form-actions{display:flex;gap:8px;margin-top:20px;}
   button.primary{
-    margin-top:20px;width:100%;
+    flex:1;
     background:var(--accent);
     color:#fff;border:none;border-radius:10px;
     padding:13px 16px;font-size:14.5px;font-weight:700;letter-spacing:0.02em;
@@ -168,6 +173,12 @@
   button.primary:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 6px 22px var(--accent-glow);}
   button.primary:active{transform:translateY(1px);}
   button.primary:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+
+  button.btn-clear{
+    background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--ink-dim);
+    border-radius:10px;padding:0 14px;cursor:pointer;transition:all .15s;font-size:13px;
+  }
+  button.btn-clear:hover{color:var(--ink);background:rgba(255,255,255,0.08);}
 
   .status{font-size:13px;margin-top:12px;padding:10px 12px;border-radius:8px;display:none;line-height:1.4;}
   .status.show{display:block;}
@@ -182,12 +193,20 @@
     border-radius:999px;cursor:pointer;transition:all .15s;
   }
   .tab-btn.active{background:var(--panel);color:var(--ink);box-shadow:0 2px 6px rgba(0,0,0,0.25);}
+  
+  .right-actions{display:flex;align-items:center;gap:8px;}
   .view-switch{display:flex;gap:4px;}
   .view-btn{
     background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--ink-dim);
     padding:5px 10px;font-size:12px;border-radius:6px;cursor:pointer;transition:all .15s;
   }
   .view-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+  .btn-export-all{
+    background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--ink-dim);
+    padding:5px 11px;font-size:12px;border-radius:6px;cursor:pointer;transition:all .15s;
+  }
+  .btn-export-all:hover{color:var(--ink);border-color:var(--ink-dim);}
 
   .results{display:flex;flex-direction:column;gap:18px;}
   .empty{
@@ -253,7 +272,7 @@
   .poster-box{
     position:relative;border-radius:12px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,0.5);
     display:flex;flex-direction:column;justify-content:space-between;padding:28px 22px;
-    min-height:380px;border:1px solid rgba(255,255,255,0.1);transition:transform .2s;
+    min-height:380px;border:1px solid rgba(255,255,255,0.1);transition:transform .2s;cursor:pointer;
   }
   .poster-box:hover{transform:translateY(-3px);}
   .poster-box.ar-3-4{aspect-ratio:3/4;}
@@ -275,11 +294,42 @@
   .poster-box:hover .poster-dl-btn{opacity:1;}
   .poster-dl-btn:hover{background:var(--accent);border-color:var(--accent);}
 
+  /* Studio Modal */
+  .modal-overlay{
+    position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);
+    backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;
+    z-index:10000;padding:20px;
+  }
+  .modal-overlay.show{display:flex;}
+  .modal-card{
+    background:var(--panel);border:1px solid var(--border-strong);border-radius:var(--radius);
+    max-width:960px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow);
+    display:flex;flex-direction:column;
+  }
+  .modal-head{
+    display:flex;justify-content:space-between;align-items:center;padding:16px 20px;
+    border-bottom:1px solid var(--border);
+  }
+  .modal-head h3{margin:0;font-size:16px;font-weight:700;}
+  .modal-close{
+    background:none;border:none;color:var(--ink-dim);font-size:20px;cursor:pointer;padding:4px;
+  }
+  .modal-close:hover{color:var(--ink);}
+  .modal-body{
+    display:grid;grid-template-columns:1fr 340px;gap:20px;padding:20px;
+  }
+  @media(max-width:800px){.modal-body{grid-template-columns:1fr;}}
+  .modal-preview-col{display:flex;justify-content:center;align-items:center;background:rgba(0,0,0,0.3);border-radius:10px;padding:20px;}
+  .modal-canvas-wrap{box-shadow:0 12px 36px rgba(0,0,0,0.6);border-radius:8px;overflow:hidden;max-width:100%;}
+  .modal-canvas-wrap canvas{display:block;max-width:100%;height:auto;}
+  .studio-ctrls label{margin:10px 0 4px;font-size:11.5px;}
+  .studio-ctrls textarea{font-size:13px;min-height:50px;}
+
   /* Toast */
   .toast{
     position:fixed;bottom:24px;right:24px;background:#1A2946;color:#fff;border:1px solid var(--accent);
     box-shadow:0 8px 24px rgba(0,0,0,0.5);border-radius:10px;padding:12px 18px;font-size:13px;
-    z-index:9999;transform:translateY(100px);opacity:0;transition:all .25s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    z-index:99999;transform:translateY(100px);opacity:0;transition:all .25s cubic-bezier(0.18, 0.89, 0.32, 1.28);
     display:flex;align-items:center;gap:8px;
   }
   .toast.show{transform:translateY(0);opacity:1;}
@@ -360,8 +410,13 @@
         ⚠️ <span id="txtCorsWarning">Lưu ý CORS: Gọi trực tiếp nhà cung cấp này từ trình duyệt web có thể bị chặn bởi chính sách bảo mật mạng (CORS). Bạn nên dùng OpenRouter hoặc Custom Base URL Proxy.</span>
       </div>
 
-      <label for="model" id="lblModel">Model</label>
-      <input type="text" id="model" value="deepseek/deepseek-chat">
+      <label for="modelSelect" id="lblModel">Model</label>
+      <select id="modelSelect">
+        <!-- populated dynamically -->
+      </select>
+      <div class="model-input-custom" id="modelCustomWrap">
+        <input type="text" id="modelCustom" placeholder="Nhập model ID...">
+      </div>
       <div class="hint" id="modelHint">Đổi sang model khác nếu bạn muốn.</div>
 
       <div class="row2" style="margin-top:12px;">
@@ -434,7 +489,10 @@
         </div>
       </div>
 
-      <button class="primary" id="genBtn">Tạo copy ngay</button>
+      <div class="form-actions">
+        <button class="primary" id="genBtn">Tạo copy ngay</button>
+        <button type="button" class="btn-clear" id="btnClear" title="Làm mới form">🧹</button>
+      </div>
       <div class="status" id="status"></div>
     </div>
 
@@ -445,9 +503,12 @@
           <button class="tab-btn active" id="tabGenerated">Kết quả vừa tạo</button>
           <button class="tab-btn" id="tabFavorites">Đã lưu (<span id="favCount">0</span>)</button>
         </div>
-        <div class="view-switch">
-          <button class="view-btn active" id="viewCards" title="Xem dạng thẻ chi tiết">Dạng Thẻ</button>
-          <button class="view-btn" id="viewPosters" title="Xem mô phỏng Poster thực tế">Mô phỏng Poster</button>
+        <div class="right-actions">
+          <button class="btn-export-all" id="btnExportAll" title="Xuất toàn bộ phương án ra Markdown">📥 Markdown</button>
+          <div class="view-switch">
+            <button class="view-btn active" id="viewCards" title="Xem dạng thẻ chi tiết">Dạng Thẻ</button>
+            <button class="view-btn" id="viewPosters" title="Xem mô phỏng Poster thực tế">Mô phỏng Poster</button>
+          </div>
         </div>
       </div>
 
@@ -460,6 +521,44 @@
   <footer>
     <span id="txtFooter">Dự án được truyền cảm hứng từ skill mã nguồn mở crawfordxx/xiaoma-durex-copywriter về phương pháp "ngữ nghĩa hai lớp" từ các chiến dịch Durex 2011–2017. Luôn tuân thủ giới hạn đạo đức khắt khe: Không đụng tới thảm hoạ, không vật thể hoá phụ nữ, luôn gắn với giá trị thật của sản phẩm.</span>
   </footer>
+</div>
+
+<!-- Poster Design Studio Modal -->
+<div class="modal-overlay" id="studioModal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3 id="txtModalTitle">Studio Thiết kế Poster</h3>
+      <button type="button" class="modal-close" id="modalCloseBtn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-preview-col">
+        <div class="modal-canvas-wrap">
+          <canvas id="studioCanvas"></canvas>
+        </div>
+      </div>
+      <div class="studio-ctrls">
+        <label id="lblStudioRatio">Tỷ lệ khung hình</label>
+        <select id="studioRatio">
+          <option value="3:4" selected>3:4 (Poster chuẩn)</option>
+          <option value="1:1">1:1 (Vuông)</option>
+          <option value="9:16">9:16 (Story / TikTok)</option>
+          <option value="16:9">16:9 (Ngang)</option>
+        </select>
+
+        <label id="lblStudioHeadline">Chỉnh sửa Headline trực tiếp</label>
+        <textarea id="studioHeadline" rows="2"></textarea>
+
+        <label id="lblStudioSubhead">Chỉnh sửa Subhead</label>
+        <textarea id="studioSubhead" rows="2"></textarea>
+
+        <label id="lblStudioPalette">Màu sắc chủ đạo</label>
+        <div class="swatches" id="studioSwatches" style="margin-bottom:14px;"></div>
+
+        <button class="primary" id="btnStudioDownload" style="margin-top:10px;">⬇️ Tải ảnh PNG độ nét cao</button>
+        <button class="act-btn" id="btnStudioCopyImg" style="width:100%;margin-top:8px;justify-content:center;">📋 Sao chép ảnh vào Clipboard</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="toast" id="toast">Thông báo</div>
@@ -484,10 +583,9 @@ const I18N = {
     baseUrlHint: 'Dùng khi bạn muốn kết nối qua Cloudflare Worker, Reverse Proxy hoặc API trung gian tương thích OpenAI.',
     corsWarning: 'Lưu ý CORS: Gọi trực tiếp nhà cung cấp này từ trình duyệt web có thể bị chặn bởi chính sách bảo mật mạng (CORS). Bạn nên dùng OpenRouter hoặc Custom Base URL Proxy.',
     model: 'Model',
-    modelHintDefault: 'Đổi sang model khác nếu bạn muốn.',
+    modelCustomPh: 'Nhập model ID khác (ví dụ: anthropic/claude-3-opus)...',
     outputLang: 'Ngôn ngữ xuất copy',
     count: 'Số phương án',
-    countUnit: 'phương án',
     topic: 'Chủ đề / sản phẩm *',
     topicPh: 'Ví dụ: quán cà phê 24h, app quản lý chi tiêu, khoá học tiếng Anh cấp tốc...',
     audience: 'Đối tượng khách hàng (tuỳ chọn)',
@@ -519,17 +617,27 @@ const I18N = {
     emptyFavorites: 'Kho yêu thích đang trống. Hãy bấm biểu tượng trái tim ở các phương án để lưu lại!',
     copyTextBtn: '📋 Sao chép Text',
     copyAiPromptBtn: '🎨 Prompt Midjourney / Flux',
-    downloadPosterBtn: '🖼️ Tải Poster PNG',
-    downloadSingleBtn: '⬇️ Tải ảnh PNG',
+    downloadPosterBtn: '🖼️ Poster Studio',
+    downloadSingleBtn: '🎨 Mở Studio',
     whyLabel: 'Vì sao hiệu quả:',
     subjectLabel: 'Chủ thể hình ảnh',
     paletteLabel: 'Bảng màu',
+    modalTitle: 'Studio Thiết kế Poster',
+    lblStudioRatio: 'Tỷ lệ khung hình',
+    lblStudioHeadline: 'Chỉnh sửa Headline trực tiếp',
+    lblStudioSubhead: 'Chỉnh sửa Subhead',
+    lblStudioPalette: 'Màu sắc chủ đạo',
+    btnStudioDownload: '⬇️ Tải ảnh PNG độ nét cao',
+    btnStudioCopyImg: '📋 Sao chép ảnh vào Clipboard',
     toastLoadedPreset: 'Đã nạp mẫu: ',
     toastCopiedText: 'Đã sao chép nội dung copy!',
     toastCopiedAi: 'Đã sao chép prompt Midjourney/Flux!',
     toastSavedFav: 'Đã thêm vào mục yêu thích ❤️',
     toastRemovedFav: 'Đã xoá khỏi mục yêu thích',
     toastDownloaded: 'Đã tải poster độ phân giải cao PNG!',
+    toastCopiedImg: 'Đã sao chép ảnh poster vào clipboard!',
+    toastCleared: 'Đã làm mới form nhập liệu!',
+    toastExportedMd: 'Đã xuất file Markdown thành công!',
     toastGeneratedSuccess: 'Tạo thành công {n} phương án copy!',
     errApiKey: 'Vui lòng nhập API key trước.',
     errTopic: 'Vui lòng nhập chủ đề hoặc chọn một mẫu gợi ý bên trên.',
@@ -559,10 +667,9 @@ const I18N = {
     baseUrlHint: 'Use when routing requests through Cloudflare Worker, Reverse Proxy, or OpenAI-compatible gateways.',
     corsWarning: 'CORS Notice: Direct browser requests to this provider might be blocked by browser CORS policy. Please use OpenRouter or a Custom Base URL Proxy.',
     model: 'Model',
-    modelHintDefault: 'Change to another model if needed.',
+    modelCustomPh: 'Enter custom model ID (e.g. anthropic/claude-3-opus)...',
     outputLang: 'Copy Output Language',
     count: 'Number of Options',
-    countUnit: 'options',
     topic: 'Topic / Product *',
     topicPh: 'e.g. 24/7 coffee shop, personal finance app, express spoken English course...',
     audience: 'Target Audience (optional)',
@@ -594,17 +701,27 @@ const I18N = {
     emptyFavorites: 'Favorites is empty. Click the heart icon on any card to save it here!',
     copyTextBtn: '📋 Copy Text',
     copyAiPromptBtn: '🎨 Midjourney / Flux Prompt',
-    downloadPosterBtn: '🖼️ Download Poster PNG',
-    downloadSingleBtn: '⬇️ Download PNG',
+    downloadPosterBtn: '🖼️ Poster Studio',
+    downloadSingleBtn: '🎨 Open Studio',
     whyLabel: 'Why it works:',
     subjectLabel: 'Visual Subject',
     paletteLabel: 'Color Palette',
+    modalTitle: 'Poster Design Studio',
+    lblStudioRatio: 'Aspect Ratio',
+    lblStudioHeadline: 'Live Edit Headline',
+    lblStudioSubhead: 'Live Edit Subhead',
+    lblStudioPalette: 'Primary Color Palette',
+    btnStudioDownload: '⬇️ Download High-Res PNG',
+    btnStudioCopyImg: '📋 Copy Image to Clipboard',
     toastLoadedPreset: 'Loaded preset: ',
     toastCopiedText: 'Copy text copied to clipboard!',
     toastCopiedAi: 'Midjourney/Flux prompt copied!',
     toastSavedFav: 'Saved to favorites ❤️',
     toastRemovedFav: 'Removed from favorites',
     toastDownloaded: 'High-res poster PNG downloaded!',
+    toastCopiedImg: 'Poster image copied to clipboard!',
+    toastCleared: 'Input form cleared!',
+    toastExportedMd: 'Exported all options to Markdown!',
     toastGeneratedSuccess: 'Successfully generated {n} copy options!',
     errApiKey: 'Please enter your API key first.',
     errTopic: 'Please enter a topic or select a preset above.',
@@ -634,10 +751,9 @@ const I18N = {
     baseUrlHint: '用于通过 Cloudflare Worker、自建反代或兼容 OpenAI 的中转 API 调用。',
     corsWarning: '跨域提示：从浏览器直接调用该供应商可能会被浏览器 CORS 策略拦截。推荐优先使用 OpenRouter 或配置自定义 Base URL。',
     model: '模型 (Model)',
-    modelHintDefault: '可随意更换为您需要的模型名称。',
+    modelCustomPh: '输入自定义模型 ID (例如: anthropic/claude-3-opus)...',
     outputLang: '生成文案语言',
     count: '方案数量',
-    countUnit: '个方案',
     topic: '主题 / 产品 *',
     topicPh: '例如：24小时不打烊咖啡馆、智能记账理财App、零基础口语速成课...',
     audience: '目标受众（可选）',
@@ -669,17 +785,27 @@ const I18N = {
     emptyFavorites: '收藏夹还是空的。点击卡片右上角的爱心图标即可收藏！',
     copyTextBtn: '📋 复制文案',
     copyAiPromptBtn: '🎨 Midjourney / Flux 提示词',
-    downloadPosterBtn: '🖼️ 下载高清海报',
-    downloadSingleBtn: '⬇️ 下载 PNG',
+    downloadPosterBtn: '🖼️ 海报工作室',
+    downloadSingleBtn: '🎨 打开工作室',
     whyLabel: '构思拆解：',
     subjectLabel: '画面主体',
     paletteLabel: '配色方案',
+    modalTitle: '海报设计工作室 (Poster Studio)',
+    lblStudioRatio: '画面比例',
+    lblStudioHeadline: '实时修改主标题',
+    lblStudioSubhead: '实时修改副标题',
+    lblStudioPalette: '主基调配色',
+    btnStudioDownload: '⬇️ 下载 2x 超清 PNG',
+    btnStudioCopyImg: '📋 复制海报图像到剪贴板',
     toastLoadedPreset: '已载入预设：',
     toastCopiedText: '文案内容已成功复制！',
     toastCopiedAi: 'Midjourney/Flux 提示词已复制！',
     toastSavedFav: '已加入收藏夹 ❤️',
     toastRemovedFav: '已从收藏夹移除',
     toastDownloaded: '1200x1600 高清海报已下载！',
+    toastCopiedImg: '海报图像已复制到剪贴板！',
+    toastCleared: '已重置表单输入！',
+    toastExportedMd: '已导出全部方案为 Markdown 文件！',
     toastGeneratedSuccess: '成功生成 {n} 个文案方案！',
     errApiKey: '请先输入对应的 API Key。',
     errTopic: '请输入产品主题或点击上方的预设灵感。',
@@ -739,16 +865,6 @@ function getSystemPrompt(outputLang){
 - Subhead: "热气腾腾，20分钟准时送达。"
 - 构思拆解：表面层是恶劣天气里吃上一口热汤面；潜层是被及时守护、安抚心灵的温暖与安全感。
 - 画面：凝结着水雾的玻璃窗，倒映着雨夜模糊温润的街灯。配色：暖调旧宣。
-
-画面与配色系统：
-- 画面主体：产品本身 | 日常物件 | 纯文字排版 (Typography) | 局部肢体 (剪影、手部特写)
-- 经典配色：
-  * "品牌正红": #E2001A, #FFFFFF, #000000
-  * "深夜幽蓝": #0E1A2E, #16233F, #E2001A
-  * "影棚纯黑": #0B0B0B, #F2EDE3, #C8102E
-  * "柔粉渐变": #FCEDF1, #E8558F, #2A101C
-  * "暖调旧宣": #F2EDE3, #C8102E, #1A1A1A
-  * "主题借色": 依据主题挑选和谐互衬的3个十六进制色值。
 
 严格伦理界限：
 绝不消费灾难、疾病或悲剧；绝不物化女性；面向常规大众产品时，严格聚焦产品真实商业价值，杜绝低俗下流。
@@ -821,7 +937,7 @@ Return ONLY valid JSON with no markdown code fences or conversational text:
 {
   "options": [
     {
-      "formula": "Formula name in English (e.g., Domain Term Hijacking)",
+      "formula": "Formula name in English",
       "headline": "Main English headline, punchy, under 12 words, thought-provoking",
       "subhead": "Crisp supporting subhead",
       "why_it_works": "Brief breakdown: [Surface] meaning vs [Submerged] meaning",
@@ -878,16 +994,6 @@ Ví dụ 3: Dịch vụ giao đồ ăn nóng (Dịp: Đêm mưa bão)
 - Why it works: Bề mặt là thời tiết lạnh được ăn bát phở nóng; tầng chìm là cảm giác được che chở, chăm sóc kịp thời.
 - Visual: Hơi nước mờ trên khung cửa sổ nhìn ra ánh đèn đường mưa rơi. Bảng màu: Giấy ấm.
 
-HỆ THỐNG HÌNH ẢNH:
-- Loại chủ thể: (a) Sản phẩm làm trung tâm; (b) Vật dụng đời thường làm trung tâm; (c) Typography làm trung tâm; (d) Con người (chỉ dùng một phần cơ thể: bóng, bàn tay, góc nhìn POV).
-- 6 bảng màu tham khảo:
-  * "Đỏ thương hiệu": #E2001A, #FFFFFF, #000000
-  * "Xanh đêm sâu": #0E1A2E, #16233F, #E2001A
-  * "Đen studio": #0B0B0B, #F2EDE3, #C8102E
-  * "Gradient hồng": #FCEDF1, #E8558F, #2A101C
-  * "Giấy ấm": #F2EDE3, #C8102E, #1A1A1A
-  * "Màu mượn theo chủ đề": chọn 3 mã hex phù hợp nhất.
-
 GIỚI HẠN ĐẠO ĐỨC:
 Tuyệt đối không đụng tới thảm hoạ, chết chóc, dịch bệnh; không vật thể hoá phụ nữ; với sản phẩm thông thường, luôn gắn chặt với GIÁ TRỊ THẬT, tuyệt đối không dung tục.
 
@@ -917,23 +1023,27 @@ const PROVIDER_CONFIG = {
     label: 'OpenRouter',
     keyPlaceholder: 'sk-or-v1-...',
     defaultModel: 'deepseek/deepseek-chat',
-    modelHint: {
-      vi: 'Không lo CORS! Hỗ trợ deepseek/deepseek-chat, anthropic/claude-3.5-sonnet, openai/gpt-4o, google/gemini-2.5-flash...',
-      en: 'Zero CORS issues! Supports deepseek/deepseek-chat, anthropic/claude-3.5-sonnet, openai/gpt-4o, google/gemini-2.5-flash...',
-      zh: '无跨域困扰！完美支持 deepseek/deepseek-chat, anthropic/claude-3.5-sonnet, openai/gpt-4o, google/gemini-2.5-flash...'
-    },
+    popularModels: [
+      { id: 'deepseek/deepseek-chat', label: 'DeepSeek V3 (Nhanh & Thông minh)' },
+      { id: 'deepseek/deepseek-r1', label: 'DeepSeek R1 (Suy luận sâu)' },
+      { id: 'anthropic/claude-3.5-sonnet', label: 'Claude 3.5 Sonnet (Văn phong sắc sảo)' },
+      { id: 'google/gemini-2.0-flash-001', label: 'Gemini 2.0 Flash (Tốc độ cao)' },
+      { id: 'openai/gpt-4o', label: 'GPT-4o (Toàn diện)' },
+      { id: 'custom', label: '✏️ Tự nhập model khác (Custom)...' }
+    ],
     defaultBaseUrl: 'https://openrouter.ai/api/v1',
     corsDirectSafe: true
   },
   google: {
     label: 'Google (Gemini)',
     keyPlaceholder: 'AIzaSy...',
-    defaultModel: 'gemini-2.5-flash',
-    modelHint: {
-      vi: 'Đổi sang gemini-2.5-pro nếu muốn chiều sâu sáng tạo cao hơn.',
-      en: 'Switch to gemini-2.5-pro for higher creative depth.',
-      zh: '可切换为 gemini-2.5-pro 以获得更高水准的创意输出。'
-    },
+    defaultModel: 'gemini-2.0-flash',
+    popularModels: [
+      { id: 'gemini-2.0-flash', label: 'Gemini 2.0 Flash (Khuyên dùng)' },
+      { id: 'gemini-1.5-flash', label: 'Gemini 1.5 Flash (Ổn định)' },
+      { id: 'gemini-1.5-pro', label: 'Gemini 1.5 Pro (Sâu sắc)' },
+      { id: 'custom', label: '✏️ Tự nhập model khác (Custom)...' }
+    ],
     defaultBaseUrl: 'https://generativelanguage.googleapis.com',
     corsDirectSafe: true
   },
@@ -941,11 +1051,12 @@ const PROVIDER_CONFIG = {
     label: 'Claude (Anthropic)',
     keyPlaceholder: 'sk-ant-...',
     defaultModel: 'claude-3-7-sonnet-20250219',
-    modelHint: {
-      vi: 'Claude hỗ trợ gọi trực tiếp từ browser với dangerous direct access header.',
-      en: 'Claude supports direct browser calling with dangerous direct access header.',
-      zh: 'Claude 支持在浏览器端开启 dangerous direct access 后直接调用。'
-    },
+    popularModels: [
+      { id: 'claude-3-7-sonnet-20250219', label: 'Claude 3.7 Sonnet (Mới nhất)' },
+      { id: 'claude-3-5-sonnet-20241022', label: 'Claude 3.5 Sonnet (Đỉnh cao)' },
+      { id: 'claude-3-5-haiku-20241022', label: 'Claude 3.5 Haiku (Siêu tốc)' },
+      { id: 'custom', label: '✏️ Tự nhập model khác (Custom)...' }
+    ],
     defaultBaseUrl: 'https://api.anthropic.com/v1',
     corsDirectSafe: true
   },
@@ -953,11 +1064,12 @@ const PROVIDER_CONFIG = {
     label: 'OpenAI',
     keyPlaceholder: 'sk-...',
     defaultModel: 'gpt-4o',
-    modelHint: {
-      vi: 'Lưu ý: api.openai.com chặn CORS browser. Nên dùng OpenRouter hoặc Custom Base URL Proxy.',
-      en: 'Notice: api.openai.com blocks browser CORS. Use OpenRouter or a Custom Base URL Proxy.',
-      zh: '注意：api.openai.com 拦截浏览器直接跨域。推荐使用 OpenRouter 或配置 Base URL 反代。'
-    },
+    popularModels: [
+      { id: 'gpt-4o', label: 'GPT-4o (Mạnh mẽ)' },
+      { id: 'gpt-4o-mini', label: 'GPT-4o Mini (Tiết kiệm)' },
+      { id: 'chatgpt-4o-latest', label: 'ChatGPT-4o Latest' },
+      { id: 'custom', label: '✏️ Tự nhập model khác (Custom)...' }
+    ],
     defaultBaseUrl: 'https://api.openai.com/v1',
     corsDirectSafe: false
   },
@@ -965,11 +1077,11 @@ const PROVIDER_CONFIG = {
     label: 'DeepSeek',
     keyPlaceholder: 'sk-...',
     defaultModel: 'deepseek-chat',
-    modelHint: {
-      vi: 'Lưu ý: api.deepseek.com chặn CORS browser. Khuyên dùng OpenRouter để gọi DeepSeek mượt mà.',
-      en: 'Notice: api.deepseek.com blocks browser CORS. We recommend OpenRouter for DeepSeek.',
-      zh: '注意：api.deepseek.com 拦截浏览器直接跨域。强烈推荐使用 OpenRouter 直接调用。'
-    },
+    popularModels: [
+      { id: 'deepseek-chat', label: 'DeepSeek-V3 (Trò chuyện & Sáng tạo)' },
+      { id: 'deepseek-reasoner', label: 'DeepSeek-R1 (Suy luận chuyên sâu)' },
+      { id: 'custom', label: '✏️ Tự nhập model khác (Custom)...' }
+    ],
     defaultBaseUrl: 'https://api.deepseek.com',
     corsDirectSafe: false
   }
@@ -981,11 +1093,23 @@ let currentView = 'cards';
 let currentTab = 'generated';
 let favorites = [];
 
+// Lưu trữ riêng base URL của từng provider tránh ghi đè
+const baseUrlStore = {
+  openrouter: 'https://openrouter.ai/api/v1',
+  google: 'https://generativelanguage.googleapis.com',
+  claude: 'https://api.anthropic.com/v1',
+  openai: 'https://api.openai.com/v1',
+  deepseek: 'https://api.deepseek.com'
+};
+
 const apiKeyStore = { openrouter: '', claude: '', openai: '', google: '', deepseek: '' };
+
+// Studio Modal State
+let activeStudioItem = null;
+let activeStudioPalette = ['#0E1A2E', '#E2001A', '#FFFFFF'];
 
 // Khởi tạo ứng dụng
 function initApp(){
-  // Đọc ngôn ngữ lưu trữ
   const savedLang = localStorage.getItem('durex_lang');
   if(savedLang && I18N[savedLang]) {
     currentLang = savedLang;
@@ -1009,7 +1133,6 @@ function initApp(){
     }
   }
 
-  // Đồng bộ giao diện theo ngôn ngữ
   applyLanguage(currentLang);
   onProviderChange();
   bindEvents();
@@ -1020,18 +1143,15 @@ function applyLanguage(lang){
   localStorage.setItem('durex_lang', lang);
   const t = I18N[lang] || I18N.vi;
 
-  // Cập nhật các nút ngôn ngữ trên header
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.lang === lang);
   });
 
-  // Header & Description
   document.getElementById('txtEyebrow').textContent = t.eyebrow;
   document.getElementById('txtTitleMain').textContent = t.titleMain;
   document.getElementById('txtTitleHighlight').textContent = t.titleHighlight;
   document.getElementById('txtSub').textContent = t.sub;
 
-  // Presets Bar
   document.getElementById('txtPresetsTitle').textContent = t.presetsTitle;
   const presetsContainer = document.getElementById('presetsList');
   presetsContainer.innerHTML = '';
@@ -1054,7 +1174,6 @@ function applyLanguage(lang){
     presetsContainer.appendChild(btn);
   });
 
-  // Config panel labels
   document.getElementById('txtConfigHeader').textContent = t.configHeader;
   document.getElementById('savedCountBadge').textContent = t.savedCount + favorites.length;
   document.getElementById('lblProvider').textContent = t.provider;
@@ -1063,6 +1182,7 @@ function applyLanguage(lang){
   document.getElementById('txtBaseUrlHint').textContent = t.baseUrlHint;
   document.getElementById('txtCorsWarning').textContent = t.corsWarning;
   document.getElementById('lblModel').textContent = t.model;
+  document.getElementById('modelCustom').placeholder = t.modelCustomPh;
   document.getElementById('lblOutputLang').textContent = t.outputLang;
   document.getElementById('lblCount').textContent = t.count;
   document.getElementById('lblTopic').textContent = t.topic;
@@ -1082,7 +1202,7 @@ function applyLanguage(lang){
   document.getElementById('lblRatio').textContent = t.ratio;
   document.getElementById('genBtn').textContent = t.genBtn;
 
-  // Channels dropdown
+  // Channels
   const channelSelect = document.getElementById('channel');
   const prevChannelVal = channelSelect.value;
   channelSelect.innerHTML = '';
@@ -1095,10 +1215,9 @@ function applyLanguage(lang){
   });
   if(prevChannelVal) channelSelect.value = prevChannelVal;
 
-  // Tự động đồng bộ ngôn ngữ xuất sang ngôn ngữ UI vừa chọn
   document.getElementById('outputLang').value = lang;
 
-  // Right column tabs & views
+  // Right column tabs
   document.getElementById('tabGenerated').textContent = t.tabGenerated;
   document.getElementById('tabFavorites').innerHTML = `${t.tabFavorites} (<span id="favCount">${favorites.length}</span>)`;
   document.getElementById('viewCards').textContent = t.viewCards;
@@ -1106,10 +1225,17 @@ function applyLanguage(lang){
   document.getElementById('txtEmptyResults').textContent = t.emptyGenerated;
   document.getElementById('txtFooter').textContent = t.footer;
 
-  // Cập nhật nhãn key và hint
+  // Modal texts
+  document.getElementById('txtModalTitle').textContent = t.modalTitle;
+  document.getElementById('lblStudioRatio').textContent = t.lblStudioRatio;
+  document.getElementById('lblStudioHeadline').textContent = t.lblStudioHeadline;
+  document.getElementById('lblStudioSubhead').textContent = t.lblStudioSubhead;
+  document.getElementById('lblStudioPalette').textContent = t.lblStudioPalette;
+  document.getElementById('btnStudioDownload').textContent = t.btnStudioDownload;
+  document.getElementById('btnStudioCopyImg').textContent = t.btnStudioCopyImg;
+
   const cfg = PROVIDER_CONFIG[currentProvider];
   document.getElementById('apiKeyLabel').textContent = cfg.label + t.apiKeySuffix;
-  document.getElementById('modelHint').textContent = cfg.modelHint[lang] || cfg.modelHint.vi;
 
   renderCurrentState();
 }
@@ -1123,9 +1249,22 @@ function onProviderChange(){
   document.getElementById('apiKeyLabel').textContent = cfg.label + t.apiKeySuffix;
   document.getElementById('apiKey').placeholder = cfg.keyPlaceholder;
   document.getElementById('apiKey').value = apiKeyStore[currentProvider] || '';
-  document.getElementById('model').value = cfg.defaultModel;
-  document.getElementById('modelHint').textContent = cfg.modelHint[currentLang] || cfg.modelHint.vi;
-  document.getElementById('baseUrl').value = cfg.defaultBaseUrl;
+  document.getElementById('baseUrl').value = baseUrlStore[currentProvider] || cfg.defaultBaseUrl;
+
+  // Cập nhật danh sách models
+  const modelSelect = document.getElementById('modelSelect');
+  modelSelect.innerHTML = '';
+  cfg.popularModels.forEach(m => {
+    const opt = document.createElement('option');
+    opt.value = m.id;
+    opt.textContent = m.label;
+    if(m.id === cfg.defaultModel) opt.selected = true;
+    modelSelect.appendChild(opt);
+  });
+
+  const customWrap = document.getElementById('modelCustomWrap');
+  customWrap.classList.remove('show');
+  document.getElementById('modelCustom').value = '';
 
   const corsBox = document.getElementById('corsWarning');
   if(!cfg.corsDirectSafe){
@@ -1136,7 +1275,6 @@ function onProviderChange(){
 }
 
 function bindEvents(){
-  // Chuyển ngôn ngữ 🇻🇳 🇬🇧 🇨🇳
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', function(){
       applyLanguage(this.dataset.lang);
@@ -1145,6 +1283,20 @@ function bindEvents(){
 
   document.getElementById('provider').addEventListener('change', onProviderChange);
   
+  document.getElementById('modelSelect').addEventListener('change', function(){
+    const customWrap = document.getElementById('modelCustomWrap');
+    if(this.value === 'custom'){
+      customWrap.classList.add('show');
+      document.getElementById('modelCustom').focus();
+    } else {
+      customWrap.classList.remove('show');
+    }
+  });
+
+  document.getElementById('baseUrl').addEventListener('input', function(){
+    baseUrlStore[currentProvider] = this.value.trim();
+  });
+
   document.getElementById('apiKey').addEventListener('input', function(){
     apiKeyStore[currentProvider] = this.value.trim();
     saveKeysIfPermitted();
@@ -1175,7 +1327,7 @@ function bindEvents(){
     box.classList.toggle('show');
   });
 
-  // Radio boldness pills
+  // Radio boldness
   document.querySelectorAll('.boldness-pills .bold-label').forEach(label => {
     label.addEventListener('click', function(){
       document.querySelectorAll('.boldness-pills .bold-label').forEach(l => l.classList.remove('active'));
@@ -1214,7 +1366,31 @@ function bindEvents(){
     document.getElementById('tabFavorites').click();
   });
 
+  // Clear Form Button
+  document.getElementById('btnClear').addEventListener('click', function(){
+    document.getElementById('topic').value = '';
+    document.getElementById('audience').value = '';
+    document.getElementById('hook').value = '';
+    const t = I18N[currentLang] || I18N.vi;
+    showToast(t.toastCleared);
+    document.getElementById('topic').focus();
+  });
+
+  // Export All as Markdown
+  document.getElementById('btnExportAll').addEventListener('click', exportAllAsMarkdown);
+
   document.getElementById('genBtn').addEventListener('click', generate);
+
+  // Modal Events
+  document.getElementById('modalCloseBtn').addEventListener('click', closeStudioModal);
+  document.getElementById('studioModal').addEventListener('click', function(e){
+    if(e.target === this) closeStudioModal();
+  });
+  document.getElementById('studioRatio').addEventListener('change', updateStudioCanvas);
+  document.getElementById('studioHeadline').addEventListener('input', updateStudioCanvas);
+  document.getElementById('studioSubhead').addEventListener('input', updateStudioCanvas);
+  document.getElementById('btnStudioDownload').addEventListener('click', downloadStudioCanvas);
+  document.getElementById('btnStudioCopyImg').addEventListener('click', copyStudioCanvasImage);
 }
 
 function saveKeysIfPermitted(){
@@ -1238,6 +1414,14 @@ function showStatus(msg, type){
 function hideStatus(){
   const el = document.getElementById('status');
   el.className = 'status';
+}
+
+function getSelectedModel(){
+  const sel = document.getElementById('modelSelect').value;
+  if(sel === 'custom'){
+    return document.getElementById('modelCustom').value.trim() || PROVIDER_CONFIG[currentProvider].defaultModel;
+  }
+  return sel || PROVIDER_CONFIG[currentProvider].defaultModel;
 }
 
 function buildUserPrompt(outLang){
@@ -1304,22 +1488,72 @@ function buildUserPrompt(outLang){
   ].join('\n');
 }
 
-// Chống vỡ JSON khi gặp Reasoning model (<think>) hoặc Markdown fences
+// Bóc tách JSON siêu bền bỉ (hỗ trợ cả Array, Reasoning tags, trailing commas)
 function extractJson(text){
   let t = String(text || '').trim();
   t = t.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
   t = t.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();
-  const start = t.indexOf('{');
-  const end = t.lastIndexOf('}');
-  if(start >= 0 && end > start){
-    t = t.substring(start, end + 1);
+
+  const startArr = t.indexOf('[');
+  const startObj = t.indexOf('{');
+
+  let raw = t;
+  if (startArr >= 0 && (startObj < 0 || startArr < startObj)) {
+    const endArr = t.lastIndexOf(']');
+    if (endArr > startArr) {
+      raw = t.substring(startArr, endArr + 1);
+      try {
+        return { options: JSON.parse(raw) };
+      } catch (e) {
+        raw = raw.replace(/,\s*([\]}])/g, '$1');
+        return { options: JSON.parse(raw) };
+      }
+    }
   }
-  return JSON.parse(t);
+
+  if (startObj >= 0) {
+    const endObj = t.lastIndexOf('}');
+    if (endObj > startObj) {
+      raw = t.substring(startObj, endObj + 1);
+      try {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) return { options: parsed };
+        if (parsed.options) return parsed;
+        for (const key of Object.keys(parsed)) {
+          if (Array.isArray(parsed[key])) return { options: parsed[key] };
+        }
+        return { options: [parsed] };
+      } catch (e) {
+        raw = raw.replace(/,\s*([\]}])/g, '$1');
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) return { options: parsed };
+        if (parsed.options) return parsed;
+        return { options: [parsed] };
+      }
+    }
+  }
+
+  throw new Error('Không thể bóc tách JSON hợp lệ từ phản hồi của AI.');
 }
 
 // API Callers
 async function callOpenRouter(apiKey, model, sysPrompt, userPrompt, customBaseUrl){
   const endpoint = (customBaseUrl || PROVIDER_CONFIG.openrouter.defaultBaseUrl).replace(/\/+$/, '') + '/chat/completions';
+  const reqBody = {
+    model: model || PROVIDER_CONFIG.openrouter.defaultModel,
+    temperature: 0.8,
+    messages: [
+      { role: 'system', content: sysPrompt },
+      { role: 'user', content: userPrompt }
+    ]
+  };
+
+  // Tránh lỗi 400 của OpenRouter với Anthropic Claude khi dùng response_format
+  const mLower = String(model || '').toLowerCase();
+  if (!mLower.includes('anthropic') && !mLower.includes('claude')) {
+    reqBody.response_format = { type: 'json_object' };
+  }
+
   const resp = await fetch(endpoint, {
     method: 'POST',
     headers: {
@@ -1328,15 +1562,7 @@ async function callOpenRouter(apiKey, model, sysPrompt, userPrompt, customBaseUr
       'HTTP-Referer': window.location.origin || 'https://github.com/chrisx9z/durex-style-copywriter',
       'X-Title': 'Durex Style Copywriter'
     },
-    body: JSON.stringify({
-      model: model || PROVIDER_CONFIG.openrouter.defaultModel,
-      temperature: 0.8,
-      response_format: { type: 'json_object' },
-      messages: [
-        { role: 'system', content: sysPrompt },
-        { role: 'user', content: userPrompt }
-      ]
-    })
+    body: JSON.stringify(reqBody)
   });
   if(!resp.ok){
     const errText = await resp.text();
@@ -1444,7 +1670,10 @@ async function callGoogle(apiKey, model, sysPrompt, userPrompt){
     throw new Error(`Google API (${resp.status}): ${errText.slice(0,300)}`);
   }
   const data = await resp.json();
-  const parts = data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts;
+  if(!data.candidates || !data.candidates.length){
+    throw new Error('Google Gemini không trả về phương án nào (có thể do bộ lọc an toàn).');
+  }
+  const parts = data.candidates[0].content && data.candidates[0].content.parts;
   return (parts && parts.map(p => p.text || '').join('')) || '';
 }
 
@@ -1464,7 +1693,7 @@ async function generate(){
   const provider = document.getElementById('provider').value;
   const cfg = PROVIDER_CONFIG[provider];
   const apiKey = document.getElementById('apiKey').value.trim();
-  const model = document.getElementById('model').value.trim();
+  const model = getSelectedModel();
   const customBaseUrl = document.getElementById('baseUrl').value.trim();
   const topic = document.getElementById('topic').value.trim();
   const outputLang = document.getElementById('outputLang').value || currentLang;
@@ -1487,7 +1716,7 @@ async function generate(){
   hideStatus();
   btn.disabled = true;
   btn.textContent = t.genBtnLoading;
-  showStatus(`${cfg.label} ...`, 'info');
+  showStatus(`Đang kết nối ${cfg.label} (${model})...`, 'info');
 
   try{
     const sysPrompt = getSystemPrompt(outputLang);
@@ -1585,7 +1814,7 @@ function renderCards(list){
       <div class="card-actions">
         <button class="act-btn" onclick="copyText(${idx}, '${currentTab}')">${t.copyTextBtn}</button>
         <button class="act-btn" onclick="copyAiPrompt(${idx}, '${currentTab}')">${t.copyAiPromptBtn}</button>
-        <button class="act-btn primary-act" onclick="downloadPosterDirect(${idx}, '${currentTab}')">${t.downloadPosterBtn}</button>
+        <button class="act-btn primary-act" onclick="openStudioModal(${idx}, '${currentTab}')">${t.downloadPosterBtn}</button>
       </div>
     `;
     container.appendChild(card);
@@ -1617,9 +1846,10 @@ function renderPosters(list){
     box.className = `poster-box ${ratioClass}`;
     box.style.background = `radial-gradient(circle at 50% 25%, ${accentCol}22 0%, ${bgCol} 80%)`;
     box.style.color = textCol;
+    box.onclick = () => openStudioModal(idx, currentTab);
 
     box.innerHTML = `
-      <button class="poster-dl-btn" onclick="downloadPosterDirect(${idx}, '${currentTab}')">
+      <button class="poster-dl-btn" onclick="event.stopPropagation(); openStudioModal(${idx}, '${currentTab}')">
         ${t.downloadSingleBtn}
       </button>
 
@@ -1702,6 +1932,42 @@ function copyAiPrompt(idx, tab){
   });
 }
 
+// Xuất toàn bộ phương án ra Markdown
+function exportAllAsMarkdown(){
+  const list = currentTab === 'generated' ? currentOptions : favorites;
+  const t = I18N[currentLang] || I18N.vi;
+  if(!list || !list.length){
+    showToast('Chưa có dữ liệu để xuất.');
+    return;
+  }
+
+  const topic = document.getElementById('topic').value || 'Campaign';
+  let md = `# Durex-Style Copywriting Campaign\n\n`;
+  md += `**Topic:** ${topic}\n`;
+  md += `**Created:** ${new Date().toLocaleString()}\n\n---\n\n`;
+
+  list.forEach((opt, idx) => {
+    md += `### Option ${idx + 1}: ${opt.headline}\n\n`;
+    if(opt.subhead) md += `*${opt.subhead}*\n\n`;
+    md += `- **Formula:** ${opt.formula}\n`;
+    if(opt.why_it_works) md += `- **Why it Works:** ${opt.why_it_works}\n`;
+    if(opt.visual){
+      md += `- **Visual Subject:** ${opt.visual.subject_type} — ${opt.visual.subject_desc}\n`;
+      md += `- **Palette:** ${opt.visual.palette_name} (${(opt.visual.palette_hex||[]).join(', ')})\n`;
+    }
+    md += `\n---\n\n`;
+  });
+
+  const blob = new Blob([md], { type: 'text/markdown;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.download = `durex-copy-${Date.now()}.md`;
+  link.href = url;
+  link.click();
+  URL.revokeObjectURL(url);
+  showToast(t.toastExportedMd);
+}
+
 // Bẻ dòng hỗ trợ cả Tiếng Việt, Tiếng Anh và Chữ Hán/CJK
 function wrapTextMultilingual(ctx, text, maxW){
   const lines = [];
@@ -1738,100 +2004,171 @@ function wrapTextMultilingual(ctx, text, maxW){
   return lines;
 }
 
-// Native Canvas Renderer & High-Resolution PNG Exporter
-function downloadPosterDirect(idx, tab){
-  const t = I18N[currentLang] || I18N.vi;
-  const opt = getItem(idx, tab);
-  if(!opt) return;
+// ==========================================
+// POSTER DESIGN STUDIO MODAL
+// ==========================================
+function openStudioModal(idx, tab){
+  const item = getItem(idx, tab);
+  if(!item) return;
 
-  const ratio = document.getElementById('ratio').value || '3:4';
-  let canvasW = 1200;
-  let canvasH = 1600; // 3:4
+  activeStudioItem = JSON.parse(JSON.stringify(item));
+  activeStudioPalette = (item.visual && item.visual.palette_hex && item.visual.palette_hex.length) 
+    ? [...item.visual.palette_hex] 
+    : ['#0E1A2E', '#E2001A', '#FFFFFF'];
 
-  if(ratio === '1:1'){ canvasW = 1400; canvasH = 1400; }
-  else if(ratio === '9:16'){ canvasW = 1080; canvasH = 1920; }
-  else if(ratio === '16:9'){ canvasW = 1920; canvasH = 1080; }
+  document.getElementById('studioHeadline').value = activeStudioItem.headline || '';
+  document.getElementById('studioSubhead').value = activeStudioItem.subhead || '';
+  document.getElementById('studioRatio').value = document.getElementById('ratio').value || '3:4';
 
-  const canvas = document.createElement('canvas');
+  // Render swatches
+  const swatchesContainer = document.getElementById('studioSwatches');
+  swatchesContainer.innerHTML = '';
+
+  // Theme presets
+  const presetPalettes = [
+    { name: 'Gợi ý từ AI', colors: activeStudioPalette },
+    { name: 'Đỏ thương hiệu', colors: ['#E2001A', '#FFFFFF', '#000000'] },
+    { name: 'Xanh đêm sâu', colors: ['#0E1A2E', '#16233F', '#E2001A'] },
+    { name: 'Đen studio', colors: ['#0B0B0B', '#F2EDE3', '#C8102E'] },
+    { name: 'Giấy ấm', colors: ['#F2EDE3', '#C8102E', '#1A1A1A'] }
+  ];
+
+  presetPalettes.forEach((p, pIdx) => {
+    const pBtn = document.createElement('button');
+    pBtn.type = 'button';
+    pBtn.className = 'act-btn';
+    pBtn.style.padding = '4px 8px';
+    pBtn.style.fontSize = '11.5px';
+    pBtn.innerHTML = `<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${p.colors[0]};margin-right:4px;"></span> ${p.name}`;
+    pBtn.onclick = () => {
+      activeStudioPalette = [...p.colors];
+      updateStudioCanvas();
+    };
+    swatchesContainer.appendChild(pBtn);
+  });
+
+  updateStudioCanvas();
+  document.getElementById('studioModal').classList.add('show');
+}
+
+function closeStudioModal(){
+  document.getElementById('studioModal').classList.remove('show');
+  activeStudioItem = null;
+}
+
+function updateStudioCanvas(){
+  if(!activeStudioItem) return;
+
+  const canvas = document.getElementById('studioCanvas');
+  const ratio = document.getElementById('studioRatio').value || '3:4';
+
+  let canvasW = 900;
+  let canvasH = 1200; // 3:4
+
+  if(ratio === '1:1'){ canvasW = 1000; canvasH = 1000; }
+  else if(ratio === '9:16'){ canvasW = 810; canvasH = 1440; }
+  else if(ratio === '16:9'){ canvasW = 1440; canvasH = 810; }
+
   canvas.width = canvasW;
   canvas.height = canvasH;
   const ctx = canvas.getContext('2d');
 
-  const hexList = (opt.visual && opt.visual.palette_hex) || ['#0E1A2E', '#E2001A', '#FFFFFF'];
-  const bgCol = hexList[0] || '#0E1A2E';
-  const accentCol = hexList[1] || '#E2001A';
+  const bgCol = activeStudioPalette[0] || '#0E1A2E';
+  const accentCol = activeStudioPalette[1] || '#E2001A';
+  const textCol = activeStudioPalette[2] || '#FFFFFF';
 
-  // Background gradient
-  const grad = ctx.createRadialGradient(canvasW * 0.5, canvasH * 0.35, 80, canvasW * 0.5, canvasH * 0.5, canvasW * 0.85);
+  // Background
+  const grad = ctx.createRadialGradient(canvasW * 0.5, canvasH * 0.35, 60, canvasW * 0.5, canvasH * 0.5, canvasW * 0.85);
   grad.addColorStop(0, accentCol + '33');
   grad.addColorStop(0.7, bgCol);
   grad.addColorStop(1, '#050A14');
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, canvasW, canvasH);
 
-  // Viền tinh tế
+  // Border
   ctx.strokeStyle = 'rgba(255,255,255,0.08)';
-  ctx.lineWidth = 4;
-  ctx.strokeRect(40, 40, canvasW - 80, canvasH - 80);
+  ctx.lineWidth = 3;
+  ctx.strokeRect(30, 30, canvasW - 60, canvasH - 60);
 
-  // Eyebrow tag
-  ctx.font = '700 24px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif';
+  // Tag
+  ctx.font = '700 20px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif';
   ctx.fillStyle = accentCol;
-  ctx.fillText(String(opt.formula || 'DUREX COPYWRITER').toUpperCase(), 90, 110);
+  ctx.fillText(String(activeStudioItem.formula || 'DUREX COPYWRITER').toUpperCase(), 70, 90);
 
-  // Line ngăn cách nhỏ
   ctx.fillStyle = accentCol;
-  ctx.fillRect(90, 126, 60, 4);
+  ctx.fillRect(70, 102, 50, 3);
 
-  // Headline lớn tự wrap (hỗ trợ Việt / Anh / Trung)
-  ctx.font = '900 66px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif';
+  // Live Headline
+  const headlineText = document.getElementById('studioHeadline').value || '';
+  ctx.font = '900 56px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif';
   ctx.fillStyle = '#FFFFFF';
   
-  const maxTextWidth = canvasW - 180;
-  const headlineLines = wrapTextMultilingual(ctx, opt.headline || '', maxTextWidth);
+  const maxTextWidth = canvasW - 140;
+  const headlineLines = wrapTextMultilingual(ctx, headlineText, maxTextWidth);
   let y = canvasH * 0.42;
-  const lineHeight = 84;
+  const lineHeight = 72;
 
   for(const l of headlineLines){
-    ctx.fillText(l.trim(), 90, y);
+    ctx.fillText(l.trim(), 70, y);
     y += lineHeight;
   }
 
-  // Subhead
-  if(opt.subhead){
-    y += 24;
-    ctx.font = '500 32px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif';
-    ctx.fillStyle = 'rgba(242,237,227,0.75)';
-    const subheadLines = wrapTextMultilingual(ctx, opt.subhead, maxTextWidth);
+  // Live Subhead
+  const subheadText = document.getElementById('studioSubhead').value || '';
+  if(subheadText){
+    y += 18;
+    ctx.font = '500 28px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif';
+    ctx.fillStyle = 'rgba(242,237,227,0.78)';
+    const subheadLines = wrapTextMultilingual(ctx, subheadText, maxTextWidth);
     for(const sl of subheadLines){
-      ctx.fillText(sl.trim(), 90, y);
-      y += 44;
+      ctx.fillText(sl.trim(), 70, y);
+      y += 38;
     }
   }
 
-  // Visual Hint Box
-  if(opt.visual && opt.visual.subject_desc){
-    const vY = canvasH - 220;
-    ctx.font = '400 22px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif';
-    ctx.fillStyle = 'rgba(255,255,255,0.45)';
-    ctx.fillText('VISUAL: ' + opt.visual.subject_desc.slice(0, 65), 90, vY);
+  // Visual hint
+  if(activeStudioItem.visual && activeStudioItem.visual.subject_desc){
+    const vY = canvasH - 160;
+    ctx.font = '400 18px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.4)';
+    ctx.fillText('VISUAL: ' + activeStudioItem.visual.subject_desc.slice(0, 60), 70, vY);
   }
 
   // Footer branding
   ctx.fillStyle = 'rgba(255,255,255,0.12)';
-  ctx.fillRect(90, canvasH - 140, canvasW - 180, 2);
+  ctx.fillRect(70, canvasH - 105, canvasW - 140, 2);
 
-  ctx.font = '600 20px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif';
+  ctx.font = '600 16px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif';
   ctx.fillStyle = 'rgba(255,255,255,0.4)';
-  ctx.fillText('DUAL-LAYER SEMANTICS', 90, canvasH - 95);
-  ctx.fillText('DUREX-STYLE COPYWRITER', canvasW - 420, canvasH - 95);
+  ctx.fillText('DUAL-LAYER SEMANTICS', 70, canvasH - 70);
+  ctx.fillText('DUREX-STYLE STUDIO', canvasW - 320, canvasH - 70);
+}
 
-  // Trigger download
+function downloadStudioCanvas(){
+  const canvas = document.getElementById('studioCanvas');
+  const t = I18N[currentLang] || I18N.vi;
   const link = document.createElement('a');
-  link.download = `durex-copy-${Date.now()}.png`;
+  link.download = `durex-poster-${Date.now()}.png`;
   link.href = canvas.toDataURL('image/png');
   link.click();
   showToast(t.toastDownloaded);
+}
+
+async function copyStudioCanvasImage(){
+  const canvas = document.getElementById('studioCanvas');
+  const t = I18N[currentLang] || I18N.vi;
+  try{
+    canvas.toBlob(async blob => {
+      if(!blob) return;
+      await navigator.clipboard.write([
+        new ClipboardItem({ 'image/png': blob })
+      ]);
+      showToast(t.toastCopiedImg);
+    });
+  }catch(err){
+    console.warn(err);
+    showToast('Trình duyệt chưa hỗ trợ sao chép ảnh trực tiếp. Vui lòng bấm Tải ảnh.');
+  }
 }
 
 function escapeHtml(str){
@@ -1840,7 +2177,6 @@ function escapeHtml(str){
   return div.innerHTML;
 }
 
-// Khởi chạy khi tài liệu sẵn sàng
 window.addEventListener('DOMContentLoaded', initApp);
 </script>
 </body>

@@ -38,10 +38,15 @@ Khác với quảng cáo thông thường chỉ nói trực diện về sản ph
 8. **Kiềm chế ngược**: Giữa lúc khán giả mong chờ một câu đùa cợt, lại nói một câu chân thành, sâu lắng và đắt giá.
 
 ### 🚀 Tính năng nổi bật
-* **Đa nhà cung cấp AI**: OpenRouter (Khuyên dùng - không lo CORS), Google Gemini (Free qua AI Studio), Claude, OpenAI, DeepSeek.
+* **Hỗ trợ 3 ngôn ngữ giao diện & xuất copy**: Chuyển đổi linh hoạt giữa 🇻🇳 Tiếng Việt, 🇬🇧 English, 🇨🇳 简体中文.
+* **Đa nhà cung cấp AI & Dropdown chọn model**: OpenRouter (Khuyên dùng - không lo CORS), Google Gemini (Free qua AI Studio), Claude, OpenAI, DeepSeek kèm danh sách model thịnh hành.
 * **Bộ chọn Mức độ táo bạo**: 🌿 *Tinh tế (B2B)* — ⚡ *Hóm hỉnh (F&B/Retail)* — 🔥 *Táo bạo (Thời trang/Night)*.
-* **Mô phỏng Poster (Poster Mockup Studio)**: Chuyển đổi linh hoạt giữa Dạng Thẻ và Poster. Tích hợp Native Canvas để **Tải ảnh Poster PNG 1200x1600** siêu nét.
-* **Tiện ích sao chép**: Nút sao chép Text và tự sinh Prompt vẽ ảnh Midjourney/Flux sang tiếng Anh.
+* **Studio Thiết kế Poster (Poster Design Studio Modal)**:
+  * Xem thử mockup tỷ lệ thực tế (3:4, 1:1, 9:16, 16:9).
+  * Chỉnh sửa trực tiếp Headline & Subhead ngay trên modal.
+  * Tự do chọn bảng màu (AI đề xuất hoặc 4 theme kinh điển của Durex).
+  * Tải ảnh PNG 2x retina độ nét cao hoặc sao chép ảnh trực tiếp vào Clipboard.
+* **Tiện ích xuất bản**: Xuất toàn bộ phương án ra file Markdown (`.md`), sao chép Text và tự sinh Prompt vẽ ảnh Midjourney/Flux.
 * **Lưu trữ yêu thích**: Bookmark các câu copy tâm đắc vào `localStorage`.
 
 ---
@@ -75,10 +80,15 @@ Unlike conventional ads that blurt out product specs or rely on shallow puns ("d
 8. **Reverse Restraint**: Delivering a heartfelt, deeply serious statement precisely when the audience expects a witty joke.
 
 ### 🚀 Key Features
-* **Multi-Provider AI**: OpenRouter (Recommended — completely bypasses browser CORS), Google Gemini (Free tier via Google AI Studio), Claude, OpenAI, and DeepSeek.
+* **Full Trilingual Experience**: Complete UI and AI copywriting generation in 🇻🇳 Vietnamese, 🇬🇧 English, and 🇨🇳 Chinese.
+* **Multi-Provider AI with Popular Models Dropdown**: OpenRouter (Recommended — completely bypasses browser CORS), Google Gemini (Free via AI Studio), Claude, OpenAI, and DeepSeek.
 * **Boldness Level Slider**: 🌿 *Subtle (B2B/Corporate)* — ⚡ *Witty (F&B/Retail)* — 🔥 *Edgy (Nightlife/Fashion)*.
-* **Live Poster Mockup Studio**: Switch seamlessly between Card View and Poster Preview. Export high-resolution PNG posters (1200x1600) via native HTML5 Canvas.
-* **1-Click Productivity**: Instant text copy and auto-generated Midjourney / Flux minimalist photography prompts.
+* **Interactive Poster Design Studio Modal**:
+  * Live interactive mockup for any aspect ratio (3:4, 1:1, 9:16, 16:9).
+  * Direct inline editing of Headline & Subhead before exporting.
+  * Theme switcher: AI suggested palette or 4 iconic Durex palettes.
+  * Download 2x retina high-resolution PNG or copy image directly to clipboard.
+* **Export Utilities**: Export all generated options to Markdown (`.md`), 1-click text copy, and auto-generated Midjourney/Flux prompts.
 * **Local Favorites**: Save and organize your favorite copies directly in your browser (`localStorage`).
 
 ---
@@ -112,13 +122,18 @@ Unlike conventional ads that blurt out product specs or rely on shallow puns ("d
 8. **逆向克制**：在所有人都在等待你抖机灵、开玩笑的时刻，反而给出一句无比真诚、严肃且动人的真话。
 
 ### 🚀 核心功能特性
-* **多 AI 模型支持**：
-  * **OpenRouter（强烈推荐）**：原生支持浏览器直接调用，**彻底避免跨域 CORS 拦截**，聚合 DeepSeek V3/R1、Claude 3.5、GPT-4o 等优质模型。
+* **完整三语生态**：界面与文案生成全面支持 🇻🇳 越南语、🇬🇧 英语与 🇨🇳 简体中文。
+* **多 AI 模型支持与精选下拉列表**：
+  * **OpenRouter（强烈推荐）**：原生支持浏览器直接调用，**彻底避免跨域 CORS 拦截**，聚合 DeepSeek V3/R1、Claude 3.5、GPT-4o、Gemini 2.0 等优质模型。
   * **Google Gemini**：支持通过 Google AI Studio 免费申请的 API Key 直接使用。
-  * **Claude / OpenAI / DeepSeek**：支持配置自定义反向代理（Custom Base URL）。
-* **大胆度调节（Boldness Level）**：🌿 *克制优雅（适合 B2B、金融）* — ⚡ *机智风趣（适合餐饮零售）* — 🔥 *锐利大胆（还原经典风格）*。
-* **海报模拟工作室（Poster Mockup Studio）**：在卡片列表与真实海报排版之间自由切换，内置 HTML5 Canvas 原生渲染引擎，一键下载 1200x1600 高清 PNG 海报。
-* **一键辅助工具**：一键复制文案，一键生成 Midjourney / Flux 极简摄影风格英文提示词。
+  * **Claude / OpenAI / DeepSeek**：支持配置各供应商专属的 Base URL 反向代理。
+* **文案大胆度调节（Boldness Level）**：🌿 *克制优雅（适合 B2B、金融）* — ⚡ *机智风趣（适合餐饮零售）* — 🔥 *锐利大胆（还原经典风格）*。
+* **交互式海报设计工作室（Poster Design Studio Modal）**：
+  * 自由切换 3:4 (标准海报)、1:1 (正方方形)、9:16 (竖屏故事)、16:9 (横屏横幅)。
+  * 支持在弹窗中**直接修改主标题与副标题**，海报画布毫秒级实时重绘。
+  * 配色随心换：一键切换 AI 建议色或 4 款杜蕾斯经典色系（品牌正红、深夜幽蓝、影棚纯黑、暖调旧宣）。
+  * 一键下载 2x Retina 高清 PNG 海报，或直接复制海报图像到系统剪贴板。
+* **高效导出**：一键导出所有生成方案为 Markdown (`.md`) 文件，一键复制文案与 Midjourney/Flux 提示词。
 * **收藏与本地持久化**：支持点赞收藏心仪文案，安全保存 API Key 于浏览器 `localStorage`。
 
 ---
