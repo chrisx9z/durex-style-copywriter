@@ -3,161 +3,387 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Máy tạo Copy 2 Lớp Ngữ Nghĩa</title>
+<title>Durex-Style Copywriter — Máy tạo Copy 2 Lớp Ngữ Nghĩa</title>
+<meta name="description" content="Web app tạo copy quảng cáo theo phương pháp ngữ nghĩa hai lớp (Durex style 2011-2017) với đa dạng nhà cung cấp AI (OpenRouter, Claude, OpenAI, Gemini, DeepSeek).">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2244%22 fill=%22%23E2001A%22/><text x=%2250%22 y=%2262%22 font-size=%2238%22 font-weight=%22bold%22 text-anchor=%22middle%22 fill=%22%23FFFFFF%22 font-family=%22sans-serif%22>2L</text></svg>">
 <style>
   :root{
-    --bg:#0E1A2E;
-    --bg-soft:#16233F;
-    --panel:#1B2A4A;
+    --bg:#0B1322;
+    --bg-soft:#132038;
+    --panel:#192744;
+    --panel-hover:#203154;
     --ink:#F2EDE3;
-    --ink-dim:#B9C2D6;
+    --ink-dim:#9EACC8;
     --accent:#E2001A;
-    --accent-soft:#FCEDF1;
+    --accent-hover:#F01832;
+    --accent-glow:rgba(226,0,26,0.25);
     --border:rgba(242,237,227,0.12);
+    --border-strong:rgba(242,237,227,0.24);
     --radius:14px;
-    --shadow:0 8px 30px rgba(0,0,0,0.35);
+    --radius-sm:8px;
+    --shadow:0 12px 36px rgba(0,0,0,0.42);
   }
   *{box-sizing:border-box;}
   html{color-scheme:dark;}
   body{
     margin:0;
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-    background:radial-gradient(circle at 20% -10%, #1B2A4A 0%, #0E1A2E 55%, #0A1424 100%);
+    background:radial-gradient(circle at 15% -10%, #1B2C4E 0%, #0B1322 55%, #070D18 100%);
     color:var(--ink);
     min-height:100vh;
     line-height:1.6;
   }
-  .wrap{max-width:1080px;margin:0 auto;padding:40px 20px 80px;}
-  header{margin-bottom:32px;}
+  .wrap{max-width:1160px;margin:0 auto;padding:36px 20px 80px;}
+  header{margin-bottom:28px;}
+  .header-top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:12px;}
   .eyebrow{
     display:inline-flex;align-items:center;gap:8px;
-    font-size:12px;letter-spacing:0.14em;text-transform:uppercase;
+    font-size:12px;letter-spacing:0.12em;text-transform:uppercase;
     color:var(--ink-dim);border:1px solid var(--border);border-radius:999px;
-    padding:6px 14px;margin-bottom:16px;
+    padding:6px 14px;background:rgba(255,255,255,0.02);
   }
-  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);}
-  h1{font-size:clamp(26px,4vw,38px);margin:0 0 10px;font-weight:700;letter-spacing:-0.01em;}
-  .sub{color:var(--ink-dim);font-size:15px;max-width:640px;margin:0;}
-  .layout{display:grid;grid-template-columns:340px 1fr;gap:24px;align-items:start;}
-  @media (max-width:860px){.layout{grid-template-columns:1fr;}}
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent);}
+  .github-badge{
+    display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-dim);
+    text-decoration:none;border:1px solid var(--border);border-radius:999px;padding:5px 12px;
+    transition:all .15s;
+  }
+  .github-badge:hover{color:var(--ink);border-color:var(--ink-dim);background:rgba(255,255,255,0.05);}
+  h1{font-size:clamp(26px,4vw,38px);margin:0 0 8px;font-weight:800;letter-spacing:-0.02em;}
+  h1 span{color:var(--accent);}
+  .sub{color:var(--ink-dim);font-size:15px;max-width:760px;margin:0;}
+
+  /* Presets Bar */
+  .presets-wrap{margin-bottom:24px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;}
+  .presets-title{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-dim);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+  .presets-list{display:flex;flex-wrap:wrap;gap:8px;}
+  .preset-btn{
+    background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--ink);
+    border-radius:999px;padding:5px 12px;font-size:12px;cursor:pointer;transition:all .15s;
+  }
+  .preset-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent);transform:translateY(-1px);}
+
+  /* Layout */
+  .layout{display:grid;grid-template-columns:360px 1fr;gap:24px;align-items:start;}
+  @media (max-width:920px){.layout{grid-template-columns:1fr;}}
+  
   .card{
     background:var(--panel);
     border:1px solid var(--border);
     border-radius:var(--radius);
-    padding:24px;
+    padding:22px;
     box-shadow:var(--shadow);
   }
-  .card h2{font-size:14px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-dim);margin:0 0 18px;font-weight:600;}
-  label{display:block;font-size:13px;color:var(--ink-dim);margin:16px 0 6px;}
+  .card h2{font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-dim);margin:0 0 16px;font-weight:700;display:flex;justify-content:space-between;align-items:center;}
+  label{display:block;font-size:12px;font-weight:600;color:var(--ink-dim);margin:14px 0 6px;text-transform:uppercase;letter-spacing:0.04em;}
   label:first-of-type{margin-top:0;}
+  
   input[type=text],input[type=password],textarea,select{
     width:100%;
-    background:rgba(255,255,255,0.04);
+    background:rgba(0,0,0,0.22);
     border:1px solid var(--border);
     border-radius:10px;
-    padding:11px 13px;
+    padding:10px 12px;
     color:var(--ink);
-    font-size:14px;
+    font-size:13.5px;
     font-family:inherit;
     outline:none;
-    transition:border-color .15s;
+    transition:border-color .15s, box-shadow .15s;
   }
-  input:focus,textarea:focus,select:focus{border-color:var(--accent);}
+  input:focus,textarea:focus,select:focus{
+    border-color:var(--accent);
+    box-shadow:0 0 0 2px var(--accent-glow);
+  }
   textarea{resize:vertical;min-height:64px;}
-  select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--ink-dim) 50%),linear-gradient(135deg,var(--ink-dim) 50%,transparent 50%);background-position:calc(100% - 18px) center,calc(100% - 13px) center;background-size:5px 5px,5px 5px;background-repeat:no-repeat;color-scheme:dark;}
+  select{
+    appearance:none;
+    background-image:linear-gradient(45deg,transparent 50%,var(--ink-dim) 50%),linear-gradient(135deg,var(--ink-dim) 50%,transparent 50%);
+    background-position:calc(100% - 18px) center,calc(100% - 13px) center;
+    background-size:5px 5px,5px 5px;background-repeat:no-repeat;
+    cursor:pointer;
+  }
   select option{background:var(--bg-soft);color:var(--ink);}
-  select option:checked,select option:hover,select option:focus{background:var(--accent);color:#fff;}
-  .hint{font-size:12px;color:var(--ink-dim);opacity:0.75;margin-top:6px;}
+
+  .key-input-wrap{position:relative;display:flex;align-items:center;}
+  .toggle-pwd-btn{
+    position:absolute;right:8px;background:none;border:none;color:var(--ink-dim);
+    cursor:pointer;padding:4px 6px;font-size:12px;opacity:0.75;
+  }
+  .toggle-pwd-btn:hover{opacity:1;color:var(--ink);}
+
+  .checkbox-line{
+    display:flex;align-items:center;gap:8px;margin-top:8px;font-size:12px;color:var(--ink-dim);cursor:pointer;
+  }
+  .checkbox-line input{cursor:pointer;accent-color:var(--accent);margin:0;}
+
+  /* Advanced Collapsible */
+  .advanced-toggle{
+    display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-dim);
+    background:none;border:none;padding:0;margin:12px 0 4px;cursor:pointer;text-decoration:underline;
+  }
+  .advanced-toggle:hover{color:var(--ink);}
+  .advanced-box{
+    display:none;background:rgba(0,0,0,0.18);border:1px solid var(--border);border-radius:10px;
+    padding:12px;margin-top:8px;margin-bottom:12px;
+  }
+  .advanced-box.show{display:block;}
+
+  /* Radio Pills for Boldness */
+  .boldness-pills{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:6px;}
+  .bold-label{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:8px 4px;border:1px solid var(--border);border-radius:8px;background:rgba(255,255,255,0.03);
+    font-size:11.5px;color:var(--ink-dim);cursor:pointer;transition:all .15s;text-align:center;
+  }
+  .bold-label input{display:none;}
+  .bold-label.active{background:rgba(226,0,26,0.15);border-color:var(--accent);color:#fff;font-weight:600;}
+
+  .hint{font-size:11.5px;color:var(--ink-dim);opacity:0.8;margin-top:5px;line-height:1.4;}
+  .cors-warning{
+    background:rgba(226,0,26,0.12);border:1px solid rgba(226,0,26,0.3);border-radius:8px;
+    padding:8px 10px;font-size:11.5px;color:#ffadb6;margin-top:8px;display:none;line-height:1.4;
+  }
+  .cors-warning.show{display:block;}
+  .cors-warning a{color:#fff;text-decoration:underline;}
+
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
   button.primary{
-    margin-top:22px;width:100%;
+    margin-top:20px;width:100%;
     background:var(--accent);
     color:#fff;border:none;border-radius:10px;
-    padding:13px 16px;font-size:15px;font-weight:600;
-    cursor:pointer;transition:transform .1s, opacity .15s;
+    padding:13px 16px;font-size:14.5px;font-weight:700;letter-spacing:0.02em;
+    cursor:pointer;transition:all .15s;box-shadow:0 4px 18px var(--accent-glow);
   }
-  button.primary:hover{opacity:0.92;}
-  button.primary:active{transform:scale(0.99);}
-  button.primary:disabled{opacity:0.5;cursor:not-allowed;}
-  .status{font-size:13px;margin-top:12px;padding:10px 12px;border-radius:8px;display:none;}
+  button.primary:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 6px 22px var(--accent-glow);}
+  button.primary:active{transform:translateY(1px);}
+  button.primary:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+
+  .status{font-size:13px;margin-top:12px;padding:10px 12px;border-radius:8px;display:none;line-height:1.4;}
   .status.show{display:block;}
-  .status.error{background:rgba(226,0,26,0.12);color:#ff9aa4;border:1px solid rgba(226,0,26,0.3);}
-  .status.info{background:rgba(255,255,255,0.05);color:var(--ink-dim);border:1px solid var(--border);}
-  .results{display:flex;flex-direction:column;gap:16px;}
+  .status.error{background:rgba(226,0,26,0.16);color:#ff9aa4;border:1px solid rgba(226,0,26,0.35);}
+  .status.info{background:rgba(255,255,255,0.06);color:var(--ink-dim);border:1px solid var(--border);}
+
+  /* Right column Header / Tabs */
+  .results-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;}
+  .tab-group{display:flex;background:var(--bg-soft);border:1px solid var(--border);border-radius:999px;padding:3px;}
+  .tab-btn{
+    background:none;border:none;color:var(--ink-dim);padding:6px 14px;font-size:12.5px;font-weight:600;
+    border-radius:999px;cursor:pointer;transition:all .15s;
+  }
+  .tab-btn.active{background:var(--panel);color:var(--ink);box-shadow:0 2px 6px rgba(0,0,0,0.25);}
+  .view-switch{display:flex;gap:4px;}
+  .view-btn{
+    background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--ink-dim);
+    padding:5px 10px;font-size:12px;border-radius:6px;cursor:pointer;transition:all .15s;
+  }
+  .view-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+  .results{display:flex;flex-direction:column;gap:18px;}
   .empty{
     border:1px dashed var(--border);border-radius:var(--radius);
-    padding:60px 24px;text-align:center;color:var(--ink-dim);font-size:14px;
+    padding:60px 24px;text-align:center;color:var(--ink-dim);font-size:14px;background:rgba(255,255,255,0.01);
   }
+
+  /* Result Option Card */
   .opt-card{
     background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
-    padding:22px 24px;box-shadow:var(--shadow);
+    padding:22px 24px;box-shadow:var(--shadow);transition:border-color .15s;position:relative;
   }
-  .opt-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px;flex-wrap:wrap;}
+  .opt-card:hover{border-color:var(--border-strong);}
+  .opt-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;}
+  .head-tags{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
   .formula-tag{
-    display:inline-block;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;
+    display:inline-block;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;
     background:rgba(226,0,26,0.15);color:#ff9aa4;border:1px solid rgba(226,0,26,0.35);
-    border-radius:999px;padding:4px 10px;font-weight:600;
+    border-radius:999px;padding:3px 10px;font-weight:600;
   }
-  .headline{font-size:22px;font-weight:700;margin:6px 0 4px;letter-spacing:-0.01em;}
-  .subhead{color:var(--ink-dim);font-size:14px;margin:0 0 14px;}
-  .why{font-size:13px;color:var(--ink-dim);font-style:italic;margin:0 0 16px;padding-left:12px;border-left:2px solid var(--border);}
+  .bold-tag{
+    font-size:11px;background:rgba(255,255,255,0.06);color:var(--ink-dim);border-radius:999px;
+    padding:3px 8px;border:1px solid var(--border);
+  }
+  .fav-btn{
+    background:none;border:none;color:var(--ink-dim);cursor:pointer;padding:4px;
+    font-size:16px;line-height:1;transition:all .15s;opacity:0.75;
+  }
+  .fav-btn:hover{opacity:1;transform:scale(1.15);}
+  .fav-btn.active{color:#ff4a68;opacity:1;}
+
+  .headline{font-size:23px;font-weight:800;margin:4px 0 6px;letter-spacing:-0.015em;line-height:1.35;color:#fff;}
+  .subhead{color:var(--ink-dim);font-size:14.5px;margin:0 0 14px;line-height:1.5;}
+  .why{
+    font-size:13px;color:var(--ink-dim);margin:0 0 16px;padding:8px 12px;
+    background:rgba(0,0,0,0.18);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;
+  }
+  .why strong{color:var(--ink);font-weight:600;}
+
   .visual-block{
     display:grid;grid-template-columns:1fr 1fr;gap:16px;
-    background:rgba(255,255,255,0.03);border-radius:10px;padding:14px 16px;
-    font-size:13px;
+    background:rgba(0,0,0,0.2);border-radius:10px;padding:14px 16px;
+    font-size:13px;border:1px solid rgba(255,255,255,0.05);margin-bottom:16px;
   }
-  @media (max-width:560px){.visual-block{grid-template-columns:1fr;}}
-  .vlabel{color:var(--ink-dim);font-size:11px;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;}
-  .swatches{display:flex;gap:6px;margin-top:4px;}
-  .swatch{width:22px;height:22px;border-radius:6px;border:1px solid rgba(255,255,255,0.2);}
-  footer{margin-top:40px;font-size:12px;color:var(--ink-dim);opacity:0.7;line-height:1.7;}
-  footer a{color:var(--ink-dim);}
-  .kbtn{background:none;border:none;color:var(--accent-soft);opacity:0.6;font-size:12px;cursor:pointer;text-decoration:underline;padding:0;margin-top:8px;}
-  .kbtn:hover{opacity:1;}
+  @media (max-width:600px){.visual-block{grid-template-columns:1fr;}}
+  .vlabel{color:var(--ink-dim);font-size:11px;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;font-weight:600;}
+  .swatches{display:flex;gap:6px;margin-top:6px;align-items:center;}
+  .swatch{width:22px;height:22px;border-radius:6px;border:1px solid rgba(255,255,255,0.25);box-shadow:0 2px 5px rgba(0,0,0,0.3);}
+
+  /* Action Bar on Cards */
+  .card-actions{display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--border);padding-top:14px;margin-top:12px;}
+  .act-btn{
+    background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--ink);
+    border-radius:8px;padding:6px 12px;font-size:12.5px;cursor:pointer;
+    display:inline-flex;align-items:center;gap:6px;transition:all .15s;font-weight:500;
+  }
+  .act-btn:hover{background:rgba(255,255,255,0.09);border-color:var(--ink-dim);transform:translateY(-1px);}
+  .act-btn.primary-act{background:rgba(226,0,26,0.18);border-color:rgba(226,0,26,0.4);color:#ffb3ba;}
+  .act-btn.primary-act:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+  /* Poster Mockup Grid View */
+  .poster-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+  .poster-box{
+    position:relative;border-radius:12px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,0.5);
+    display:flex;flex-direction:column;justify-content:space-between;padding:28px 22px;
+    min-height:380px;border:1px solid rgba(255,255,255,0.1);transition:transform .2s;
+  }
+  .poster-box:hover{transform:translateY(-3px);}
+  .poster-box.ar-3-4{aspect-ratio:3/4;}
+  .poster-box.ar-1-1{aspect-ratio:1/1;}
+  .poster-box.ar-9-16{aspect-ratio:9/16;}
+  .poster-header{display:flex;justify-content:space-between;align-items:flex-start;}
+  .poster-body{margin:auto 0;}
+  .poster-title{font-size:24px;font-weight:900;letter-spacing:-0.02em;line-height:1.25;margin:0 0 10px;}
+  .poster-sub{font-size:13.5px;opacity:0.85;margin:0;}
+  .poster-footer{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    font-size:10px;text-transform:uppercase;letter-spacing:0.12em;opacity:0.65;border-top:1px solid rgba(255,255,255,0.15);padding-top:12px;
+  }
+  .poster-dl-btn{
+    position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);
+    border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:999px;padding:5px 11px;
+    font-size:11.5px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;opacity:0;transition:opacity .2s;
+  }
+  .poster-box:hover .poster-dl-btn{opacity:1;}
+  .poster-dl-btn:hover{background:var(--accent);border-color:var(--accent);}
+
+  /* Toast */
+  .toast{
+    position:fixed;bottom:24px;right:24px;background:#1A2946;color:#fff;border:1px solid var(--accent);
+    box-shadow:0 8px 24px rgba(0,0,0,0.5);border-radius:10px;padding:12px 18px;font-size:13px;
+    z-index:9999;transform:translateY(100px);opacity:0;transition:all .25s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    display:flex;align-items:center;gap:8px;
+  }
+  .toast.show{transform:translateY(0);opacity:1;}
+
+  footer{margin-top:48px;font-size:12px;color:var(--ink-dim);opacity:0.8;line-height:1.7;border-top:1px solid var(--border);padding-top:24px;}
+  footer a{color:var(--ink-dim);text-decoration:underline;}
+  footer a:hover{color:var(--ink);}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <span class="eyebrow"><span class="dot"></span>Dựa trên phương pháp luận "Durex-style copywriter"</span>
-    <h1>Máy tạo Copy 2 Lớp Ngữ Nghĩa</h1>
-    <p class="sub">Nhập một chủ đề / sản phẩm, công cụ sẽ đề xuất nhiều phương án copy tiếng Việt dựa trên 8 công thức viết quảng cáo và hệ thống hình ảnh được đúc kết từ phong cách Durex 2011–2017 — kèm gợi ý bảng màu và bố cục.</p>
+    <div class="header-top">
+      <span class="eyebrow"><span class="dot"></span>Phương pháp "Ngữ nghĩa hai lớp" (Durex Style)</span>
+      <a href="https://github.com/chrisx9z/durex-style-copywriter" target="_blank" rel="noopener" class="github-badge">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub Repo
+      </a>
+    </div>
+    <h1>Máy tạo Copy <span>2 Lớp Ngữ Nghĩa</span></h1>
+    <p class="sub">Tạo copy quảng cáo tiếng Việt sắc sảo dựa trên 8 công thức và hệ thống hình ảnh đúc kết từ phong cách Durex 2011–2017. Tự động đề xuất ý tưởng bề mặt, ẩn dụ chìm, bảng màu và bố cục visual.</p>
   </header>
+
+  <!-- Presets Bar -->
+  <div class="presets-wrap">
+    <div class="presets-title">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2h7.6l-6.1 4.5 2.3 7.3-6.2-4.6-6.2 4.6 2.3-7.3-6.1-4.5h7.6z"/></svg>
+      Ý tưởng mẫu (Bấm thử ngay 1-click):
+    </div>
+    <div class="presets-list" id="presetsList">
+      <button class="preset-btn" data-topic="Quán cà phê mở cửa 24/7 không ngủ" data-audience="Sinh viên, lập trình viên, dân chạy deadline" data-hook="Mùa thi cử / Deadline cuối tháng" data-channel="mạng xã hội (Facebook/Instagram)">☕ Cà phê 24/7 (Mùa deadline)</button>
+      <button class="preset-btn" data-topic="App quản lý tài chính và tiết kiệm thông minh" data-audience="Người trẻ đi làm từ 22-30 tuổi" data-hook="Đầu tháng nhận lương" data-channel="mạng xã hội (Facebook/Instagram)">📱 App tài chính (Ngày lương về)</button>
+      <button class="preset-btn" data-topic="Dịch vụ giao đồ ăn nóng hổi thần tốc" data-audience="Cú đêm, dân văn phòng làm tăng ca" data-hook="Trời mưa rả rích ban đêm" data-channel="mạng xã hội (Facebook/Instagram)">🛵 Giao đồ ăn (Đêm mưa lạnh)</button>
+      <button class="preset-btn" data-topic="Phòng tập thể hình Gym & Fitness chuyên nghiệp" data-audience="Dân văn phòng, người muốn cải thiện vóc dáng" data-hook="Đầu năm mới / Sau kỳ nghỉ Tết" data-channel="poster ngoài trời">🏋️ Phòng gym (Hết Tết giảm cân)</button>
+      <button class="preset-btn" data-topic="Khóa học phản xạ tiếng Anh giao tiếp cấp tốc" data-audience="Sinh viên năm cuối, người chuẩn bị nhảy việc" data-hook="Mùa tuyển dụng / Phỏng vấn" data-channel="banner website">📚 Khóa tiếng Anh (Mùa phỏng vấn)</button>
+    </div>
+  </div>
 
   <div class="layout">
     <div class="card">
-      <h2>Thiết lập</h2>
+      <h2>
+        <span>Cấu hình & Dữ liệu</span>
+        <span id="savedCountBadge" style="font-size:11px;font-weight:normal;color:var(--accent);cursor:pointer;">Đã lưu: 0</span>
+      </h2>
 
       <label for="provider">Nhà cung cấp AI</label>
       <select id="provider">
+        <option value="openrouter" selected>OpenRouter (Khuyên dùng - Không lo CORS)</option>
+        <option value="google">Google (Gemini - Chạy tốt từ web)</option>
         <option value="claude">Claude (Anthropic)</option>
-        <option value="openai">OpenAI</option>
-        <option value="google">Google (Gemini)</option>
-        <option value="deepseek">DeepSeek</option>
+        <option value="openai">OpenAI (Cần Proxy/CORS)</option>
+        <option value="deepseek">DeepSeek (Cần Proxy/CORS)</option>
       </select>
 
-      <label for="apiKey" id="apiKeyLabel">Claude API Key</label>
-      <input type="password" id="apiKey" placeholder="sk-ant-..." autocomplete="off">
-      <div class="hint" id="apiKeyHint">Key chỉ được lưu tạm trong bộ nhớ trình duyệt của phiên này (mỗi nhà cung cấp một ô nhớ riêng), không gửi đi đâu khác ngoài API của nhà cung cấp đã chọn. Đóng tab là mất, không lưu ổ cứng.</div>
+      <label for="apiKey" id="apiKeyLabel">OpenRouter API Key</label>
+      <div class="key-input-wrap">
+        <input type="password" id="apiKey" placeholder="sk-or-v1-..." autocomplete="off">
+        <button type="button" class="toggle-pwd-btn" id="togglePwdBtn" title="Hiện/ẩn key">👁️</button>
+      </div>
+      
+      <label class="checkbox-line">
+        <input type="checkbox" id="rememberKey">
+        <span>Ghi nhớ API Key trên trình duyệt này (localStorage)</span>
+      </label>
+
+      <!-- Advanced Base URL -->
+      <button type="button" class="advanced-toggle" id="advancedToggle">⚙️ Tùy chọn nâng cao (Custom Base URL / Proxy)</button>
+      <div class="advanced-box" id="advancedBox">
+        <label for="baseUrl" style="margin-top:0;">Custom Base URL</label>
+        <input type="text" id="baseUrl" placeholder="https://openrouter.ai/api/v1">
+        <div class="hint">Dùng khi bạn muốn kết nối qua Cloudflare Worker, Reverse Proxy hoặc API trung gian tương thích OpenAI.</div>
+      </div>
+
+      <div class="cors-warning" id="corsWarning">
+        ⚠️ <strong>Lưu ý CORS:</strong> Gọi trực tiếp nhà cung cấp này từ trình duyệt web có thể bị chặn bởi chính sách bảo mật mạng (CORS). Bạn nên dùng <strong>OpenRouter</strong> (hỗ trợ cả Claude, GPT-4o, DeepSeek mà không bị chặn) hoặc dùng proxy qua Custom Base URL.
+      </div>
 
       <label for="model">Model</label>
-      <input type="text" id="model" value="claude-sonnet-4-5-20250929">
-      <div class="hint" id="modelHint">Đổi sang model khác nếu bạn muốn (ví dụ claude-opus-4-1-20250805).</div>
+      <input type="text" id="model" value="deepseek/deepseek-chat">
+      <div class="hint" id="modelHint">Đổi sang model khác nếu bạn muốn (ví dụ anthropic/claude-3.5-sonnet, openai/gpt-4o).</div>
 
-      <hr style="border:none;border-top:1px solid var(--border);margin:20px 0;">
+      <hr style="border:none;border-top:1px solid var(--border);margin:18px 0;">
 
       <label for="topic">Chủ đề / sản phẩm *</label>
-      <textarea id="topic" placeholder="Ví dụ: khóa học tiếng Anh online, quán cà phê mở cửa 24h, app quản lý chi tiêu..."></textarea>
+      <textarea id="topic" placeholder="Ví dụ: quán cà phê 24h, app quản lý chi tiêu, khoá học tiếng Anh cấp tốc..."></textarea>
 
-      <label for="audience">Đối tượng (tuỳ chọn)</label>
-      <input type="text" id="audience" placeholder="Ví dụ: dân văn phòng 25-35 tuổi">
+      <label for="audience">Đối tượng khách hàng (tuỳ chọn)</label>
+      <input type="text" id="audience" placeholder="Ví dụ: dân văn phòng 25-35 tuổi, sinh viên năm cuối...">
 
-      <label for="hook">Cớ / dịp (tuỳ chọn)</label>
-      <input type="text" id="hook" placeholder="Ví dụ: Black Friday, mùa thi, đầu tháng lương về">
+      <label for="hook">Cớ / dịp đặc biệt (tuỳ chọn)</label>
+      <input type="text" id="hook" placeholder="Ví dụ: Black Friday, mùa thi cử, đêm lương về, sau Tết...">
+
+      <label>Mức độ táo bạo (Tone / Boldness)</label>
+      <div class="boldness-pills">
+        <label class="bold-label" id="bold-subtle">
+          <input type="radio" name="boldness" value="subtle">
+          <span>🌿 Tinh tế</span>
+          <span style="font-size:10px;opacity:0.75;">B2B, Tài chính</span>
+        </label>
+        <label class="bold-label active" id="bold-witty">
+          <input type="radio" name="boldness" value="witty" checked>
+          <span>⚡ Hóm hỉnh</span>
+          <span style="font-size:10px;opacity:0.75;">F&B, Bán lẻ</span>
+        </label>
+        <label class="bold-label" id="bold-edgy">
+          <input type="radio" name="boldness" value="edgy">
+          <span>🔥 Táo bạo</span>
+          <span style="font-size:10px;opacity:0.75;">Thời trang, Đêm</span>
+        </label>
+      </div>
 
       <div class="row2">
         <div>
-          <label for="channel">Kênh</label>
+          <label for="channel">Kênh truyền thông</label>
           <select id="channel">
             <option value="mạng xã hội (Facebook/Instagram)">MXH (FB/IG)</option>
             <option value="poster ngoài trời">Poster ngoài trời</option>
@@ -168,133 +394,204 @@
         <div>
           <label for="ratio">Tỷ lệ khung hình</label>
           <select id="ratio">
-            <option value="3:4">3:4 (dọc, chuẩn poster)</option>
+            <option value="3:4" selected>3:4 (poster dọc)</option>
             <option value="1:1">1:1 (vuông)</option>
             <option value="9:16">9:16 (story)</option>
             <option value="16:9">16:9 (ngang)</option>
-            <option value="4:3">4:3</option>
           </select>
         </div>
       </div>
 
       <label for="count">Số phương án</label>
       <select id="count">
-        <option value="3">3</option>
-        <option value="4" selected>4</option>
-        <option value="5">5</option>
+        <option value="3">3 phương án</option>
+        <option value="4" selected>4 phương án</option>
+        <option value="5">5 phương án</option>
       </select>
 
-      <button class="primary" id="genBtn">Tạo copy</button>
+      <button class="primary" id="genBtn">Tạo copy ngay</button>
       <div class="status" id="status"></div>
     </div>
 
+    <!-- Right Column: Results & Poster Mockups -->
     <div>
+      <div class="results-header">
+        <div class="tab-group">
+          <button class="tab-btn active" id="tabGenerated">Kết quả vừa tạo</button>
+          <button class="tab-btn" id="tabFavorites">Đã lưu (<span id="favCount">0</span>)</button>
+        </div>
+        <div class="view-switch">
+          <button class="view-btn active" id="viewCards" title="Xem dạng thẻ chi tiết">Dạng Thẻ</button>
+          <button class="view-btn" id="viewPosters" title="Xem mô phỏng Poster thực tế">Mô phỏng Poster</button>
+        </div>
+      </div>
+
       <div class="results" id="results">
-        <div class="empty">Kết quả sẽ hiện ở đây. Điền chủ đề bên trái rồi bấm "Tạo copy".</div>
+        <div class="empty">Kết quả sẽ hiện ở đây. Hãy chọn một mẫu gợi ý bên trên hoặc nhập chủ đề rồi bấm "Tạo copy ngay".</div>
       </div>
     </div>
   </div>
 
   <footer>
-    Công cụ này mô phỏng lại tinh thần của skill mã nguồn mở
-    <a href="https://github.com/crawfordxx/xiaoma-durex-copywriter" target="_blank" rel="noopener">crawfordxx/xiaoma-durex-copywriter</a>
-    (phương pháp "ngữ nghĩa hai lớp" gốc từ các chiến dịch Durex 2011–2017). Công cụ tự áp dụng các giới hạn đạo đức của bản gốc: không dùng chủ đề thảm hoạ/chết chóc, không vật thể hoá phụ nữ, không gợi dục nhắm vào người thật, không khai thác tin tức đau thương — với chủ đề ngoài ngành hàng người lớn, lối chơi chữ phải gắn với giá trị sản phẩm, không đùa cợt dung tục.
+    Dự án được truyền cảm hứng từ skill mã nguồn mở 
+    <a href="https://github.com/crawfordxx/xiaoma-durex-copywriter" target="_blank" rel="noopener">crawfordxx/xiaoma-durex-copywriter</a> 
+    về phương pháp "ngữ nghĩa hai lớp" từ các chiến dịch Durex 2011–2017. Công cụ tự động áp dụng các giới hạn đạo đức khắt khe: Không đụng tới thảm hoạ/chết chóc, không vật thể hoá phụ nữ, không gợi dục nhắm vào người thật hay trẻ em — với sản phẩm ngoài ngành hàng người lớn, lối chơi chữ luôn gắn chặt với giá trị sản phẩm, tuyệt đối không dung tục.
   </footer>
 </div>
 
+<div class="toast" id="toast">Thông báo</div>
+
 <script>
-const SYSTEM_PROMPT = `Bạn là một chuyên gia copywriting áp dụng phương pháp "ngữ nghĩa hai lớp" (dual-layer semantics) được đúc kết từ phong cách quảng cáo Durex Trung Quốc giai đoạn 2011–2017 (thời Huanshi Interactive).
+const SYSTEM_PROMPT = `Bạn là một giám đốc sáng tạo và chuyên gia copywriting bậc thầy, áp dụng phương pháp "ngữ nghĩa hai lớp" (dual-layer semantics) được đúc kết từ các chiến dịch quảng cáo huyền thoại của Durex (thời Huanshi Interactive 2011–2017).
 
 CƠ CHẾ CỐT LÕI:
-Một câu copy hoạt động đồng thời trên hai tầng nghĩa:
-- Tầng bề mặt: một chủ đề nóng, một dịp lễ, một tình huống đời thường — đọc theo nghĩa đen vẫn hợp lý.
-- Tầng chìm: thông điệp thật về sản phẩm/thương hiệu.
-Người đọc phải TỰ kết nối hai tầng này. Nếu chỉ cần một bước liên tưởng thì copy "nổ"; nếu cần từ hai bước liên tưởng trở lên, hoặc phải giải thích ra thì copy "chết". Không bao giờ nói huỵch toẹt sự liên tưởng.
+Một câu copy Durex hoạt động đồng thời trên hai tầng nghĩa:
+- Tầng bề mặt: một chủ đề nóng, thời tiết, thói quen đời thường, sự kiện xã hội — đọc theo nghĩa đen hoàn toàn hợp lý và trong sáng.
+- Tầng chìm: thông điệp sâu sắc về giá trị sản phẩm/thương hiệu, kích thích liên tưởng mạnh mẽ.
+Người đọc phải TỰ kết nối hai tầng này trong đầu. Nếu chỉ cần MỘT BƯỚC liên tưởng thì copy "bùng nổ" (người xem bật cười hoặc gật gù tâm đắc); nếu cần từ hai bước liên tưởng trở lên hoặc phải giải thích ra thì copy thất bại. Không bao giờ nói huỵch toẹt.
 
-8 CÔNG THỨC (áp dụng một hoặc kết hợp, KHÔNG bắt buộc dùng hết mỗi lần):
-1. Chơi chữ đồng âm/gần âm — thay một từ trong cụm hot-trend bằng từ đồng âm/gần âm liên quan tới sản phẩm. Dùng thận trọng, mỗi bài chỉ 1 lần.
-2. Chơi số — tận dụng con số sẵn có của trend (ngày, phiên bản, số lượng) rồi gán cho nó một nghĩa mới trong bối cảnh sản phẩm.
-3. Chiếm dụng thuật ngữ ngành khác — mượn một thuật ngữ chuyên ngành nghe "chính danh" (kỹ thuật, y khoa, luật...) nhưng chỉ dùng đúng nghĩa đen của nó để nói về sản phẩm.
-4. Chuyển cảnh/nhân cách hoá — để một vật thể phụ trong bối cảnh "tự thuật" ở ngôi thứ nhất, ngụ ý hành động của nhân vật chính. Hiệu quả nhất với sản phẩm vô hình/dịch vụ.
-5. Tách ghép chữ/từ — tách một từ thành các phần nhỏ hơn rồi diễn giải lại nghĩa mới từ các phần đó (chỉ áp dụng tốt với chữ Hán gốc; với tiếng Việt, biến thể thành chơi chữ nói lái, viết tắt, hoặc tách một từ ghép thành 2 nghĩa).
-6. Đối xứng/thể lịch — mô phỏng cấu trúc "nên làm gì / không nên làm gì" kiểu lịch vạn niên, hoặc câu đối xứng hai vế tương phản.
-7. Thể thơ ba lớp — ba câu tả cảnh/tình huống tăng dần, câu cuối bẻ lái sang nhân vật/sản phẩm. Ba câu đầu phải tự nó là mô tả hay, không gượng ép.
-8. Kiềm chế ngược — giữa lúc khán giả chờ đùa cợt, lại nói thật lòng, nghiêm túc. Đây là công thức "cao cấp" nhất, chỉ nên đề xuất tối đa 1 lần trong bộ kết quả.
+8 CÔNG THỨC VIẾT QUẢNG CÁO:
+1. Chơi chữ đồng âm/gần âm: Đổi 1 từ trong cụm từ quen thuộc bằng từ đồng âm gắn với sản phẩm.
+2. Chơi số: Tận dụng con số sẵn có của trend (ngày, giờ, phiên bản, giá trị) để gán nghĩa mới.
+3. Chiếm dụng thuật ngữ ngành khác: Mượn thuật ngữ kỹ thuật, y khoa, luật, giao thông nhưng dùng theo nghĩa đen để mô tả sản phẩm.
+4. Chuyển cảnh / Nhân cách hoá: Để một vật thể phụ trong bối cảnh tự thuật ở ngôi thứ nhất ngụ ý hành động chính.
+5. Tách ghép chữ: Tách từ ghép thành 2 nghĩa độc lập hoặc chơi chữ nói lái tinh tế tiếng Việt.
+6. Thể lịch / Đối xứng: Cấu trúc "Nên làm gì / Không nên làm gì" kiểu lịch vạn niên hoặc 2 vế tương phản chan chát.
+7. Thể thơ ba lớp: Ba câu ngắn tả cảnh tăng dần, câu cuối bẻ lái ngoạn mục sang thông điệp sản phẩm.
+8. Kiềm chế ngược: Giữa lúc khán giả mong chờ một câu đùa cợt, lại nói một câu chân thành, sâu lắng, nghiêm túc.
 
-HỆ THỐNG HÌNH ẢNH (gợi ý, không cần vẽ, chỉ mô tả bằng lời):
-- Loại chủ thể: (a) Sản phẩm làm trung tâm — chỉ dùng khi bản thân sản phẩm là ẩn dụ; (b) Vật dụng đời thường làm trung tâm (phổ biến nhất) — vật càng bình dị càng tốt; (c) Chữ/typography làm trung tâm — chữ chính là hình; (d) Con người — chỉ dùng một phần cơ thể (tay, chân, bóng), tránh phô diễn toàn thân để chừa khoảng trống tưởng tượng.
-- 6 bảng màu tham khảo (chọn đúng 1 bảng, không trộn):
-  * "Đỏ thương hiệu": #E2001A, #FFFFFF, #000000 — dùng cho tuyên ngôn, ăn mừng.
-  * "Xanh đêm sâu": #16233F, #0E1A2E, #1B2A4A — dùng cho không khí tinh tế, về đêm.
-  * "Đen studio": #000000 + một điểm sáng nhấn — dùng cho cận cảnh sản phẩm.
-  * "Gradient hồng": #FCEDF1 → #E8558F — dùng cho Valentine, nữ tính, mềm mại.
-  * "Giấy ấm": #F2EDE3, #C8102E, #1A1A1A — dùng cho dịp lễ truyền thống, thư pháp.
-  * "Màu mượn theo chủ đề": mô tả bằng lời thay vì hex cụ thể (ví dụ: mượn màu thương hiệu đối tác/trend).
-- Bố cục: chữ ở 1/3 trên hoặc trên-trái; khoảng trắng tối thiểu 50% khung hình; một điểm nhìn chính duy nhất; nếu có logo, đặt cố định phía dưới, không bị che.
-- Nguyên tắc: câu chữ và hình ảnh KHÔNG được nói cùng một điều — hình minh hoạ tầng bề mặt, chữ gợi tầng chìm (hoặc ngược lại), để chúng bổ sung cho nhau chứ không lặp lại nhau.
+VÍ DỤ MẪU KINH ĐIỂN (FEW-SHOT EXAMPLES TIẾNG VIỆT):
+Ví dụ 1: Quán cà phê 24/7 (Dịp: Mùa thi / Chạy deadline)
+- Công thức: Kiềm chế ngược
+- Headline: "Thức trọn đêm nay. Để mai không phải hối hận."
+- Subhead: "Cà phê đậm vị, mở cửa suốt 24 giờ."
+- Why it works: Bề mặt là thức đêm ôn bài để không hối tiếc điểm thi; tầng chìm là sự đồng hành bền bỉ, trọn vẹn suốt đêm dài.
+- Visual: Ly cà phê bốc khói cạnh cây đèn bàn còn sáng giữa đêm tối tĩnh lặng. Bảng màu: Xanh đêm sâu.
 
-GIỚI HẠN ĐẠO ĐỨC — TUYỆT ĐỐI KHÔNG VI PHẠM:
-- Không đụng tới thảm hoạ, tai nạn, cái chết dù là ẩn dụ.
-- Không vật thể hoá hay hạ thấp phụ nữ (hay bất kỳ giới nào).
-- Không gợi dục, không ngụ ý tình dục nhắm vào người thật, danh nhân, hay bất kỳ ai — tuyệt đối không liên quan đến trẻ vị thành niên dưới bất kỳ hình thức nào.
-- Không khai thác tin tức đau thương, bi kịch xã hội để câu tương tác.
-- Với chủ đề NGOÀI ngành hàng người lớn (là trường hợp mặc định ở đây): lối chơi chữ phải gắn chặt với GIÁ TRỊ THẬT của sản phẩm/dịch vụ được người dùng cung cấp, tuyệt đối không suy diễn sang nghĩa gợi dục hay dung tục kiểu Durex gốc. Giữ lại KỸ THUẬT viết (ngữ nghĩa hai lớp, các công thức), bỏ hoàn toàn NỘI DUNG người lớn.
+Ví dụ 2: App quản lý chi tiêu (Dịp: Ngày lương về)
+- Công thức: Chiếm dụng thuật ngữ
+- Headline: "Vào nhanh, ra chậm."
+- Subhead: "Kiểm soát dòng tiền, giữ trọn thành quả cả tháng."
+- Why it works: Bề mặt là tốc độ dòng tiền thu - chi hợp lý; tầng chìm là sự kiềm chế, kiểm soát nhịp độ an toàn.
+- Visual: Một chiếc ví da khép hờ với một vệt sáng lóe lên. Bảng màu: Đen studio.
 
-ĐỊNH DẠNG TRẢ LỜI:
-Chỉ trả về JSON hợp lệ (không markdown, không code fence, không giải thích thêm), đúng schema sau:
+Ví dụ 3: Dịch vụ giao đồ ăn nóng (Dịp: Đêm mưa bão)
+- Công thức: Chuyển cảnh / Nhân cách hoá
+- Headline: "Ngoài kia gió lớn. Ở đây ấm lòng."
+- Subhead: "Giao món nóng hổi trong 20 phút."
+- Why it works: Bề mặt là thời tiết lạnh được ăn bát phở nóng; tầng chìm là cảm giác được che chở, chăm sóc kịp thời.
+- Visual: Hơi nước mờ trên khung cửa sổ nhìn ra ánh đèn đường mưa rơi. Bảng màu: Giấy ấm.
+
+HỆ THỐNG HÌNH ẢNH (VISUAL MOCKUP):
+- Loại chủ thể: (a) Sản phẩm làm trung tâm; (b) Vật dụng đời thường làm trung tâm; (c) Typography làm trung tâm; (d) Con người (chỉ dùng một phần cơ thể: bóng, bàn tay, góc nhìn POV).
+- 6 bảng màu tham khảo:
+  * "Đỏ thương hiệu": #E2001A, #FFFFFF, #000000 (tuyên ngôn, ăn mừng, năng lượng)
+  * "Xanh đêm sâu": #0E1A2E, #16233F, #E2001A (tinh tế, đêm khuya, chiều sâu)
+  * "Đen studio": #0B0B0B, #F2EDE3, #C8102E (cận cảnh, cao cấp, tương phản cao)
+  * "Gradient hồng": #FCEDF1, #E8558F, #2A101C (mềm mại, tình cảm, tinh khôi)
+  * "Giấy ấm": #F2EDE3, #C8102E, #1A1A1A (truyền thống, thư pháp, hoài niệm)
+  * "Màu mượn theo chủ đề": chọn 3 mã hex phù hợp nhất với chủ đề.
+
+GIỚI HẠN ĐẠO ĐỨC:
+- Tuyệt đối không đụng tới thảm hoạ, chết chóc, dịch bệnh.
+- Không vật thể hoá phụ nữ hay hạ thấp bất kỳ ai.
+- Với các sản phẩm thông thường (F&B, Edtech, Fintech...): Lối chơi chữ phải gắn với GIÁ TRỊ THẬT của sản phẩm, không suy diễn sang dung tục hay người lớn. Giữ kỹ thuật tinh hoa, loại bỏ yếu tố thô tục.
+
+SCHEMA TRẢ VỀ:
+Bắt buộc trả về duy nhất chuỗi JSON hợp lệ (không markdown fences, không giải thích ngoài lề):
 {
   "options": [
     {
-      "formula": "tên công thức đã dùng, bằng tiếng Việt, ví dụ 'Chơi chữ đồng âm'",
-      "headline": "câu copy chính, ngắn gọn, tiếng Việt, tối đa khoảng 14 chữ",
-      "subhead": "một câu bổ trợ ngắn nếu cần, có thể để rỗng",
-      "why_it_works": "1 câu giải thích ngắn gọn tầng bề mặt và tầng chìm của copy này, bằng tiếng Việt",
+      "formula": "Tên công thức tiếng Việt (ví dụ: 'Chiếm dụng thuật ngữ')",
+      "headline": "Câu copy chính, tiếng Việt, tối đa 14 từ, đắt giá, giàu sức gợi",
+      "subhead": "Câu bổ trợ ngắn làm rõ tính năng/sản phẩm",
+      "why_it_works": "Giải thích ngắn 2 tầng nghĩa: [Bề mặt] là gì, [Tầng chìm] là gì",
       "visual": {
         "subject_type": "Sản phẩm | Vật dụng đời thường | Chữ/Typography | Con người (một phần)",
-        "subject_desc": "mô tả ngắn vật thể/khung hình cụ thể, tiếng Việt",
-        "palette_name": "tên bảng màu tiếng Việt, một trong 6 bảng ở trên hoặc biến thể hợp lý",
+        "subject_desc": "Mô tả ngắn gọn khung hình tối giản bằng tiếng Việt",
+        "palette_name": "Tên bảng màu",
         "palette_hex": ["#xxxxxx", "#xxxxxx", "#xxxxxx"],
-        "layout_note": "1 câu mô tả bố cục cụ thể cho tỷ lệ khung hình đã cho, tiếng Việt"
+        "layout_note": "Ghi chú bố cục cho tỷ lệ khung hình đã chọn"
       }
     }
   ]
-}
-Tất cả nội dung text phải bằng tiếng Việt. Mỗi phương án trong "options" phải dùng công thức khác nhau và loại chủ thể hình ảnh khác nhau, tránh lặp ý tưởng.`;
+}`;
 
 const PROVIDER_CONFIG = {
+  openrouter: {
+    label: 'OpenRouter',
+    keyPlaceholder: 'sk-or-v1-...',
+    defaultModel: 'deepseek/deepseek-chat',
+    modelHint: 'Không lo CORS! Hỗ trợ deepseek/deepseek-chat, anthropic/claude-3.5-sonnet, openai/gpt-4o, google/gemini-2.5-flash...',
+    defaultBaseUrl: 'https://openrouter.ai/api/v1',
+    corsDirectSafe: true
+  },
+  google: {
+    label: 'Google (Gemini)',
+    keyPlaceholder: 'AIzaSy...',
+    defaultModel: 'gemini-2.5-flash',
+    modelHint: 'Đổi sang gemini-2.5-pro nếu muốn chiều sâu sáng tạo cao hơn.',
+    defaultBaseUrl: 'https://generativelanguage.googleapis.com',
+    corsDirectSafe: true
+  },
   claude: {
     label: 'Claude (Anthropic)',
     keyPlaceholder: 'sk-ant-...',
-    defaultModel: 'claude-sonnet-4-5-20250929',
-    modelHint: 'Đổi sang model khác nếu bạn muốn (ví dụ claude-opus-4-1-20250805).',
-    keyHost: 'api.anthropic.com'
+    defaultModel: 'claude-3-7-sonnet-20250219',
+    modelHint: 'Claude hỗ trợ gọi trực tiếp từ browser với dangerous direct access.',
+    defaultBaseUrl: 'https://api.anthropic.com/v1',
+    corsDirectSafe: true
   },
   openai: {
     label: 'OpenAI',
     keyPlaceholder: 'sk-...',
     defaultModel: 'gpt-4o',
-    modelHint: 'Đổi sang model khác nếu bạn muốn (ví dụ gpt-4.1, gpt-4o-mini).',
-    keyHost: 'api.openai.com'
-  },
-  google: {
-    label: 'Google (Gemini)',
-    keyPlaceholder: 'AIza...',
-    defaultModel: 'gemini-2.5-flash',
-    modelHint: 'Đổi sang model khác nếu bạn muốn (ví dụ gemini-2.5-pro).',
-    keyHost: 'generativelanguage.googleapis.com'
+    modelHint: 'Lưu ý: api.openai.com chặn CORS browser. Nên dùng proxy qua Custom Base URL hoặc dùng OpenRouter.',
+    defaultBaseUrl: 'https://api.openai.com/v1',
+    corsDirectSafe: false
   },
   deepseek: {
     label: 'DeepSeek',
     keyPlaceholder: 'sk-...',
     defaultModel: 'deepseek-chat',
-    modelHint: 'Đổi sang model khác nếu bạn muốn (ví dụ deepseek-reasoner).',
-    keyHost: 'api.deepseek.com'
+    modelHint: 'Lưu ý: api.deepseek.com chặn CORS browser. Khuyên dùng OpenRouter để gọi DeepSeek mượt mà.',
+    defaultBaseUrl: 'https://api.deepseek.com',
+    corsDirectSafe: false
   }
 };
 
-// Mỗi nhà cung cấp có ô nhớ API key riêng trong bộ nhớ phiên (không lưu ổ cứng, không localStorage).
-const apiKeyStore = { claude: '', openai: '', google: '', deepseek: '' };
-let currentProvider = 'claude';
+let currentProvider = 'openrouter';
+let currentOptions = [];
+let currentView = 'cards';
+let currentTab = 'generated';
+let favorites = [];
+
+// Khởi tạo và nạp dữ liệu từ localStorage
+function initApp(){
+  try{
+    const savedFav = localStorage.getItem('durex_favorites');
+    if(savedFav) favorites = JSON.parse(savedFav);
+    updateFavBadges();
+  }catch(e){ console.warn('Lỗi đọc favorites:', e); }
+
+  const savedRemember = localStorage.getItem('durex_remember_key') === 'true';
+  document.getElementById('rememberKey').checked = savedRemember;
+
+  if(savedRemember){
+    const savedKeys = localStorage.getItem('durex_keys');
+    if(savedKeys){
+      try{
+        const parsed = JSON.parse(savedKeys);
+        Object.assign(apiKeyStore, parsed);
+      }catch(e){}
+    }
+  }
+
+  onProviderChange();
+  bindEvents();
+}
+
+const apiKeyStore = { openrouter: '', claude: '', openai: '', google: '', deepseek: '' };
 
 function onProviderChange(){
   const select = document.getElementById('provider');
@@ -303,32 +600,117 @@ function onProviderChange(){
 
   document.getElementById('apiKeyLabel').textContent = cfg.label + ' API Key';
   document.getElementById('apiKey').placeholder = cfg.keyPlaceholder;
-  document.getElementById('apiKey').value = apiKeyStore[currentProvider];
-  document.getElementById('apiKeyHint').textContent =
-    `Key chỉ được lưu tạm trong bộ nhớ trình duyệt của phiên này, chỉ gửi tới ${cfg.keyHost}. Đóng tab là mất, không lưu ổ cứng.`;
-
+  document.getElementById('apiKey').value = apiKeyStore[currentProvider] || '';
   document.getElementById('model').value = cfg.defaultModel;
   document.getElementById('modelHint').textContent = cfg.modelHint;
+  document.getElementById('baseUrl').value = cfg.defaultBaseUrl;
+
+  const corsBox = document.getElementById('corsWarning');
+  if(!cfg.corsDirectSafe){
+    corsBox.classList.add('show');
+  } else {
+    corsBox.classList.remove('show');
+  }
 }
 
-function buildUserPrompt(){
-  const topic = document.getElementById('topic').value.trim();
-  const audience = document.getElementById('audience').value.trim();
-  const hook = document.getElementById('hook').value.trim();
-  const channel = document.getElementById('channel').value;
-  const ratio = document.getElementById('ratio').value;
-  const count = document.getElementById('count').value;
+function bindEvents(){
+  document.getElementById('provider').addEventListener('change', onProviderChange);
+  
+  document.getElementById('apiKey').addEventListener('input', function(){
+    apiKeyStore[currentProvider] = this.value.trim();
+    saveKeysIfPermitted();
+  });
 
-  let lines = [];
-  lines.push(`Chủ đề / sản phẩm: ${topic}`);
-  lines.push(`Đối tượng: ${audience || '(tự suy luận hợp lý từ chủ đề)'}`);
-  lines.push(`Cớ/dịp: ${hook || '(tự chọn một cớ hợp lý, không bắt buộc gắn lễ cụ thể)'}`);
-  lines.push(`Kênh: ${channel}`);
-  lines.push(`Tỷ lệ khung hình: ${ratio}`);
-  lines.push(`Số phương án cần tạo: ${count}`);
-  lines.push('');
-  lines.push('Hãy tạo các phương án copy theo đúng schema JSON đã quy định trong system prompt.');
-  return lines.join('\n');
+  document.getElementById('rememberKey').addEventListener('change', function(){
+    localStorage.setItem('durex_remember_key', this.checked);
+    if(this.checked){
+      saveKeysIfPermitted();
+    } else {
+      localStorage.removeItem('durex_keys');
+    }
+  });
+
+  document.getElementById('togglePwdBtn').addEventListener('click', function(){
+    const input = document.getElementById('apiKey');
+    if(input.type === 'password'){
+      input.type = 'text';
+      this.textContent = '🔒';
+    } else {
+      input.type = 'password';
+      this.textContent = '👁️';
+    }
+  });
+
+  document.getElementById('advancedToggle').addEventListener('click', function(){
+    const box = document.getElementById('advancedBox');
+    box.classList.toggle('show');
+  });
+
+  // Radio boldness pills
+  document.querySelectorAll('.boldness-pills .bold-label').forEach(label => {
+    label.addEventListener('click', function(){
+      document.querySelectorAll('.boldness-pills .bold-label').forEach(l => l.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  // Presets 1-click
+  document.querySelectorAll('.preset-btn').forEach(btn => {
+    btn.addEventListener('click', function(){
+      document.getElementById('topic').value = this.dataset.topic || '';
+      document.getElementById('audience').value = this.dataset.audience || '';
+      document.getElementById('hook').value = this.dataset.hook || '';
+      document.getElementById('channel').value = this.dataset.channel || 'mạng xã hội (Facebook/Instagram)';
+      showToast('Đã nạp mẫu: ' + this.textContent.trim());
+      document.getElementById('topic').focus();
+    });
+  });
+
+  // View switch
+  document.getElementById('viewCards').addEventListener('click', function(){
+    currentView = 'cards';
+    this.classList.add('active');
+    document.getElementById('viewPosters').classList.remove('active');
+    renderCurrentState();
+  });
+  document.getElementById('viewPosters').addEventListener('click', function(){
+    currentView = 'posters';
+    this.classList.add('active');
+    document.getElementById('viewCards').classList.remove('active');
+    renderCurrentState();
+  });
+
+  // Tab Switch
+  document.getElementById('tabGenerated').addEventListener('click', function(){
+    currentTab = 'generated';
+    this.classList.add('active');
+    document.getElementById('tabFavorites').classList.remove('active');
+    renderCurrentState();
+  });
+  document.getElementById('tabFavorites').addEventListener('click', function(){
+    currentTab = 'favorites';
+    this.classList.add('active');
+    document.getElementById('tabGenerated').classList.remove('active');
+    renderCurrentState();
+  });
+  document.getElementById('savedCountBadge').addEventListener('click', function(){
+    document.getElementById('tabFavorites').click();
+  });
+
+  document.getElementById('genBtn').addEventListener('click', generate);
+}
+
+function saveKeysIfPermitted(){
+  if(document.getElementById('rememberKey').checked){
+    localStorage.setItem('durex_keys', JSON.stringify(apiKeyStore));
+  }
+}
+
+function showToast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2400);
 }
 
 function showStatus(msg, type){
@@ -341,9 +723,41 @@ function hideStatus(){
   el.className = 'status';
 }
 
+function buildUserPrompt(){
+  const topic = document.getElementById('topic').value.trim();
+  const audience = document.getElementById('audience').value.trim();
+  const hook = document.getElementById('hook').value.trim();
+  const channel = document.getElementById('channel').value;
+  const ratio = document.getElementById('ratio').value;
+  const count = document.getElementById('count').value;
+
+  const boldnessVal = document.querySelector('input[name="boldness"]:checked') ? document.querySelector('input[name="boldness"]:checked').value : 'witty';
+  const boldnessMap = {
+    subtle: 'Thanh lịch & Tinh tế (ẩn dụ sâu sắc, trang nhã, phù hợp doanh nghiệp/B2B/tài chính)',
+    witty: 'Hóm hỉnh & Duyên dáng (chơi chữ thông minh, hóm hỉnh, cân bằng giữa ẩn ý và dễ hiểu)',
+    edgy: 'Táo bạo & Sắc bén (đậm chất Durex nguyên bản, kích thích trí tưởng tượng, độc lạ, bứt phá)'
+  };
+
+  let lines = [];
+  lines.push(`Chủ đề / sản phẩm: ${topic}`);
+  lines.push(`Đối tượng mục tiêu: ${audience || '(tự suy luận hợp lý từ chủ đề)'}`);
+  lines.push(`Cớ / dịp đặc biệt: ${hook || '(tự chọn một cớ hợp lý, gần gũi)'}`);
+  lines.push(`Mức độ táo bạo yêu cầu: ${boldnessMap[boldnessVal]}`);
+  lines.push(`Kênh truyền thông: ${channel}`);
+  lines.push(`Tỷ lệ khung hình: ${ratio}`);
+  lines.push(`Số lượng phương án cần tạo: ${count}`);
+  lines.push('');
+  lines.push('Hãy tạo các phương án copy theo đúng schema JSON đã quy định trong system prompt. Không lặp công thức.');
+  return lines.join('\n');
+}
+
+// Chống vỡ JSON khi gặp Reasoning model (<think>) hoặc Markdown
 function extractJson(text){
-  let t = text.trim();
-  t = t.replace(/^```(?:json)?/i, '').replace(/```$/, '').trim();
+  let t = String(text || '').trim();
+  // Xóa thẻ suy luận <think>...</think> của DeepSeek R1
+  t = t.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+  // Xóa code fences
+  t = t.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();
   const start = t.indexOf('{');
   const end = t.lastIndexOf('}');
   if(start >= 0 && end > start){
@@ -352,52 +766,38 @@ function extractJson(text){
   return JSON.parse(t);
 }
 
-function renderResults(data){
-  const container = document.getElementById('results');
-  container.innerHTML = '';
-  if(!data.options || !data.options.length){
-    container.innerHTML = '<div class="empty">Không nhận được phương án nào. Thử lại nhé.</div>';
-    return;
-  }
-  data.options.forEach(opt => {
-    const card = document.createElement('div');
-    card.className = 'opt-card';
-
-    const swatches = (opt.visual && opt.visual.palette_hex || [])
-      .map(hex => `<div class="swatch" style="background:${hex}" title="${hex}"></div>`).join('');
-
-    card.innerHTML = `
-      <div class="opt-head">
-        <span class="formula-tag">${escapeHtml(opt.formula || '')}</span>
-      </div>
-      <div class="headline">${escapeHtml(opt.headline || '')}</div>
-      ${opt.subhead ? `<div class="subhead">${escapeHtml(opt.subhead)}</div>` : ''}
-      ${opt.why_it_works ? `<div class="why">${escapeHtml(opt.why_it_works)}</div>` : ''}
-      <div class="visual-block">
-        <div>
-          <div class="vlabel">Chủ thể hình ảnh</div>
-          <div>${escapeHtml((opt.visual && opt.visual.subject_type) || '')}</div>
-          <div style="color:var(--ink-dim);margin-top:2px;">${escapeHtml((opt.visual && opt.visual.subject_desc) || '')}</div>
-        </div>
-        <div>
-          <div class="vlabel">Bảng màu — ${escapeHtml((opt.visual && opt.visual.palette_name) || '')}</div>
-          <div class="swatches">${swatches}</div>
-          <div style="color:var(--ink-dim);margin-top:8px;">${escapeHtml((opt.visual && opt.visual.layout_note) || '')}</div>
-        </div>
-      </div>
-    `;
-    container.appendChild(card);
+// API Callers
+async function callOpenRouter(apiKey, model, userPrompt, customBaseUrl){
+  const endpoint = (customBaseUrl || PROVIDER_CONFIG.openrouter.defaultBaseUrl).replace(/\/+$/, '') + '/chat/completions';
+  const resp = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + apiKey,
+      'HTTP-Referer': window.location.origin || 'https://github.com/chrisx9z/durex-style-copywriter',
+      'X-Title': 'Durex Style Copywriter'
+    },
+    body: JSON.stringify({
+      model: model || PROVIDER_CONFIG.openrouter.defaultModel,
+      temperature: 0.8,
+      response_format: { type: 'json_object' },
+      messages: [
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user', content: userPrompt }
+      ]
+    })
   });
+  if(!resp.ok){
+    const errText = await resp.text();
+    throw new Error(`OpenRouter lỗi (${resp.status}): ${errText.slice(0,300)}`);
+  }
+  const data = await resp.json();
+  return (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '';
 }
 
-function escapeHtml(str){
-  const div = document.createElement('div');
-  div.textContent = str == null ? '' : String(str);
-  return div.innerHTML;
-}
-
-async function callClaude(apiKey, model, userPrompt){
-  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+async function callClaude(apiKey, model, userPrompt, customBaseUrl){
+  const endpoint = (customBaseUrl || PROVIDER_CONFIG.claude.defaultBaseUrl).replace(/\/+$/, '') + '/messages';
+  const resp = await fetch(endpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -407,7 +807,8 @@ async function callClaude(apiKey, model, userPrompt){
     },
     body: JSON.stringify({
       model: model || PROVIDER_CONFIG.claude.defaultModel,
-      max_tokens: 3000,
+      max_tokens: 3500,
+      temperature: 0.8,
       system: SYSTEM_PROMPT,
       messages: [{ role: 'user', content: userPrompt }]
     })
@@ -420,8 +821,9 @@ async function callClaude(apiKey, model, userPrompt){
   return (data.content && data.content[0] && data.content[0].text) || '';
 }
 
-async function callOpenAI(apiKey, model, userPrompt){
-  const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+async function callOpenAI(apiKey, model, userPrompt, customBaseUrl){
+  const endpoint = (customBaseUrl || PROVIDER_CONFIG.openai.defaultBaseUrl).replace(/\/+$/, '') + '/chat/completions';
+  const resp = await fetch(endpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -429,6 +831,8 @@ async function callOpenAI(apiKey, model, userPrompt){
     },
     body: JSON.stringify({
       model: model || PROVIDER_CONFIG.openai.defaultModel,
+      temperature: 0.8,
+      response_format: { type: 'json_object' },
       messages: [
         { role: 'system', content: SYSTEM_PROMPT },
         { role: 'user', content: userPrompt }
@@ -443,8 +847,9 @@ async function callOpenAI(apiKey, model, userPrompt){
   return (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '';
 }
 
-async function callDeepSeek(apiKey, model, userPrompt){
-  const resp = await fetch('https://api.deepseek.com/chat/completions', {
+async function callDeepSeek(apiKey, model, userPrompt, customBaseUrl){
+  const endpoint = (customBaseUrl || PROVIDER_CONFIG.deepseek.defaultBaseUrl).replace(/\/+$/, '') + '/chat/completions';
+  const resp = await fetch(endpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -452,6 +857,8 @@ async function callDeepSeek(apiKey, model, userPrompt){
     },
     body: JSON.stringify({
       model: model || PROVIDER_CONFIG.deepseek.defaultModel,
+      temperature: 0.8,
+      response_format: { type: 'json_object' },
       messages: [
         { role: 'system', content: SYSTEM_PROMPT },
         { role: 'user', content: userPrompt }
@@ -475,7 +882,10 @@ async function callGoogle(apiKey, model, userPrompt){
     body: JSON.stringify({
       systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
       contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
-      generationConfig: { responseMimeType: 'application/json' }
+      generationConfig: {
+        responseMimeType: 'application/json',
+        temperature: 0.8
+      }
     })
   });
   if(!resp.ok){
@@ -487,11 +897,12 @@ async function callGoogle(apiKey, model, userPrompt){
   return (parts && parts.map(p => p.text || '').join('')) || '';
 }
 
-async function callProvider(provider, apiKey, model, userPrompt){
+async function callProvider(provider, apiKey, model, userPrompt, customBaseUrl){
   switch(provider){
-    case 'claude': return callClaude(apiKey, model, userPrompt);
-    case 'openai': return callOpenAI(apiKey, model, userPrompt);
-    case 'deepseek': return callDeepSeek(apiKey, model, userPrompt);
+    case 'openrouter': return callOpenRouter(apiKey, model, userPrompt, customBaseUrl);
+    case 'claude': return callClaude(apiKey, model, userPrompt, customBaseUrl);
+    case 'openai': return callOpenAI(apiKey, model, userPrompt, customBaseUrl);
+    case 'deepseek': return callDeepSeek(apiKey, model, userPrompt, customBaseUrl);
     case 'google': return callGoogle(apiKey, model, userPrompt);
     default: throw new Error('Nhà cung cấp không hợp lệ: ' + provider);
   }
@@ -502,44 +913,347 @@ async function generate(){
   const cfg = PROVIDER_CONFIG[provider];
   const apiKey = document.getElementById('apiKey').value.trim();
   const model = document.getElementById('model').value.trim();
+  const customBaseUrl = document.getElementById('baseUrl').value.trim();
   const topic = document.getElementById('topic').value.trim();
   const btn = document.getElementById('genBtn');
 
   if(!apiKey){
-    showStatus(`Nhập ${cfg.label} API key trước đã.`, 'error');
+    showStatus(`Vui lòng nhập ${cfg.label} API key trước.`, 'error');
+    document.getElementById('apiKey').focus();
     return;
   }
   if(!topic){
-    showStatus('Nhập chủ đề / sản phẩm trước đã.', 'error');
+    showStatus('Vui lòng nhập chủ đề hoặc chọn một mẫu gợi ý bên trên.', 'error');
+    document.getElementById('topic').focus();
     return;
   }
 
   apiKeyStore[provider] = apiKey;
+  saveKeysIfPermitted();
 
   hideStatus();
   btn.disabled = true;
-  btn.textContent = 'Đang tạo...';
-  showStatus(`Đang gọi ${cfg.label} để sinh copy, vui lòng chờ...`, 'info');
+  btn.textContent = 'Đang kích hoạt tư duy sáng tạo...';
+  showStatus(`Đang kết nối ${cfg.label} để sinh copy đa tầng nghĩa, vui lòng chờ...`, 'info');
 
   try{
-    const text = await callProvider(provider, apiKey, model, buildUserPrompt());
-    const parsed = extractJson(text);
-    renderResults(parsed);
+    const promptText = buildUserPrompt();
+    const rawText = await callProvider(provider, apiKey, model, promptText, customBaseUrl);
+    const parsed = extractJson(rawText);
+    
+    if(!parsed.options || !parsed.options.length){
+      throw new Error('Dữ liệu trả về không chứa danh sách phương án hợp lệ.');
+    }
+
+    currentOptions = parsed.options;
+    currentTab = 'generated';
+    document.getElementById('tabGenerated').classList.add('active');
+    document.getElementById('tabFavorites').classList.remove('active');
+
+    renderCurrentState();
     hideStatus();
+    showToast('Tạo thành công ' + currentOptions.length + ' phương án copy!');
   }catch(err){
     console.error(err);
-    showStatus('Lỗi: ' + err.message + ' (Nếu là lỗi CORS/network, một số nhà cung cấp có thể chặn gọi trực tiếp từ trình duyệt — thử lại hoặc đổi sang Claude/Google.)', 'error');
+    let errorMsg = err.message || 'Lỗi không xác định';
+    if(errorMsg.includes('Failed to fetch') || errorMsg.includes('NetworkError')){
+      errorMsg += ' -> Đây là lỗi CORS do trình duyệt chặn gọi API trực tiếp. Hãy chuyển sang OpenRouter hoặc dùng Custom Base URL Proxy!';
+    }
+    showStatus('Lỗi: ' + errorMsg, 'error');
   }finally{
     btn.disabled = false;
-    btn.textContent = 'Tạo copy';
+    btn.textContent = 'Tạo copy ngay';
   }
 }
 
-document.getElementById('provider').addEventListener('change', onProviderChange);
-document.getElementById('apiKey').addEventListener('input', function(){
-  apiKeyStore[currentProvider] = this.value.trim();
-});
-document.getElementById('genBtn').addEventListener('click', generate);
+// Render Logic
+function renderCurrentState(){
+  const list = currentTab === 'generated' ? currentOptions : favorites;
+  if(currentView === 'cards'){
+    renderCards(list);
+  } else {
+    renderPosters(list);
+  }
+}
+
+function renderCards(list){
+  const container = document.getElementById('results');
+  container.className = 'results';
+  container.innerHTML = '';
+
+  if(!list || !list.length){
+    const msg = currentTab === 'generated'
+      ? 'Chưa có kết quả nào. Hãy nhập chủ đề và bấm "Tạo copy ngay" nhé!'
+      : 'Kho yêu thích đang trống. Hãy bấm biểu tượng trái tim ở các phương án để lưu lại!';
+    container.innerHTML = `<div class="empty">${msg}</div>`;
+    return;
+  }
+
+  list.forEach((opt, idx) => {
+    const isFav = favorites.some(f => f.headline === opt.headline);
+    const card = document.createElement('div');
+    card.className = 'opt-card';
+
+    const hexList = (opt.visual && opt.visual.palette_hex) || ['#0E1A2E', '#E2001A', '#FFFFFF'];
+    const swatchesHtml = hexList.map(hex => `<div class="swatch" style="background:${hex}" title="${hex}"></div>`).join('');
+
+    card.innerHTML = `
+      <div class="opt-head">
+        <div class="head-tags">
+          <span class="formula-tag">${escapeHtml(opt.formula || 'Ngữ nghĩa 2 lớp')}</span>
+          <span class="bold-tag">Tầng chìm sắc sảo</span>
+        </div>
+        <button class="fav-btn ${isFav ? 'active' : ''}" title="${isFav ? 'Bỏ lưu' : 'Lưu vào yêu thích'}" onclick="toggleFavorite(${idx}, '${currentTab}')">
+          ${isFav ? '❤️' : '🤍'}
+        </button>
+      </div>
+
+      <div class="headline">${escapeHtml(opt.headline || '')}</div>
+      ${opt.subhead ? `<div class="subhead">${escapeHtml(opt.subhead)}</div>` : ''}
+
+      ${opt.why_it_works ? `
+        <div class="why">
+          <strong>Vì sao hiệu quả:</strong> ${escapeHtml(opt.why_it_works)}
+        </div>
+      ` : ''}
+
+      <div class="visual-block">
+        <div>
+          <div class="vlabel">Chủ thể hình ảnh (${escapeHtml(opt.visual?.subject_type || 'Tối giản')})</div>
+          <div style="color:var(--ink);">${escapeHtml(opt.visual?.subject_desc || '')}</div>
+        </div>
+        <div>
+          <div class="vlabel">Bảng màu — ${escapeHtml(opt.visual?.palette_name || 'Đặc trưng')}</div>
+          <div class="swatches">${swatchesHtml}</div>
+          <div style="color:var(--ink-dim);margin-top:6px;font-size:12px;">${escapeHtml(opt.visual?.layout_note || '')}</div>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button class="act-btn" onclick="copyText(${idx}, '${currentTab}')">📋 Sao chép Text</button>
+        <button class="act-btn" onclick="copyAiPrompt(${idx}, '${currentTab}')">🎨 Prompt Midjourney / Flux</button>
+        <button class="act-btn primary-act" onclick="downloadPosterDirect(${idx}, '${currentTab}')">🖼️ Tải Poster PNG</button>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function renderPosters(list){
+  const container = document.getElementById('results');
+  container.className = 'poster-grid';
+  container.innerHTML = '';
+
+  if(!list || !list.length){
+    const msg = currentTab === 'generated'
+      ? 'Chưa có kết quả để hiển thị poster. Bấm "Tạo copy ngay" trước nhé!'
+      : 'Chưa có poster yêu thích nào.';
+    container.innerHTML = `<div class="empty" style="grid-column:1/-1;">${msg}</div>`;
+    return;
+  }
+
+  const ratio = document.getElementById('ratio').value || '3:4';
+  const ratioClass = ratio === '1:1' ? 'ar-1-1' : (ratio === '9:16' ? 'ar-9-16' : 'ar-3-4');
+
+  list.forEach((opt, idx) => {
+    const box = document.createElement('div');
+    const hexList = (opt.visual && opt.visual.palette_hex) || ['#0E1A2E', '#E2001A', '#FFFFFF'];
+    const bgCol = hexList[0] || '#0E1A2E';
+    const accentCol = hexList[1] || '#E2001A';
+    const textCol = hexList[2] || '#F2EDE3';
+
+    box.className = `poster-box ${ratioClass}`;
+    box.style.background = `radial-gradient(circle at 50% 25%, ${accentCol}22 0%, ${bgCol} 80%)`;
+    box.style.color = textCol;
+
+    box.innerHTML = `
+      <button class="poster-dl-btn" onclick="downloadPosterDirect(${idx}, '${currentTab}')">
+        ⬇️ Tải ảnh PNG
+      </button>
+
+      <div class="poster-header">
+        <span style="font-size:11px;font-weight:700;letter-spacing:0.1em;opacity:0.85;border-bottom:2px solid ${accentCol};padding-bottom:2px;">
+          ${escapeHtml(opt.formula || 'DUREX COPYWRITING')}
+        </span>
+        <span style="font-size:10px;opacity:0.5;">${ratio}</span>
+      </div>
+
+      <div class="poster-body">
+        <div class="poster-title" style="color:#ffffff;">
+          ${escapeHtml(opt.headline || '')}
+        </div>
+        ${opt.subhead ? `<div class="poster-sub" style="color:var(--ink-dim);">${escapeHtml(opt.subhead)}</div>` : ''}
+      </div>
+
+      <div class="poster-footer">
+        <span>${escapeHtml(opt.visual?.subject_type || 'Minimalism')}</span>
+        <span>Dual-Layer Semantics</span>
+      </div>
+    `;
+    container.appendChild(box);
+  });
+}
+
+function getItem(idx, tab){
+  return tab === 'generated' ? currentOptions[idx] : favorites[idx];
+}
+
+function toggleFavorite(idx, tab){
+  const item = getItem(idx, tab);
+  if(!item) return;
+
+  const foundIndex = favorites.findIndex(f => f.headline === item.headline);
+  if(foundIndex >= 0){
+    favorites.splice(foundIndex, 1);
+    showToast('Đã xoá khỏi mục yêu thích');
+  } else {
+    favorites.push(item);
+    showToast('Đã thêm vào mục yêu thích ❤️');
+  }
+
+  localStorage.setItem('durex_favorites', JSON.stringify(favorites));
+  updateFavBadges();
+  renderCurrentState();
+}
+
+function updateFavBadges(){
+  const count = favorites.length;
+  document.getElementById('favCount').textContent = count;
+  document.getElementById('savedCountBadge').textContent = `Đã lưu: ${count}`;
+}
+
+function copyText(idx, tab){
+  const item = getItem(idx, tab);
+  if(!item) return;
+  const content = `${item.headline}\n${item.subhead || ''}\n\n[Công thức: ${item.formula}] — ${item.why_it_works || ''}`;
+  navigator.clipboard.writeText(content).then(() => {
+    showToast('Đã sao chép nội dung copy!');
+  });
+}
+
+function copyAiPrompt(idx, tab){
+  const item = getItem(idx, tab);
+  if(!item) return;
+  const ratio = document.getElementById('ratio').value || '3:4';
+  const desc = item.visual?.subject_desc || 'Minimalist concept';
+  const palette = (item.visual?.palette_hex || []).join(', ');
+  
+  const aiPrompt = `Minimalist advertising photography, ${desc}, Durex visual style, ultra negative space, high contrast, clean typography layout, color palette: ${palette}, cinematic studio lighting, 8k resolution --ar ${ratio.replace(':',':')}`;
+  
+  navigator.clipboard.writeText(aiPrompt).then(() => {
+    showToast('Đã sao chép prompt Midjourney/Flux!');
+  });
+}
+
+// Native Canvas Renderer & High-Resolution PNG Exporter
+function downloadPosterDirect(idx, tab){
+  const opt = getItem(idx, tab);
+  if(!opt) return;
+
+  const ratio = document.getElementById('ratio').value || '3:4';
+  let canvasW = 1200;
+  let canvasH = 1600; // 3:4
+
+  if(ratio === '1:1'){ canvasW = 1400; canvasH = 1400; }
+  else if(ratio === '9:16'){ canvasW = 1080; canvasH = 1920; }
+  else if(ratio === '16:9'){ canvasW = 1920; canvasH = 1080; }
+
+  const canvas = document.createElement('canvas');
+  canvas.width = canvasW;
+  canvas.height = canvasH;
+  const ctx = canvas.getContext('2d');
+
+  const hexList = (opt.visual && opt.visual.palette_hex) || ['#0E1A2E', '#E2001A', '#FFFFFF'];
+  const bgCol = hexList[0] || '#0E1A2E';
+  const accentCol = hexList[1] || '#E2001A';
+
+  // Background
+  const grad = ctx.createRadialGradient(canvasW * 0.5, canvasH * 0.35, 80, canvasW * 0.5, canvasH * 0.5, canvasW * 0.85);
+  grad.addColorStop(0, accentCol + '33');
+  grad.addColorStop(0.7, bgCol);
+  grad.addColorStop(1, '#050A14');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, canvasW, canvasH);
+
+  // Viền tinh tế
+  ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+  ctx.lineWidth = 4;
+  ctx.strokeRect(40, 40, canvasW - 80, canvasH - 80);
+
+  // Eyebrow tag
+  ctx.font = '700 24px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+  ctx.fillStyle = accentCol;
+  ctx.fillText(String(opt.formula || 'DUREX COPYWRITER').toUpperCase(), 90, 110);
+
+  // Line ngăn cách nhỏ
+  ctx.fillStyle = accentCol;
+  ctx.fillRect(90, 126, 60, 4);
+
+  // Headline lớn tự wrap
+  const headline = opt.headline || '';
+  ctx.font = '900 68px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+  ctx.fillStyle = '#FFFFFF';
+  
+  const maxTextWidth = canvasW - 180;
+  const words = headline.split(' ');
+  let line = '';
+  let y = canvasH * 0.42;
+  const lineHeight = 86;
+
+  for(let n = 0; n < words.length; n++){
+    const testLine = line + words[n] + ' ';
+    const metrics = ctx.measureText(testLine);
+    if(metrics.width > maxTextWidth && n > 0){
+      ctx.fillText(line.trim(), 90, y);
+      line = words[n] + ' ';
+      y += lineHeight;
+    } else {
+      line = testLine;
+    }
+  }
+  ctx.fillText(line.trim(), 90, y);
+
+  // Subhead
+  if(opt.subhead){
+    y += 36;
+    ctx.font = '500 34px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillStyle = 'rgba(242,237,227,0.75)';
+    ctx.fillText(opt.subhead, 90, y);
+  }
+
+  // Visual Hint Box
+  if(opt.visual && opt.visual.subject_desc){
+    const vY = canvasH - 220;
+    ctx.font = '400 22px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.45)';
+    ctx.fillText('VISUAL: ' + opt.visual.subject_desc.slice(0, 70), 90, vY);
+  }
+
+  // Footer branding
+  ctx.fillStyle = 'rgba(255,255,255,0.12)';
+  ctx.fillRect(90, canvasH - 140, canvasW - 180, 2);
+
+  ctx.font = '600 20px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.4)';
+  ctx.fillText('DUAL-LAYER SEMANTICS', 90, canvasH - 95);
+  ctx.fillText('DUREX-STYLE COPYWRITER', canvasW - 420, canvasH - 95);
+
+  // Trigger download
+  const link = document.createElement('a');
+  link.download = `durex-copy-${Date.now()}.png`;
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+  showToast('Đã tải poster độ phân giải cao PNG!');
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str == null ? '' : String(str);
+  return div.innerHTML;
+}
+
+// Khởi chạy khi tài liệu sẵn sàng
+window.addEventListener('DOMContentLoaded', initApp);
 </script>
 </body>
 </html>
