@@ -37,7 +37,7 @@
     --radius-sm:8px;
     --shadow:0 12px 36px rgba(0,0,0,0.42);
   }
-  *{box-sizing:border-box;}
+  *{box-sizing:border-box;-webkit-font-smoothing:antialiased;}
   html{color-scheme:dark;}
   body{
     margin:0;
@@ -176,7 +176,7 @@
 
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 
-  .form-actions{display:flex;gap:8px;margin-top:20px;}
+  .form-actions{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap;}
   button.primary{
     flex:1;
     background:var(--accent);
@@ -188,9 +188,15 @@
   button.primary:active{transform:translateY(1px);}
   button.primary:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
 
+  button.btn-demo{
+    background:rgba(255,255,255,0.07);border:1px solid var(--border);color:var(--ink);
+    border-radius:10px;padding:0 14px;cursor:pointer;transition:all .15s;font-size:12.5px;font-weight:600;
+  }
+  button.btn-demo:hover{background:rgba(255,255,255,0.12);border-color:var(--ink-dim);}
+
   button.btn-clear{
     background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--ink-dim);
-    border-radius:10px;padding:0 14px;cursor:pointer;transition:all .15s;font-size:13px;
+    border-radius:10px;padding:0 12px;cursor:pointer;transition:all .15s;font-size:13px;
   }
   button.btn-clear:hover{color:var(--ink);background:rgba(255,255,255,0.08);}
 
@@ -526,6 +532,7 @@
 
       <div class="form-actions">
         <button class="primary" id="genBtn">Tạo copy ngay</button>
+        <button type="button" class="btn-demo" id="btnDemo" title="Trải nghiệm ngay với kết quả mẫu miễn phí">🎭 Dùng thử Demo</button>
         <button type="button" class="btn-clear" id="btnClear" title="Làm mới form">🧹</button>
       </div>
       <div class="status" id="status"></div>
@@ -683,6 +690,120 @@ function safeStorageSet(key, val) {
   }
 }
 
+// Demo samples cho cả 3 ngôn ngữ
+const DEMO_SAMPLES = {
+  vi: [
+    {
+      formula: "Kiềm chế ngược",
+      headline: "Thức trọn đêm nay. Để mai không phải hối hận.",
+      subhead: "Cà phê đậm vị, mở cửa suốt 24 giờ đồng hành cùng bạn.",
+      why_it_works: "[Bề mặt]: Thức đêm ôn thi, chạy deadline để đạt kết quả tốt nhất. [Tầng chìm]: Sự đồng hành bền bỉ, son sắt qua những đêm dài thử thách.",
+      visual: {
+        subject_type: "Vật dụng đời thường",
+        subject_desc: "Tách cà phê bốc khói nghi ngút cạnh chiếc laptop và ánh đèn bàn vàng giữa bóng đêm",
+        palette_name: "Xanh đêm sâu",
+        palette_hex: ["#0E1A2E", "#E2001A", "#FFFFFF"],
+        layout_note: "Bố cục 3:4 tập trung vào ly cà phê với vệt sáng spotlight"
+      }
+    },
+    {
+      formula: "Chiếm dụng thuật ngữ",
+      headline: "Vào nhanh, ra chậm.",
+      subhead: "Kiểm soát nhịp độ dòng tiền, giữ trọn thành quả cả tháng.",
+      why_it_works: "[Bề mặt]: Tốc độ nạp tiền và kiểm soát chi tiêu khoa học. [Tầng chìm]: Làm chủ nhịp độ an toàn, không vội vã.",
+      visual: {
+        subject_type: "Chữ/Typography",
+        subject_desc: "Chiếc ví da khép hờ với tia sáng phản chiếu tinh tế",
+        palette_name: "Đen studio",
+        palette_hex: ["#0B0B0B", "#F2EDE3", "#C8102E"],
+        layout_note: "Khoảng trống âm (negative space) rộng lớn tạo sự sang trọng"
+      }
+    },
+    {
+      formula: "Chuyển cảnh / Nhân cách hoá",
+      headline: "Ngoài kia gió lớn. Ở đây ấm lòng.",
+      subhead: "Món ngon nóng hổi giao thần tốc trong 20 phút.",
+      why_it_works: "[Bề mặt]: Thời tiết mưa bão ngoài trời đối lập với bữa ăn ấm nóng trong nhà. [Tầng chìm]: Cảm giác được che chở, yêu thương kịp thời.",
+      visual: {
+        subject_type: "Vật dụng đời thường",
+        subject_desc: "Cửa kính đọng hơi nước mờ nhìn ra ánh đèn đường đêm mưa rả rích",
+        palette_name: "Giấy ấm",
+        palette_hex: ["#F2EDE3", "#C8102E", "#1A1A1A"],
+        layout_note: "Typography đặt lệch trái, tương phản cao"
+      }
+    },
+    {
+      formula: "Thể lịch / Đối xứng",
+      headline: "Nên: Bắt đầu ngay.\nKỵ: Chần chừ thêm một ngày.",
+      subhead: "Phòng tập 24/7, đánh thức phiên bản tốt nhất của bạn.",
+      why_it_works: "[Bề mặt]: Lời khuyên theo phong cách lịch vạn niên về việc tập luyện. [Tầng chìm]: Quyết tâm hành động dứt khoát, không trì hoãn đam mê.",
+      visual: {
+        subject_type: "Sản phẩm",
+        subject_desc: "Tạ đơn phủ lớp matte đen đặt trên sàn cao su bóng bẩy",
+        palette_name: "Đỏ thương hiệu",
+        palette_hex: ["#E2001A", "#FFFFFF", "#000000"],
+        layout_note: "Bố cục đối xứng trục dọc tạo cảm giác kỷ luật"
+      }
+    }
+  ],
+  en: [
+    {
+      formula: "Reverse Restraint",
+      headline: "Stay up tonight. Regret nothing tomorrow.",
+      subhead: "Rich coffee, keeping you company all 24 hours.",
+      why_it_works: "[Surface]: Pulling an all-nighter to ace exams or crush deadlines. [Submerged]: Loyal, steadfast companionship through the darkest hours.",
+      visual: {
+        subject_type: "Everyday Object",
+        subject_desc: "Steaming black coffee cup next to a lone desk lamp in a quiet dark room",
+        palette_name: "Deep Night Blue",
+        palette_hex: ["#0E1A2E", "#E2001A", "#FFFFFF"],
+        layout_note: "Centered composition with high contrast negative space"
+      }
+    },
+    {
+      formula: "Domain Term Hijacking",
+      headline: "Fast in, slow out.",
+      subhead: "Master your cash flow, protect your monthly wins.",
+      why_it_works: "[Surface]: Managing the velocity of income vs spending safely. [Submerged]: Self-control and knowing when to pull back safely.",
+      visual: {
+        subject_type: "Typography",
+        subject_desc: "A sleek leather wallet slightly ajar with a beam of studio light",
+        palette_name: "Studio Black",
+        palette_hex: ["#0B0B0B", "#F2EDE3", "#C8102E"],
+        layout_note: "Minimal typography with generous negative space"
+      }
+    }
+  ],
+  zh: [
+    {
+      formula: "逆向克制",
+      headline: "今夜不眠，免留遗憾。",
+      subhead: "浓郁醇厚，24小时守护每刻清醒。",
+      why_it_works: "【表面层】：通宵复习备考不留遗憾。【潜层】：长夜漫漫中的坚定相伴，并肩作战到底。",
+      visual: {
+        subject_type: "日常物件",
+        subject_desc: "暗黑静谧的书房中，一盏孤灯照亮一杯热气袅袅的黑咖啡",
+        palette_name: "深夜幽蓝",
+        palette_hex: ["#0E1A2E", "#E2001A", "#FFFFFF"],
+        layout_note: "3:4比例，聚光灯打在咖啡杯上，张力十足"
+      }
+    },
+    {
+      formula: "跨界术语借用",
+      headline: "进得从容，出得节制。",
+      subhead: "掌控每一笔现金流，守住整月战果。",
+      why_it_works: "【表面层】：收入与开支节奏的科学管理。【潜层】：掌控全局、懂得克制与安全退场的成熟态度。",
+      visual: {
+        subject_type: "纯文字排版",
+        subject_desc: "微张的精致皮夹中透出一道利落的高光",
+        palette_name: "影棚纯黑",
+        palette_hex: ["#0B0B0B", "#F2EDE3", "#C8102E"],
+        layout_note: "极简大留白，高级感十足"
+      }
+    }
+  ]
+};
+
 // ==========================================
 // ĐA NGÔN NGỮ (i18n): VIỆT - ANH - TRUNG
 // ==========================================
@@ -727,6 +848,7 @@ const I18N = {
     ],
     ratio: 'Tỷ lệ khung hình',
     genBtn: 'Tạo copy ngay',
+    btnDemo: '🎭 Dùng thử Demo',
     genBtnLoading: 'Đang kích hoạt tư duy sáng tạo...',
     tabGenerated: 'Kết quả vừa tạo',
     tabFavorites: 'Đã lưu',
@@ -772,7 +894,8 @@ const I18N = {
     toastGeneratedSuccess: 'Tạo thành công {n} phương án copy!',
     toastHistoryRestored: 'Đã khôi phục phương án từ lịch sử!',
     toastHistoryCleared: 'Đã xóa toàn bộ lịch sử!',
-    errApiKey: 'Vui lòng nhập API key trước.',
+    toastDemoLoaded: 'Đã nạp dữ liệu mẫu Demo thành công!',
+    errApiKey: 'Vui lòng nhập API key trước, hoặc bấm nút [🎭 Dùng thử Demo] để trải nghiệm ngay!',
     errTopic: 'Vui lòng nhập chủ đề hoặc chọn một mẫu gợi ý bên trên.',
     errCorsHelper: ' -> Đây là lỗi CORS do trình duyệt chặn gọi API trực tiếp. Hãy chuyển sang OpenRouter hoặc dùng Custom Base URL Proxy!',
     footer: 'Dự án được truyền cảm hứng từ skill mã nguồn mở crawfordxx/xiaoma-durex-copywriter về phương pháp "ngữ nghĩa hai lớp" từ các chiến dịch Durex 2011–2017. Luôn tuân thủ giới hạn đạo đức khắt khe: Không đụng tới thảm hoạ, không vật thể hoá phụ nữ, luôn gắn với giá trị thật của sản phẩm.',
@@ -825,6 +948,7 @@ const I18N = {
     ],
     ratio: 'Aspect Ratio',
     genBtn: 'Generate Copy',
+    btnDemo: '🎭 Try Demo',
     genBtnLoading: 'Triggering creative genius...',
     tabGenerated: 'Generated Results',
     tabFavorites: 'Favorites',
@@ -870,7 +994,8 @@ const I18N = {
     toastGeneratedSuccess: 'Successfully generated {n} copy options!',
     toastHistoryRestored: 'Restored batch from history!',
     toastHistoryCleared: 'Cleared all generation history!',
-    errApiKey: 'Please enter your API key first.',
+    toastDemoLoaded: 'Loaded demo showcase successfully!',
+    errApiKey: 'Please enter your API key first, or click [🎭 Try Demo] to test right away!',
     errTopic: 'Please enter a topic or select a preset above.',
     errCorsHelper: ' -> This is a browser CORS network error. Please switch to OpenRouter or use a Custom Base URL Proxy!',
     footer: 'Inspired by the open-source skill crawfordxx/xiaoma-durex-copywriter on "dual-layer semantics" from Durex campaigns (2011–2017). Strictly abides by ethical boundaries: No tragedy exploitation, no objectification of women, always anchored in genuine product value.',
@@ -923,6 +1048,7 @@ const I18N = {
     ],
     ratio: '画面比例',
     genBtn: '立即生成文案',
+    btnDemo: '🎭 演示模式',
     genBtnLoading: '正在激发双层创意灵感...',
     tabGenerated: '生成结果',
     tabFavorites: '我的收藏',
@@ -968,7 +1094,8 @@ const I18N = {
     toastGeneratedSuccess: '成功生成 {n} 个文案方案！',
     toastHistoryRestored: '已从历史记录中恢复！',
     toastHistoryCleared: '已清空全部历史记录！',
-    errApiKey: '请先输入对应的 API Key。',
+    toastDemoLoaded: '已成功载入经典演示案例！',
+    errApiKey: '请先输入对应的 API Key，或点击 [🎭 演示模式] 立即免密体验！',
     errTopic: '请输入产品主题或点击上方的预设灵感。',
     errCorsHelper: ' -> 这是由于浏览器限制直接调用导致的跨域 CORS 错误。推荐改用 OpenRouter 或配置 Base URL 反向代理！',
     footer: '致敬开源技能 crawfordxx/xiaoma-durex-copywriter。传承环时互动杜蕾斯 2011–2017 经典“双层语义”方法论。严守伦理红线：绝不消费灾难悲剧，绝不物化女性，始终锚定产品本身真实价值。',
@@ -1003,28 +1130,6 @@ function getSystemPrompt(outputLang){
 6. 黄历体 / 对仗句式：模仿老黄历“宜 / 忌”的形式，或采用两句对仗工整、反差强烈的短句。
 7. 三层递进诗体：前三句层层递进描摹环境氛围，最后一句峰回路转，引申至产品本身。
 8. 逆向克制：在所有人都在等待你抖机灵、开玩笑的时刻，反而给出一句无比真诚、严肃且动人的真话。
-
-中文实战经典示例（FEW-SHOT EXAMPLES）：
-示例 1：24小时不打烊咖啡馆（契机：考试周 / 冲刺 Deadline）
-- 公式：逆向克制
-- Headline: "今夜不眠，免留遗憾。"
-- Subhead: "浓郁醇厚，24小时守护每刻清醒。"
-- 构思拆解：表面层是通宵复习备考不留遗憾；潜层是长夜漫漫中的坚定相伴，并肩作战到底。
-- 画面：暗黑静谧的书房中，一盏孤灯照亮一杯热气袅袅的黑咖啡。配色：深夜幽蓝。
-
-示例 2：智能个人记账 App（契机：发薪日）
-- 公式：跨界术语借用
-- Headline: "进得从容，出得节制。"
-- Subhead: "掌控每一笔现金流，守住整月战果。"
-- 构思拆解：表面层是收入与开支节奏的科学管理；潜层是掌控全局、懂得克制与安全退场的成熟态度。
-- 画面：微张的精致皮夹中透出一道利落的高光。配色：影棚纯黑。
-
-示例 3：夜间热食极速外卖（契机：雨夜降温）
-- 公式：借物拟人 / 旁观自叙
-- Headline: "风雨在外，温度在内。"
-- Subhead: "热气腾腾，20分钟准时送达。"
-- 构思拆解：表面层是恶劣天气里吃上一口热汤面；潜层是被及时守护、安抚心灵的温暖与安全感。
-- 画面：凝结着水雾的玻璃窗，倒映着雨夜模糊温润的街灯。配色：暖调旧宣。
 
 画面与配色系统：
 - 画面主体：产品本身 | 日常物件 | 纯文字排版 | 局部肢体
@@ -1077,31 +1182,6 @@ The audience must connect these two layers in their own mind through ONE step of
 7. Three-Tier Verse: Three progressive scene-setting lines, with an unexpected punchline pivot to the product in the final line.
 8. Reverse Restraint: Delivering a deeply sincere, profound statement precisely when the audience expects a joke.
 
-FEW-SHOT EXAMPLES (ENGLISH):
-Example 1: 24/7 Coffee Shop (Occasion: Exam Week / Late Night Deadline)
-- Formula: Reverse Restraint
-- Headline: "Stay up tonight. Regret nothing tomorrow."
-- Subhead: "Rich coffee, keeping you company all 24 hours."
-- Why it works: Surface layer is pulling an all-nighter to ace exams; submerged layer is loyal, steadfast companionship through the darkest hours.
-- Visual: A steaming black coffee cup next to a lone desk lamp in a quiet dark room. Palette: Deep Night Blue.
-
-Example 2: Smart Budgeting App (Occasion: Payday)
-- Formula: Domain Term Hijacking
-- Headline: "Fast in, slow out."
-- Subhead: "Master your cash flow, protect your monthly wins."
-- Why it works: Surface layer is managing the velocity of income vs spending; submerged layer is self-control and knowing when to pull back safely.
-- Visual: A sleek leather wallet slightly ajar with a beam of studio light. Palette: Studio Black.
-
-Example 3: Hot Food Express Delivery (Occasion: Freezing Rainy Night)
-- Formula: Scene Shifting / Anthropomorphism
-- Headline: "Fierce winds outside. Warm hearts inside."
-- Subhead: "Piping hot meals delivered in 20 minutes."
-- Why it works: Surface layer is enjoying hot soup during bitter cold; submerged layer is comforting shelter, timely warmth, and care.
-- Visual: Condensation on a window pane looking out at blurred rainy streetlights. Palette: Warm Paper.
-
-ETHICAL BOUNDARIES:
-Never touch disasters, tragedies, death, or illnesses. No objectification of women. For consumer goods, keep the copy anchored in real product value with zero vulgarity.
-
 OUTPUT FORMAT:
 Return ONLY valid JSON with no markdown code fences or conversational text:
 {
@@ -1123,7 +1203,6 @@ Return ONLY valid JSON with no markdown code fences or conversational text:
 }`;
   }
 
-  // Mặc định: Tiếng Việt
   return `Bạn là một giám đốc sáng tạo và chuyên gia copywriting bậc thầy, áp dụng phương pháp "ngữ nghĩa hai lớp" (dual-layer semantics) được đúc kết từ các chiến dịch quảng cáo huyền thoại của Durex (thời Huanshi Interactive 2011–2017).
 
 CƠ CHẾ CỐT LÕI:
@@ -1141,31 +1220,6 @@ Người đọc phải TỰ kết nối hai tầng này trong đầu. Nếu ch�
 6. Thể lịch / Đối xứng: Cấu trúc "Nên làm gì / Không nên làm gì" kiểu lịch vạn niên hoặc 2 vế tương phản chan chát.
 7. Thể thơ ba lớp: Ba câu ngắn tả cảnh tăng dần, câu cuối bẻ lái ngoạn mục sang thông điệp sản phẩm.
 8. Kiềm chế ngược: Giữa lúc khán giả mong chờ một câu đùa cợt, lại nói một câu chân thành, sâu lắng, nghiêm túc.
-
-VÍ DỤ MẪU KINH ĐIỂN (FEW-SHOT EXAMPLES TIẾNG VIỆT):
-Ví dụ 1: Quán cà phê 24/7 (Dịp: Mùa thi / Chạy deadline)
-- Công thức: Kiềm chế ngược
-- Headline: "Thức trọn đêm nay. Để mai không phải hối hận."
-- Subhead: "Cà phê đậm vị, mở cửa suốt 24 giờ."
-- Why it works: Bề mặt là thức đêm ôn bài để không hối tiếc điểm thi; tầng chìm là sự đồng hành bền bỉ, trọn vẹn suốt đêm dài.
-- Visual: Ly cà phê bốc khói cạnh cây đèn bàn còn sáng giữa đêm tối tĩnh lặng. Bảng màu: Xanh đêm sâu.
-
-Ví dụ 2: App quản lý chi tiêu (Dịp: Ngày lương về)
-- Công thức: Chiếm dụng thuật ngữ
-- Headline: "Vào nhanh, ra chậm."
-- Subhead: "Kiểm soát dòng tiền, giữ trọn thành quả cả tháng."
-- Why it works: Bề mặt là tốc độ dòng tiền thu - chi hợp lý; tầng chìm là sự kiềm chế, kiểm soát nhịp độ an toàn.
-- Visual: Một chiếc ví da khép hờ với một vệt sáng lóe lên. Bảng màu: Đen studio.
-
-Ví dụ 3: Dịch vụ giao đồ ăn nóng (Dịp: Đêm mưa bão)
-- Công thức: Chuyển cảnh / Nhân cách hoá
-- Headline: "Ngoài kia gió lớn. Ở đây ấm lòng."
-- Subhead: "Giao món nóng hổi trong 20 phút."
-- Why it works: Bề mặt là thời tiết lạnh được ăn bát phở nóng; tầng chìm là cảm giác được che chở, chăm sóc kịp thời.
-- Visual: Hơi nước mờ trên khung cửa sổ nhìn ra ánh đèn đường mưa rơi. Bảng màu: Giấy ấm.
-
-GIỚI HẠN ĐẠO ĐỨC:
-Tuyệt đối không đụng tới thảm hoạ, chết chóc, dịch bệnh; không vật thể hoá phụ nữ; với sản phẩm thông thường, luôn gắn chặt với GIÁ TRỊ THẬT, tuyệt đối không dung tục.
 
 SCHEMA TRẢ VỀ:
 Bắt buộc trả về duy nhất chuỗi JSON hợp lệ (không markdown code fences):
@@ -1378,6 +1432,7 @@ function applyLanguage(lang){
   document.getElementById('lblChannel').textContent = t.channel;
   document.getElementById('lblRatio').textContent = t.ratio;
   document.getElementById('genBtn').textContent = t.genBtn;
+  document.getElementById('btnDemo').textContent = t.btnDemo;
 
   // Channels
   const channelSelect = document.getElementById('channel');
@@ -1558,6 +1613,9 @@ function bindEvents(){
     document.getElementById('topic').focus();
   });
 
+  // Demo Mode
+  document.getElementById('btnDemo').addEventListener('click', loadDemoShowcase);
+
   // History button & modal
   document.getElementById('btnHistory').addEventListener('click', openHistoryModal);
   document.getElementById('historyCloseBtn').addEventListener('click', closeHistoryModal);
@@ -1618,6 +1676,18 @@ function bindEvents(){
   document.getElementById('btnStudioSvg').addEventListener('click', downloadStudioSvg);
   document.getElementById('btnStudioCopyImg').addEventListener('click', copyStudioCanvasImage);
   document.getElementById('btnStudioSaveCard').addEventListener('click', saveStudioChangesToCard);
+}
+
+function loadDemoShowcase(){
+  const t = I18N[currentLang] || I18N.vi;
+  const samples = DEMO_SAMPLES[currentLang] || DEMO_SAMPLES.vi;
+  currentOptions = JSON.parse(JSON.stringify(samples));
+  currentTab = 'generated';
+  document.getElementById('tabGenerated').classList.add('active');
+  document.getElementById('tabFavorites').classList.remove('active');
+  renderCurrentState();
+  hideStatus();
+  showToast(t.toastDemoLoaded);
 }
 
 function saveKeysIfPermitted(){
