@@ -57,16 +57,22 @@ Khác với quảng cáo thông thường chỉ nói trực diện về sản ph
 
 ### 🚀 Tính năng nổi bật
 * **Hỗ trợ 3 ngôn ngữ giao diện & xuất copy**: Chuyển đổi linh hoạt giữa 🇻🇳 Tiếng Việt, 🇬🇧 English, 🇨🇳 简体中文.
+* **Bảng Tự Kiểm Tra 4 Tiêu Chí Vàng (Checklist Modal)**: Nút `📋 Bảng Tự Kiểm Tra` tích hợp sẵn trên thanh công cụ, giúp soi chiếu câu copy theo đúng chuẩn mực kinh điển:
+  1. *Quy tắc 1 bước liên tưởng (One-Hop Rule)*: Bề mặt và tầng chìm bắt buộc nối liền trong 1 nhịp suy nghĩ.
+  2. *Khắc chế sáo rỗng AI (Anti-AI Fluff)*: Cấm tiệt văn phong sáo rỗng doanh nghiệp ("kiến tạo, đồng hành, bứt phá, empower").
+  3. *Độ ngắn tinh gọn*: Khống chế trung vị 6–8 từ cho poster headline, tối đa 12 từ.
+  4. *Không tự giải thích*: Tuyệt đối không để lộ ngụ ý trong ngoặc đơn hay câu văn sau.
+* **Caption bài đăng Mạng Xã Hội đi kèm (`post_caption`)**: Tạo kèm nội dung bài đăng dẫn nhập mượt mà cho Facebook / Xiaohongshu / Threads / Instagram kèm nút sao chép 1-click, giữ trọn vẹn sự tinh giản cho poster headline.
 * **Bộ chọn Mức độ táo bạo**: 🌿 *Tinh tế (B2B)* — ⚡ *Hóm hỉnh (F&B/Retail)* — 🔥 *Táo bạo (Thời trang/Night)*.
 * **Studio Thiết kế Poster (Poster Design Studio)**:
-  * Xem thử mockup tỷ lệ thực tế (3:4, 1:1, 9:16, 16:9).
+  * Xem thử mockup 5 tỷ lệ chuẩn: **3:4, 1:1, 9:16, 16:9 và 4:3 (ngang slide/banner)**.
   * Chỉnh sửa trực tiếp Headline, Subhead, cỡ chữ slider (36px - 78px) và Brand Watermark.
   * Tự do chọn mã màu nền/màu nhấn bằng HTML5 Color Picker.
-  * Chèn ảnh Logo/Sản phẩm trực tiếp lên poster.
+  * **Tùy chỉnh Logo nâng cao**: Điều chỉnh vị trí (Góc trên-phải, Trên-trái, Dưới-phải, Trung tâm), thanh trượt kích thước (50px – 220px) và độ trong suốt (20% – 100%).
   * Xuất ảnh **PNG 2x retina**, vector **📐 SVG** (phóng to vô hạn không vỡ hạt), sao chép ảnh vào Clipboard.
 * **Tiện ích xuất bản & Lịch sử**:
   * Modal xem lại **Lịch sử tạo gần đây** và khôi phục 1-click.
-  * Xuất toàn bộ chiến dịch ra **Markdown (`.md`)** hoặc **JSON (`.json`)**.
+  * Xuất toàn bộ chiến dịch ra **Markdown (`.md`)** hoặc **JSON (`.json`)** (bao gồm đầy đủ Headline, Subhead và Caption MXH).
   * Sao chép Prompt vẽ ảnh Midjourney / Flux.
   * Phím tắt `Ctrl + Enter` (tạo nhanh) và `Esc` (đóng modal).
 
@@ -76,7 +82,7 @@ Khác với quảng cáo thông thường chỉ nói trực diện về sản ph
 
 A static, zero-dependency, client-side web application for generating razor-sharp advertising copy using the **"Dual-Layer Semantics"** methodology — distilled from the golden era of Durex social campaigns by Huanshi Interactive (2011–2017).
 
-The tool automatically delivers: **Copywriting Formula, Headline, Subhead, Why it Works (Surface & Submerged layers), Visual Subject, Color Palette, and Comprehensive Poster Design Studio (PNG, SVG export)**.
+The tool automatically delivers: **Copywriting Formula, Headline, Subhead, Why it Works (Surface & Submerged layers), Accompanying Social Post Caption, Visual Subject, Color Palette, and Comprehensive Poster Design Studio (PNG, SVG export)**.
 
 ### 🌟 Live Demo
 👉 **[Try it on GitHub Pages](https://chrisx9z.github.io/durex-style-copywriter/)**  
@@ -117,13 +123,32 @@ Unlike conventional ads that blurt out product specs or rely on shallow puns ("d
 7. **Three-Tier Verse**: Three ascending descriptive lines establishing atmosphere, with a sudden punchline pivot to the product in the final line.
 8. **Reverse Restraint**: Delivering a heartfelt, deeply serious statement precisely when the audience expects a witty joke.
 
+### 🚀 Key Features
+* **Trilingual UI & Generation**: Seamless switching across 🇻🇳 Tiếng Việt, 🇬🇧 English, and 🇨🇳 简体中文.
+* **4-Criteria Golden Self-Checklist**: Dedicated toolbar modal evaluating any copy proposal against:
+  1. *One-Hop Association Rule*: Instant connection between surface and submerged layer.
+  2. *Strict Anti-AI Fluff*: Banning corporate buzzwords ("empower, unleash, synergy").
+  3. *Brevity Constraint*: Median 6–8 words, max 12 words for poster headline.
+  4. *No Self-Explanation*: Zero trailing explanatory hints or parenthetical reveals.
+* **Accompanying Social Post Caption (`post_caption`)**: Generates an engaging social media post caption (Facebook / Xiaohongshu / Instagram / Threads) with a 1-click copy button, keeping the poster headline laser-focused.
+* **Poster Design Studio**:
+  * 5 Aspect Ratios: **3:4 (Portrait), 1:1 (Square), 9:16 (Story), 16:9 (Landscape), and 4:3 (Slide/Banner)**.
+  * Editable Headline, Subhead, dynamic font sizing (36px - 78px), and Brand Watermark.
+  * HTML5 Color Picker for custom background & accent colors.
+  * **Advanced Logo Controls**: Placement (Top-Right, Top-Left, Bottom-Right, Center), scale slider (50px – 220px), and opacity control (20% – 100%) across Canvas and SVG export.
+  * Export options: High-res **PNG 2x retina**, vector **📐 SVG**, and direct image copy to Clipboard.
+* **History & Export Utilities**:
+  * Recent generation history modal with 1-click restore.
+  * Export campaigns to **Markdown (`.md`)** or **JSON (`.json`)** with full captions.
+  * Copy Midjourney / Flux visual prompt.
+
 ---
 
 ## 🇨🇳 简体中文
 
 基于**“双层语义”（Dual-Layer Semantics）**广告文案方法论的纯前端、零依赖 Web 工具。灵感源自环时互动（Huanshi Interactive）时期杜蕾斯中国（2011–2017）的经典社交营销哲学与极简视觉系统。
 
-该工具可一键自动生成：**文案公式、主标题（Headline）、副标题、双层逻辑拆解（表面层与潜层）、画面主体描述、配色方案以及专业海报设计工作室（支持 PNG 与 SVG 矢量导出）**。
+该工具可一键自动生成：**文案公式、主标题（Headline）、副标题、双层逻辑拆解（表面层与潜层）、社交媒体随附文案（post_caption）、画面主体描述、配色方案以及专业海报设计工作室（支持 PNG 与 SVG 矢量导出）**。
 
 ### 🌟 在线体验 (Live Demo)
 👉 **[通过 GitHub Pages 直接体验](https://chrisx9z.github.io/durex-style-copywriter/)**  
@@ -164,6 +189,24 @@ Unlike conventional ads that blurt out product specs or rely on shallow puns ("d
 7. **三层递进诗体**：前三句层层递进描摹环境氛围，最后一句峰回路转，引申至产品本身。
 8. **逆向克制**：在所有人都在等待你抖机灵、开玩笑的时刻，反而给出一句无比真诚、严肃且动人的真话。
 
+### 🚀 核心功能亮点
+* **全语言三语支持**：可在 🇻🇳 越南语、🇬🇧 英语、🇨🇳 简体中文 间无缝切换生成。
+* **文案四项自检黄金准则弹窗**：顶部栏集成 `📋 自检准则` 弹窗，严格对照四大准则：
+  1. *一步联想规则 (One-Hop)*：表层与潜层必须一跳可达，禁止两步以上死胡同。
+  2. *杜绝 AI 假大空陈词滥调*：严禁“赋能、颠覆、破局、领航、焕新”等空洞口号。
+  3. *字数精炼极致*：主标题严格控制中位数 6–8 字，最多不超过 12 字。
+  4. *绝不自我解释*：严禁在文案后加括号说明暗语，保持高级幽默留白。
+* **社交媒体随附文案 (`post_caption`)**：每次生成均提供小红书 / 朋友圈 / 微博 / 社交图文随附文案，并提供一键复制按钮，使海报主文案专注于简短 Punchline。
+* **专业海报设计工作室 (Poster Design Studio)**：
+  * 支持 5 大主流画幅比例：**3:4 经典比例、1:1 正方形、9:16 竖屏 Story、16:9 横屏 与 4:3 横屏幻灯片/Banner**。
+  * 所见即所得编辑标题、副标题、字号滑块 (36px - 78px) 与品牌水印。
+  * HTML5 调色盘自由设定背景色与重点高亮色。
+  * **高级 Logo 自由控制**：支持 4 个角落或居中位置设定、尺寸滑块（50px – 220px）、透明度滑块（20% – 100%），Canvas 与 SVG 矢量同步生效。
+  * 导出格式：高清 **PNG 2x retina**、**📐 SVG 矢量图**，支持一键复制图片到剪贴板。
+* **历史记录与多格式导出**：
+  * 最近生成历史记录面板，支持一键恢复。
+  * 导出为 **Markdown (`.md`)** 或 **JSON (`.json`)**，完整保留社交文案与排版。
+  * 复制 Midjourney / Flux 绘图 Prompt。
 ---
 
 ## 🛡️ 伦理底线 / Ethics / Giới hạn đạo đức

@@ -300,6 +300,8 @@
   .poster-box.ar-3-4{aspect-ratio:3/4;}
   .poster-box.ar-1-1{aspect-ratio:1/1;}
   .poster-box.ar-9-16{aspect-ratio:9/16;}
+  .poster-box.ar-16-9{aspect-ratio:16/9;}
+  .poster-box.ar-4-3{aspect-ratio:4/3;}
   .poster-header{display:flex;justify-content:space-between;align-items:flex-start;}
   .poster-body{margin:auto 0;}
   .poster-title{font-size:24px;font-weight:900;letter-spacing:-0.02em;line-height:1.25;margin:0 0 10px;}
@@ -528,6 +530,7 @@
             <option value="1:1">1:1 (vuông)</option>
             <option value="9:16">9:16 (story)</option>
             <option value="16:9">16:9 (ngang)</option>
+            <option value="4:3">4:3 (ngang slide/banner)</option>
           </select>
         </div>
       </div>
@@ -548,6 +551,7 @@
           <button class="tab-btn" id="tabFavorites">Đã lưu (<span id="favCount">0</span>)</button>
         </div>
         <div class="right-actions">
+          <button class="btn-action-sm" id="btnChecklist" title="Bảng tự kiểm tra 4 tiêu chuẩn copywriting Durex">🔍 Tự kiểm tra</button>
           <button class="btn-action-sm" id="btnHistory">🕒 Lịch sử</button>
           <button class="btn-action-sm" id="btnExportAll" title="Xuất toàn bộ phương án ra Markdown">📥 Markdown</button>
           <button class="btn-action-sm" id="btnExportJson" title="Xuất toàn bộ phương án ra JSON">📦 JSON</button>
@@ -574,7 +578,7 @@
   <div class="modal-card">
     <div class="modal-head">
       <h3 id="txtModalTitle">Studio Thiết kế Poster</h3>
-      <button type="button" class="modal-close" id="modalCloseBtn">✕</button>
+      <button type="button" class="modal-close" id="studioCloseBtn">✕</button>
     </div>
     <div class="modal-body">
       <div class="modal-preview-col">
@@ -588,7 +592,8 @@
           <option value="3:4" selected>3:4 (Poster chuẩn)</option>
           <option value="1:1">1:1 (Vuông)</option>
           <option value="9:16">9:16 (Story / TikTok)</option>
-          <option value="16:9">16:9 (Ngang)</option>
+          <option value="16:9">16:9 (Ngang Web)</option>
+          <option value="4:3">4:3 (Ngang Slide/Banner)</option>
         </select>
 
         <label id="lblStudioHeadline">Chỉnh sửa Headline trực tiếp</label>
@@ -625,6 +630,27 @@
           <input type="file" id="studioLogoInput" accept="image/*" style="font-size:11px;flex:1;">
           <button type="button" class="act-btn" id="btnRemoveLogo" style="display:none;padding:4px 8px;font-size:11px;">Gỡ</button>
         </div>
+        <div id="studioLogoCtrls" style="display:none;margin-top:8px;padding:8px;background:rgba(0,0,0,0.25);border-radius:6px;border:1px solid var(--border);">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;">
+            <div>
+              <label id="lblStudioLogoPos" style="margin:0 0 2px;font-size:10.5px;">Vị trí Logo</label>
+              <select id="studioLogoPos" style="font-size:11px;padding:4px;">
+                <option value="top-right" selected>Góc trên phải</option>
+                <option value="top-left">Góc trên trái</option>
+                <option value="bottom-right">Góc dưới phải</option>
+                <option value="center">Chính giữa (Mờ)</option>
+              </select>
+            </div>
+            <div>
+              <label id="lblStudioLogoSize" style="margin:0 0 2px;font-size:10.5px;">Kích thước</label>
+              <input type="range" id="studioLogoScale" min="50" max="220" value="110" style="padding:0;">
+            </div>
+          </div>
+          <div>
+            <label id="lblStudioLogoOpacity" style="margin:0 0 2px;font-size:10.5px;">Độ rõ nét / Trong suốt</label>
+            <input type="range" id="studioLogoOpacity" min="20" max="100" value="100" style="padding:0;">
+          </div>
+        </div>
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;">
           <button class="primary" id="btnStudioDownload">⬇️ Tải PNG 2x</button>
@@ -651,6 +677,42 @@
     <div style="padding:14px 20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
       <span style="font-size:11.5px;color:var(--ink-dim);" id="txtHistoryDesc">Lưu tối đa 8 mẻ tạo gần nhất</span>
       <button type="button" class="act-btn" id="btnHistoryClearAll">🗑️ Xóa toàn bộ lịch sử</button>
+    </div>
+  </div>
+</div>
+
+<!-- Checklist Modal (Tự kiểm tra theo chuẩn Durex) -->
+<div class="modal-overlay" id="checklistModal">
+  <div class="modal-card" style="max-width:680px;">
+    <div class="modal-head">
+      <h3 id="txtChecklistTitle">Bảng Tự Kiểm Tra Copy 4 Tiêu Chí (Durex Standard)</h3>
+      <button type="button" class="modal-close" id="checklistCloseBtn">✕</button>
+    </div>
+    <div style="padding:20px;display:flex;flex-direction:column;gap:14px;" id="checklistBody">
+      <div style="background:rgba(0,0,0,0.2);padding:14px;border-radius:8px;border-left:3px solid var(--accent);">
+        <h4 style="margin:0 0 6px;color:#fff;font-size:14px;" id="chkItem1Title">🎯 1. Quy tắc "Một bước liên tưởng" (One-Hop Rule)</h4>
+        <p style="margin:0;font-size:13px;color:var(--ink-dim);line-height:1.5;" id="chkItem1Desc">
+          Người đọc phải tự kết nối Tầng bề mặt và Tầng chìm trong 1 tích tắc. Nếu cần từ 2 bước suy diễn trở lên hoặc phải giải thích ra bằng lời, câu copy coi như thất bại.
+        </p>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);padding:14px;border-radius:8px;border-left:3px solid #f59e0b;">
+        <h4 style="margin:0 0 6px;color:#fff;font-size:14px;" id="chkItem2Title">🚫 2. Cấm tiệt từ sáo rỗng AI (Anti-AI Corporate Fluff)</h4>
+        <p style="margin:0;font-size:13px;color:var(--ink-dim);line-height:1.5;" id="chkItem2Desc">
+          Loại bỏ ngay các từ vô hồn: <em>kiến tạo, đồng hành, lan tỏa, mở ra, bứt phá, đỉnh cao, trao quyền, 赋能, empower</em>. Ưu tiên <strong>ĐỘNG TỪ</strong> hành động cụ thể, đời thường.
+        </p>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);padding:14px;border-radius:8px;border-left:3px solid #10b981;">
+        <h4 style="margin:0 0 6px;color:#fff;font-size:14px;" id="chkItem3Title">📏 3. Độ dài chuẩn vàng (Median 6–8 chữ, Max 12 chữ)</h4>
+        <p style="margin:0;font-size:13px;color:var(--ink-dim);line-height:1.5;" id="chkItem3Desc">
+          Headline trên poster phải dứt khoát. Càng ngắn gọn thì lực nén câu chữ càng mạnh (trừ thể đối xứng hoặc thơ ba lớp).
+        </p>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);padding:14px;border-radius:8px;border-left:3px solid #6366f1;">
+        <h4 style="margin:0 0 6px;color:#fff;font-size:14px;" id="chkItem4Title">🛑 4. Điểm dừng đúng lúc (No Self-Explanation)</h4>
+        <p style="margin:0;font-size:13px;color:var(--ink-dim);line-height:1.5;" id="chkItem4Desc">
+          Viết xong câu chốt là dừng. Tuyệt đối không viết thêm câu triết lý giảng đạo hay tự khen mình ở cuối ("Điểm vỡ chính là ở chỗ giải thích").
+        </p>
+      </div>
     </div>
   </div>
 </div>
@@ -699,6 +761,7 @@ const DEMO_SAMPLES = {
       formula: "Kiềm chế ngược",
       headline: "Thức trọn đêm nay. Để mai không phải hối hận.",
       subhead: "Cà phê đậm vị, mở cửa suốt 24 giờ đồng hành cùng bạn.",
+      post_caption: "Đèn bàn vẫn sáng, tách cà phê vẫn ấm. Khi cả thành phố đã ngủ say, vẫn có một người thức cùng bạn đến bình minh.",
       why_it_works: "[Bề mặt]: Thức đêm ôn thi, chạy deadline để đạt kết quả tốt nhất. [Tầng chìm]: Sự đồng hành bền bỉ, son sắt qua những đêm dài thử thách.",
       visual: {
         subject_type: "Vật dụng đời thường",
@@ -712,6 +775,7 @@ const DEMO_SAMPLES = {
       formula: "Chiếm dụng thuật ngữ",
       headline: "Vào nhanh, ra chậm.",
       subhead: "Kiểm soát nhịp độ dòng tiền, giữ trọn thành quả cả tháng.",
+      post_caption: "Biết cách kiếm tiền là kỹ năng, biết cách giữ tiền là bản lĩnh. Chậm lại một nhịp trước mỗi lần chạm tay.",
       why_it_works: "[Bề mặt]: Tốc độ nạp tiền và kiểm soát chi tiêu khoa học. [Tầng chìm]: Làm chủ nhịp độ an toàn, không vội vã.",
       visual: {
         subject_type: "Chữ/Typography",
@@ -725,6 +789,7 @@ const DEMO_SAMPLES = {
       formula: "Chuyển cảnh / Nhân cách hoá",
       headline: "Ngoài kia gió lớn. Ở đây ấm lòng.",
       subhead: "Món ngon nóng hổi giao thần tốc trong 20 phút.",
+      post_caption: "Mưa rơi trắng trời cũng không cản được một phần ăn nóng sốt gõ cửa nhà bạn. 20 phút để xoa dịu một ngày mệt nhoài.",
       why_it_works: "[Bề mặt]: Thời tiết mưa bão ngoài trời đối lập với bữa ăn ấm nóng trong nhà. [Tầng chìm]: Cảm giác được che chở, yêu thương kịp thời.",
       visual: {
         subject_type: "Vật dụng đời thường",
@@ -738,6 +803,7 @@ const DEMO_SAMPLES = {
       formula: "Thể lịch / Đối xứng",
       headline: "Nên: Bắt đầu ngay.\nKỵ: Chần chừ thêm một ngày.",
       subhead: "Phòng tập 24/7, đánh thức phiên bản tốt nhất của bạn.",
+      post_caption: "Ngày mai là cái cớ quen thuộc nhất của sự trì hoãn. Lên đồ, bước vào phòng tập, và để mồ hôi trả lời.",
       why_it_works: "[Bề mặt]: Lời khuyên theo phong cách lịch vạn niên về việc tập luyện. [Tầng chìm]: Quyết tâm hành động dứt khoát, không trì hoãn đam mê.",
       visual: {
         subject_type: "Sản phẩm",
@@ -753,6 +819,7 @@ const DEMO_SAMPLES = {
       formula: "Reverse Restraint",
       headline: "Stay up tonight. Regret nothing tomorrow.",
       subhead: "Rich coffee, keeping you company all 24 hours.",
+      post_caption: "The city sleeps, but your ambition doesn't. Steaming coffee, open doors, right beside you until dawn.",
       why_it_works: "[Surface]: Pulling an all-nighter to ace exams or crush deadlines. [Submerged]: Loyal, steadfast companionship through the darkest hours.",
       visual: {
         subject_type: "Everyday Object",
@@ -766,6 +833,7 @@ const DEMO_SAMPLES = {
       formula: "Domain Term Hijacking",
       headline: "Fast in, slow out.",
       subhead: "Master your cash flow, protect your monthly wins.",
+      post_caption: "Speed is good, but control is power. Master every single transaction with poise.",
       why_it_works: "[Surface]: Managing the velocity of income vs spending safely. [Submerged]: Self-control and knowing when to pull back safely.",
       visual: {
         subject_type: "Typography",
@@ -781,6 +849,7 @@ const DEMO_SAMPLES = {
       formula: "逆向克制",
       headline: "今夜不眠，免留遗憾。",
       subhead: "浓郁醇厚，24小时守护每刻清醒。",
+      post_caption: "灯还亮着，咖啡尚温。当整座城市陷入沉睡，总有一处清醒陪你战斗到天亮。",
       why_it_works: "【表面层】：通宵复习备考不留遗憾。【潜层】：长夜漫漫中的坚定相伴，并肩作战到底。",
       visual: {
         subject_type: "日常物件",
@@ -794,6 +863,7 @@ const DEMO_SAMPLES = {
       formula: "跨界术语借用",
       headline: "进得从容，出得节制。",
       subhead: "掌控每一笔现金流，守住整月战果。",
+      post_caption: "进退有度，方见从容。看好手里的每一分成果，把节奏握在自己手里。",
       why_it_works: "【表面层】：收入与开支节奏的科学管理。【潜层】：掌控全局、懂得克制与安全退场的成熟态度。",
       visual: {
         subject_type: "纯文字排版",
@@ -880,7 +950,8 @@ const I18N = {
     modalTitle: 'Studio Thiết kế Poster',
     historyModalTitle: 'Lịch sử sinh bài gần đây',
     historyDesc: 'Lưu tối đa 8 mẻ tạo gần nhất',
-    btnClearHistory: '🗑️ Xóa toàn bộ lịch sử',
+    btnChecklist: '🔍 Tự kiểm tra',
+    copyCaptionBtn: '📝 Copy Caption',
     lblStudioRatio: 'Tỷ lệ khung hình',
     lblStudioHeadline: 'Chỉnh sửa Headline trực tiếp',
     lblStudioFontSize: 'Cỡ chữ',
@@ -888,12 +959,25 @@ const I18N = {
     lblStudioBrand: 'Tên thương hiệu ở chân poster',
     lblStudioPalette: 'Màu sắc chủ đạo & Tự chọn',
     lblStudioLogo: 'Chèn ảnh Logo / Sản phẩm (Tùy chọn)',
+    lblStudioLogoPos: 'Vị trí Logo',
+    lblStudioLogoSize: 'Kích thước',
+    lblStudioLogoOpacity: 'Độ rõ nét / Trong suốt',
     btnStudioDownload: '⬇️ Tải PNG 2x',
     btnStudioSvg: '📐 Tải SVG Vector',
     btnStudioCopyImg: '📋 Sao chép ảnh',
     btnStudioSaveCard: '💾 Lưu vào thẻ',
+    txtChecklistTitle: 'Bảng Tự Kiểm Tra Copy 4 Tiêu Chí (Durex Standard)',
+    chkItem1Title: '🎯 1. Quy tắc "Một bước liên tưởng" (One-Hop Rule)',
+    chkItem1Desc: 'Người đọc phải tự kết nối Tầng bề mặt và Tầng chìm trong 1 tích tắc. Nếu cần từ 2 bước suy diễn trở lên hoặc phải giải thích ra bằng lời, câu copy coi như thất bại.',
+    chkItem2Title: '🚫 2. Cấm tiệt từ sáo rỗng AI (Anti-AI Corporate Fluff)',
+    chkItem2Desc: 'Loại bỏ ngay các từ vô hồn: kiến tạo, đồng hành, lan tỏa, mở ra, bứt phá, đỉnh cao, trao quyền, 赋能, empower. Ưu tiên ĐỘNG TỪ hành động cụ thể, đời thường.',
+    chkItem3Title: '📏 3. Độ dài chuẩn vàng (Median 6–8 chữ, Max 12 chữ)',
+    chkItem3Desc: 'Headline trên poster phải dứt khoát. Càng ngắn gọn thì lực nén câu chữ càng mạnh (trừ thể đối xứng hoặc thơ ba lớp).',
+    chkItem4Title: '🛑 4. Điểm dừng đúng lúc (No Self-Explanation)',
+    chkItem4Desc: 'Viết xong câu chốt là dừng. Tuyệt đối không viết thêm câu triết lý giảng đạo hay tự khen mình ở cuối ("Điểm vỡ chính là ở chỗ giải thích").',
     toastLoadedPreset: 'Đã nạp mẫu: ',
     toastCopiedText: 'Đã sao chép nội dung copy!',
+    toastCopiedCaption: 'Đã sao chép caption mạng xã hội!',
     toastCopiedAi: 'Đã sao chép prompt Midjourney/Flux!',
     toastSavedFav: 'Đã thêm vào mục yêu thích ❤️',
     toastRemovedFav: 'Đã xoá khỏi mục yêu thích',
@@ -991,7 +1075,8 @@ const I18N = {
     modalTitle: 'Poster Design Studio',
     historyModalTitle: 'Recent Generation History',
     historyDesc: 'Saves up to 8 recent batches',
-    btnClearHistory: '🗑️ Clear All History',
+    btnChecklist: '🔍 Self-Check',
+    copyCaptionBtn: '📝 Copy Caption',
     lblStudioRatio: 'Aspect Ratio',
     lblStudioHeadline: 'Live Edit Headline',
     lblStudioFontSize: 'Font Size',
@@ -999,12 +1084,25 @@ const I18N = {
     lblStudioBrand: 'Brand Name on Poster Footer',
     lblStudioPalette: 'Primary Colors & Custom Pickers',
     lblStudioLogo: 'Insert Logo / Product Image (Optional)',
+    lblStudioLogoPos: 'Logo Position',
+    lblStudioLogoSize: 'Size',
+    lblStudioLogoOpacity: 'Opacity / Sharpness',
     btnStudioDownload: '⬇️ Download PNG 2x',
     btnStudioSvg: '📐 Download SVG Vector',
     btnStudioCopyImg: '📋 Copy Image',
     btnStudioSaveCard: '💾 Save to Card',
+    txtChecklistTitle: '4-Criteria Copywriting Self-Inspection Checklist (Durex Standard)',
+    chkItem1Title: '🎯 1. The "One-Hop" Association Rule',
+    chkItem1Desc: 'The audience must jump from Surface to Submerged in a fraction of a second. If it requires two or more association steps or needs explanation, the copy is dead.',
+    chkItem2Title: '🚫 2. Ban Generic AI Buzzwords (Anti-Fluff)',
+    chkItem2Desc: 'Eradicate lifeless corporate filler: empower, elevate, unleash, embark, bespoke, cutting-edge, ultimate, seamless, transform. Prioritize punchy everyday action verbs.',
+    chkItem3Title: '📏 3. Golden Brevity (Median 6–8 words, Max 12 words)',
+    chkItem3Desc: 'Poster headlines must be crisp and decisive. The tighter the phrasing, the greater the viral impact (except for antithetical couplets or three-tier verses).',
+    chkItem4Title: '🛑 4. Point of Restraint (No Self-Explanation)',
+    chkItem4Desc: 'Stop immediately after the punchline. Never tack on an explanatory moral or self-congratulatory platitude ("Explanation ruins the magic").',
     toastLoadedPreset: 'Loaded preset: ',
     toastCopiedText: 'Copy text copied to clipboard!',
+    toastCopiedCaption: 'Social media caption copied to clipboard!',
     toastCopiedAi: 'Midjourney/Flux prompt copied!',
     toastSavedFav: 'Saved to favorites ❤️',
     toastRemovedFav: 'Removed from favorites',
@@ -1102,7 +1200,8 @@ const I18N = {
     modalTitle: '海报设计工作室 (Poster Studio)',
     historyModalTitle: '历史生成记录',
     historyDesc: '最多保留最近 8 次生成结果',
-    btnClearHistory: '🗑️ 清空全部历史记录',
+    btnChecklist: '🔍 自检自查',
+    copyCaptionBtn: '📝 复制社媒配文',
     lblStudioRatio: '画面比例',
     lblStudioHeadline: '实时修改主标题',
     lblStudioFontSize: '字体大小',
@@ -1110,12 +1209,25 @@ const I18N = {
     lblStudioBrand: '海报底部品牌署名',
     lblStudioPalette: '主基调配色与取色器',
     lblStudioLogo: '插入 Logo / 产品图片 (可选)',
+    lblStudioLogoPos: 'Logo 摆放位置',
+    lblStudioLogoSize: '尺寸',
+    lblStudioLogoOpacity: '清晰度 / 不透明度',
     btnStudioDownload: '⬇️ 下载 2x 超清 PNG',
     btnStudioSvg: '📐 下载矢量 SVG',
     btnStudioCopyImg: '📋 复制海报图像',
     btnStudioSaveCard: '💾 保存至卡片',
+    txtChecklistTitle: '杜蕾斯双层文案 4 大黄金自检法则',
+    chkItem1Title: '🎯 1. “一步联想”铁律（One-Hop Rule）',
+    chkItem1Desc: '读者必须自己在脑海中瞬间完成表面层与潜层的跳跃连通。如果需要两步以上的推理，或者需要写作者括号解释，该文案即告作废。',
+    chkItem2Title: '🚫 2. 严禁任何 AI 套话（Anti-AI Fluff）',
+    chkItem2Desc: '彻底摒弃假大空官话：赋能、打造、助力、开启、共赴、卓越、极致、精心、专业、新篇章。动词优先，形容词接近于零。',
+    chkItem3Title: '📏 3. 黄金字数中位数 6-8 字（上限 12 字）',
+    chkItem3Desc: '海报主标题严格克制精炼。短不是刻意省字，而是话说清楚后自然收住的张力（对仗黄历句式除外）。',
+    chkItem4Title: '🛑 4. 点破即死，严禁自我解释（No Self-Explanation）',
+    chkItem4Desc: '写完最后一句即刻收笔，绝不补写一句“这就是……的力量”。把想象和顿悟的快感完整留给读者。',
     toastLoadedPreset: '已载入预设：',
     toastCopiedText: '文案内容已成功复制！',
+    toastCopiedCaption: '社媒配文已成功复制！',
     toastCopiedAi: 'Midjourney/Flux 提示词已复制！',
     toastSavedFav: '已加入收藏夹 ❤️',
     toastRemovedFav: '已从收藏夹移除',
@@ -1150,11 +1262,15 @@ function getSystemPrompt(outputLang){
   if(outputLang === 'zh'){
     return `你是一位顶级创意总监与广告文案大师，深谙杜蕾斯黄金时期（环时互动 2011–2017）沉淀的“双层语义”（Dual-Layer Semantics）文案与极简视觉哲学。
 
-核心机制：
-一条经典的双层文案必须在两个语义层次上平滑运转：
-- 表面层：一个真实生活场景、天气变化、节庆日常、热点节点 — 字面上合情合理、自然贴切且完全健康。
-- 潜层（潜台词）：产品核心卖点、品牌精神或深层心理动机。
-读者必须在脑海中瞬间“一步联想”完成连通。如果只需一步顿悟，文案便具绝佳传播力；若需两步或需额外解释，文案即告失败。绝不直白道破。
+核心黄金法则（严格遵守）：
+1. “一步联想”铁律（里层必须一跳可达）：
+文案表面层（字面）和潜层（产品真实价值）必须在读者脑海中瞬间“一步直达”。严禁需要两步以上推导的生硬谜语；绝不在文案里自我解释，点破即死！
+2. 严惩 AI 套话与官话（动词优先，形容词趋近于零）：
+严禁使用：“赋能、打造、助力、开启、共赴、卓越、极致、精心、专业、新篇章、引领、沉浸式”。用有力、生动的日常动作动词替换虚浮形容词！
+3. 字数克制：
+海报主标题中位数 6–8 字，严格限制在 12 字以内（黄历对仗句除外）。短小精悍，意蕴悠长。
+4. 标点即语气：
+善用“～”（轻挑挑逗）、“。”（斩钉截铁）、“——”（欲言又止）、“……”（留白回味）。
 
 杜蕾斯经典 8 大文案公式：
 1. 谐音借义：替换大众熟知语句中的一个字词，转换为与产品同音/近音的词汇（克制使用）。
@@ -1166,28 +1282,15 @@ function getSystemPrompt(outputLang){
 7. 三层递进诗体：前三句层层递进描摹环境氛围，最后一句峰回路转，引申至产品本身。
 8. 逆向克制：在所有人都在等待你抖机灵、开玩笑的时刻，反而给出一句无比真诚、严肃且动人的真话。
 
-画面与配色系统：
-- 画面主体：产品本身 | 日常物件 | 纯文字排版 | 局部肢体
-- 经典配色：
-  * "品牌正红": #E2001A, #FFFFFF, #000000
-  * "深夜幽蓝": #0E1A2E, #16233F, #E2001A
-  * "影棚纯黑": #0B0B0B, #F2EDE3, #C8102E
-  * "柔粉渐变": #FCEDF1, #E8558F, #2A101C
-  * "暖调旧宣": #F2EDE3, #C8102E, #1A1A1A
-  * "主题借色": 依据主题挑选和谐互衬的3个十六进制色值。
-
-严格伦理界限：
-绝不消费灾难、疾病或悲剧；绝不物化女性；面向常规大众产品时，严格聚焦产品真实商业价值，杜绝低俗下流。
-
-输出格式要求：
-必须严格返回以下 JSON 格式（无 Markdown 代码块，无多余文字）：
+输出格式要求（必须严格返回 JSON，禁止任何 Markdown 代码块包裹）：
 {
   "options": [
     {
       "formula": "公式名称（中文，如：跨界术语借用）",
-      "headline": "主标题中文文案，短小精悍，富有张力，不超过14字",
+      "headline": "主标题（海报文案，6-12字，极具张力与双层内涵）",
       "subhead": "简短有力的副标题",
-      "why_it_works": "简要解析两层含义：[表面层]是什么，[潜层]是什么",
+      "post_caption": "社媒正文配文（2-3句生动短句，自然真诚，不落俗套）",
+      "why_it_works": "简要解析：[表面层]是什么，[潜层]是什么（一跳直达解析）",
       "visual": {
         "subject_type": "产品本身 | 日常物件 | 纯文字排版 | 局部肢体",
         "subject_desc": "极简视觉画面描述（中文）",
@@ -1201,11 +1304,15 @@ function getSystemPrompt(outputLang){
   } else if(outputLang === 'en'){
     return `You are an elite Creative Director and Copywriting Master skilled in the "Dual-Layer Semantics" methodology distilled from Durex's legendary golden era (Huanshi Interactive 2011–2017).
 
-CORE MECHANISM:
-A classic dual-layer copy operates simultaneously on two semantic planes:
-- Surface Layer: A real-life scenario, weather, everyday habit, seasonal milestone — literally logical, innocent, and natural.
-- Submerged Layer: The genuine product value, brand soul, or emotional truth.
-The audience must connect these two layers in their own mind through ONE step of mental association. If it clicks in one step, the copy explodes virally; if it requires multiple steps or verbal explanation, it dies. Never state the obvious.
+CORE GOLDEN RULES:
+1. The "One-Hop" Association Law:
+The audience must jump from Surface Layer (literal topic) to Submerged Layer (product truth) in ONE single mental leap. If it takes 2+ steps or requires explanation, the copy is deemed dead. Never explain the punchline!
+2. Anti-AI Corporate Fluff (Action Verbs over Adjectives):
+STRICTLY FORBIDDEN: "empower, elevate, unleash, embark, bespoke, cutting-edge, ultimate, seamless, transform, game-changer, elevate, synergy". Use punchy, vivid, everyday action verbs!
+3. Golden Brevity:
+Poster headline median length: 6–8 words, MAX 12 words (except parallel couplets). Decisive, razor-sharp, leaving room to breathe.
+4. Punctuation as Voice:
+Use "~" (teasing), "." (punchy authority), "——" (pause/anticipation), "..." (leaving it to the imagination).
 
 8 CLASSIC FORMULAS:
 1. Homophonic / Near-sound Pun: Swap a word in a famous idiom with a phonetically close word tied to the product.
@@ -1217,15 +1324,15 @@ The audience must connect these two layers in their own mind through ONE step of
 7. Three-Tier Verse: Three progressive scene-setting lines, with an unexpected punchline pivot to the product in the final line.
 8. Reverse Restraint: Delivering a deeply sincere, profound statement precisely when the audience expects a joke.
 
-OUTPUT FORMAT:
-Return ONLY valid JSON with no markdown code fences or conversational text:
+OUTPUT FORMAT (Strictly return ONLY JSON, no markdown code blocks or pleasantries):
 {
   "options": [
     {
       "formula": "Formula name in English",
-      "headline": "Main English headline, punchy, under 12 words, thought-provoking",
+      "headline": "Main English poster headline (6-12 words, thought-provoking)",
       "subhead": "Crisp supporting subhead",
-      "why_it_works": "Brief breakdown: [Surface] meaning vs [Submerged] meaning",
+      "post_caption": "Ready-to-post social media caption (2-3 authentic, human sentences)",
+      "why_it_works": "Breakdown: [Surface] meaning vs [Submerged] product truth",
       "visual": {
         "subject_type": "Product Centered | Everyday Object | Typography | Partial Human",
         "subject_desc": "Minimalist visual description in English",
@@ -1240,11 +1347,15 @@ Return ONLY valid JSON with no markdown code fences or conversational text:
 
   return `Bạn là một giám đốc sáng tạo và chuyên gia copywriting bậc thầy, áp dụng phương pháp "ngữ nghĩa hai lớp" (dual-layer semantics) được đúc kết từ các chiến dịch quảng cáo huyền thoại của Durex (thời Huanshi Interactive 2011–2017).
 
-CƠ CHẾ CỐT LÕI:
-Một câu copy Durex hoạt động đồng thời trên hai tầng nghĩa:
-- Tầng bề mặt: một chủ đề nóng, thời tiết, thói quen đời thường, sự kiện xã hội — đọc theo nghĩa đen hoàn toàn hợp lý và trong sáng.
-- Tầng chìm: thông điệp sâu sắc về giá trị sản phẩm/thương hiệu, kích thích liên tưởng mạnh mẽ.
-Người đọc phải TỰ kết nối hai tầng này trong đầu. Nếu chỉ cần MỘT BƯỚC liên tưởng thì copy "bùng nổ" (người xem bật cười hoặc gật gù tâm đắc); nếu cần từ hai bước liên tưởng trở lên hoặc phải giải thích ra thì copy thất bại. Không bao giờ nói huỵch toẹt.
+QUY TẮC VÀNG BẮT BUỘC:
+1. Quy tắc "Một bước liên tưởng" (Chạm đích tức thì):
+Tầng bề mặt (sự kiện, thời tiết, thói quen đời thường) và Tầng chìm (giá trị sản phẩm) phải kết nối với nhau ngay trong 1 tích tắc. Nếu người xem phải suy diễn từ 2 bước trở lên hoặc phải giải thích ra thì câu copy coi như thất bại hoàn toàn. Điểm dừng đúng lúc, tuyệt đối không tự giải thích huỵch toẹt!
+2. Cấm tiệt từ sáo rỗng AI (Ưu tiên động từ hành động đời thường):
+TUYỆT ĐỐI KHÔNG DÙNG: "kiến tạo, đồng hành, lan tỏa, mở ra, bứt phá, đỉnh cao, chuyên nghiệp, uy tín, trao quyền, trải nghiệm tuyệt vời, vững bước, hòa mình". Hãy dùng các ĐỘNG TỪ mạnh mẽ, gần gũi, giàu hình tượng (như cọ, lên, về, cản, chặn, tắt, bật, giữ, siết...).
+3. Độ dài vàng:
+Headline chính trên poster: trung vị 6–8 chữ, tối đa 12 chữ (trừ thể đối xứng hoặc thể thơ). Càng cô đọng, dứt khoát thì lực đẩy thông điệp càng mạnh.
+4. Dấu câu là ngữ khí:
+Dùng "~" (lả lơi, hóm hỉnh), "." (dứt khoát, đanh thép), "——" (ngập ngừng nén lại), "..." (để ngỏ cho độc giả tự ngẫm).
 
 8 CÔNG THỨC VIẾT QUẢNG CÁO:
 1. Chơi chữ đồng âm/gần âm: Đổi 1 từ trong cụm từ quen thuộc bằng từ đồng âm gắn với sản phẩm.
@@ -1256,15 +1367,15 @@ Người đọc phải TỰ kết nối hai tầng này trong đầu. Nếu ch�
 7. Thể thơ ba lớp: Ba câu ngắn tả cảnh tăng dần, câu cuối bẻ lái ngoạn mục sang thông điệp sản phẩm.
 8. Kiềm chế ngược: Giữa lúc khán giả mong chờ một câu đùa cợt, lại nói một câu chân thành, sâu lắng, nghiêm túc.
 
-SCHEMA TRẢ VỀ:
-Bắt buộc trả về duy nhất chuỗi JSON hợp lệ (không markdown code fences):
+SCHEMA TRẢ VỀ (Bắt buộc trả về JSON hợp lệ, không markdown fences):
 {
   "options": [
     {
       "formula": "Tên công thức tiếng Việt",
-      "headline": "Câu copy chính, tiếng Việt, tối đa 14 từ, đắt giá, giàu sức gợi",
+      "headline": "Câu copy chính trên poster, tiếng Việt, 6-12 từ, dứt khoát, đắt giá",
       "subhead": "Câu bổ trợ ngắn làm rõ tính năng/sản phẩm",
-      "why_it_works": "Giải thích ngắn 2 tầng nghĩa: [Bề mặt] là gì, [Tầng chìm] là gì",
+      "post_caption": "Đoạn caption đăng kèm mạng xã hội (2-3 câu ngắn tự nhiên, giàu cảm xúc)",
+      "why_it_works": "Giải thích 1 bước liên tưởng: [Bề mặt] là gì, [Tầng chìm] là gì",
       "visual": {
         "subject_type": "Sản phẩm | Vật dụng đời thường | Chữ/Typography | Con người (một phần)",
         "subject_desc": "Mô tả ngắn gọn khung hình tối giản bằng tiếng Việt",
@@ -2009,6 +2120,7 @@ function applyLanguage(lang){
   document.getElementById('tabGenerated').textContent = t.tabGenerated;
   document.getElementById('tabFavorites').innerHTML = `${t.tabFavorites} (<span id="favCount">${favorites.length}</span>)`;
   document.getElementById('btnHistory').textContent = t.btnHistory;
+  document.getElementById('btnChecklist').textContent = t.btnChecklist;
   document.getElementById('viewCards').textContent = t.viewCards;
   document.getElementById('viewPosters').textContent = t.viewPosters;
   document.getElementById('txtEmptyResults').textContent = t.emptyGenerated;
@@ -2027,10 +2139,24 @@ function applyLanguage(lang){
   document.getElementById('lblStudioBrand').textContent = t.lblStudioBrand;
   document.getElementById('lblStudioPalette').textContent = t.lblStudioPalette;
   document.getElementById('lblStudioLogo').textContent = t.lblStudioLogo;
+  document.getElementById('lblStudioLogoPos').textContent = t.lblStudioLogoPos;
+  document.getElementById('lblStudioLogoSize').textContent = t.lblStudioLogoSize;
+  document.getElementById('lblStudioLogoOpacity').textContent = t.lblStudioLogoOpacity;
   document.getElementById('btnStudioDownload').textContent = t.btnStudioDownload;
   document.getElementById('btnStudioSvg').textContent = t.btnStudioSvg;
   document.getElementById('btnStudioCopyImg').textContent = t.btnStudioCopyImg;
   document.getElementById('btnStudioSaveCard').textContent = t.btnStudioSaveCard;
+
+  // Checklist modal texts
+  document.getElementById('txtChecklistTitle').textContent = t.txtChecklistTitle;
+  document.getElementById('chkItem1Title').textContent = t.chkItem1Title;
+  document.getElementById('chkItem1Desc').textContent = t.chkItem1Desc;
+  document.getElementById('chkItem2Title').textContent = t.chkItem2Title;
+  document.getElementById('chkItem2Desc').textContent = t.chkItem2Desc;
+  document.getElementById('chkItem3Title').textContent = t.chkItem3Title;
+  document.getElementById('chkItem3Desc').textContent = t.chkItem3Desc;
+  document.getElementById('chkItem4Title').textContent = t.chkItem4Title;
+  document.getElementById('chkItem4Desc').textContent = t.chkItem4Desc;
 
   // Cập nhật nhãn nhà cung cấp đa ngữ
   const providerSelect = document.getElementById('provider');
@@ -2257,6 +2383,13 @@ function bindEvents(){
   document.getElementById('btnExportAll').addEventListener('click', exportAllAsMarkdown);
   document.getElementById('btnExportJson').addEventListener('click', exportAllAsJson);
 
+  // Checklist Modal Events
+  document.getElementById('btnChecklist').addEventListener('click', openChecklistModal);
+  document.getElementById('checklistCloseBtn').addEventListener('click', closeChecklistModal);
+  document.getElementById('checklistModal').addEventListener('click', function(e){
+    if(e.target === this) closeChecklistModal();
+  });
+
   // Keyboard shortcut Ctrl+Enter
   document.getElementById('topic').addEventListener('keydown', function(e){
     if((e.ctrlKey || e.metaKey) && e.key === 'Enter'){
@@ -2268,7 +2401,9 @@ function bindEvents(){
   document.getElementById('genBtn').addEventListener('click', generate);
 
   // Studio Modal Events
-  document.getElementById('modalCloseBtn').addEventListener('click', closeStudioModal);
+  const studioClose = document.getElementById('studioCloseBtn');
+  if(studioClose) studioClose.addEventListener('click', closeStudioModal);
+
   document.getElementById('studioModal').addEventListener('click', function(e){
     if(e.target === this) closeStudioModal();
   });
@@ -2276,6 +2411,7 @@ function bindEvents(){
     if(e.key === 'Escape'){
       closeStudioModal();
       closeHistoryModal();
+      closeChecklistModal();
     }
   });
 
@@ -2298,14 +2434,25 @@ function bindEvents(){
     updateStudioCanvas();
   });
 
-  // Logo upload
+  // Logo upload & controls
   document.getElementById('studioLogoInput').addEventListener('change', handleLogoUpload);
   document.getElementById('btnRemoveLogo').addEventListener('click', removeLogo);
+  document.getElementById('studioLogoPos').addEventListener('change', updateStudioCanvas);
+  document.getElementById('studioLogoScale').addEventListener('input', updateStudioCanvas);
+  document.getElementById('studioLogoOpacity').addEventListener('input', updateStudioCanvas);
 
   document.getElementById('btnStudioDownload').addEventListener('click', downloadStudioCanvas);
   document.getElementById('btnStudioSvg').addEventListener('click', downloadStudioSvg);
   document.getElementById('btnStudioCopyImg').addEventListener('click', copyStudioCanvasImage);
   document.getElementById('btnStudioSaveCard').addEventListener('click', saveStudioChangesToCard);
+}
+
+function openChecklistModal(){
+  document.getElementById('checklistModal').classList.add('show');
+}
+
+function closeChecklistModal(){
+  document.getElementById('checklistModal').classList.remove('show');
 }
 
 function loadDemoShowcase(){
@@ -2816,6 +2963,13 @@ function renderCards(list){
       <div class="headline">${escapeHtml(opt.headline || '')}</div>
       ${opt.subhead ? `<div class="subhead">${escapeHtml(opt.subhead)}</div>` : ''}
 
+      ${opt.post_caption ? `
+        <div style="background:rgba(255,255,255,0.03);border:1px dashed rgba(255,255,255,0.12);border-radius:8px;padding:10px 12px;margin-bottom:14px;font-size:13.5px;color:var(--ink-dim);line-height:1.5;">
+          <span style="font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:4px;">💬 Caption MXH:</span>
+          ${escapeHtml(opt.post_caption)}
+        </div>
+      ` : ''}
+
       ${opt.why_it_works ? `
         <div class="why">
           <strong>${t.whyLabel}</strong> ${escapeHtml(opt.why_it_works)}
@@ -2836,12 +2990,22 @@ function renderCards(list){
 
       <div class="card-actions">
         <button class="act-btn" onclick="copyText(${idx}, '${currentTab}')">${t.copyTextBtn}</button>
+        ${opt.post_caption ? `<button class="act-btn" onclick="copyCaption(${idx}, '${currentTab}')">${t.copyCaptionBtn}</button>` : ''}
         <button class="act-btn" onclick="copyAiPrompt(${idx}, '${currentTab}')">${t.copyAiPromptBtn}</button>
         <button class="act-btn primary-act" onclick="openStudioModal(${idx}, '${currentTab}')">${t.downloadPosterBtn}</button>
       </div>
     `;
     container.appendChild(card);
   });
+}
+
+function copyCaption(idx, tab){
+  const item = getItem(idx, tab);
+  if(!item || !item.post_caption) return;
+  navigator.clipboard.writeText(item.post_caption).then(() => {
+    const t = I18N[currentLang] || I18N.vi;
+    showToast(t.toastCopiedCaption);
+  }).catch(() => {});
 }
 
 function renderPosters(list){
@@ -2857,7 +3021,7 @@ function renderPosters(list){
   }
 
   const ratio = document.getElementById('ratio').value || '3:4';
-  const ratioClass = ratio === '1:1' ? 'ar-1-1' : (ratio === '9:16' ? 'ar-9-16' : 'ar-3-4');
+  const ratioClass = ratio === '1:1' ? 'ar-1-1' : (ratio === '9:16' ? 'ar-9-16' : (ratio === '16:9' ? 'ar-16-9' : (ratio === '4:3' ? 'ar-4-3' : 'ar-3-4')));
 
   list.forEach((opt, idx) => {
     const box = document.createElement('div');
@@ -3027,6 +3191,7 @@ function exportAllAsMarkdown(){
   list.forEach((opt, idx) => {
     md += `### Option ${idx + 1}: ${opt.headline}\n\n`;
     if(opt.subhead) md += `*${opt.subhead}*\n\n`;
+    if(opt.post_caption) md += `> **Social Media Caption:**\n> ${opt.post_caption}\n\n`;
     md += `- **Formula:** ${opt.formula}\n`;
     if(opt.why_it_works) md += `- **Why it Works:** ${opt.why_it_works}\n`;
     if(opt.visual){
@@ -3066,7 +3231,7 @@ function exportAllAsJson(){
   const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
-  link.download = `durex-campaign-${Date.now()}.json`;
+  link.download = `durex-copy-${Date.now()}.json`;
   link.href = url;
   link.click();
   URL.revokeObjectURL(url);
@@ -3121,6 +3286,8 @@ function openStudioModal(idx, tab){
   activeStudioLogoImg = null;
   document.getElementById('studioLogoInput').value = '';
   document.getElementById('btnRemoveLogo').style.display = 'none';
+  const logoCtrls = document.getElementById('studioLogoCtrls');
+  if(logoCtrls) logoCtrls.style.display = 'none';
   
   const rawHexList = (item.visual && item.visual.palette_hex && item.visual.palette_hex.length) 
     ? item.visual.palette_hex 
@@ -3186,6 +3353,8 @@ function handleLogoUpload(e){
     img.onload = function(){
       activeStudioLogoImg = img;
       document.getElementById('btnRemoveLogo').style.display = 'inline-flex';
+      const logoCtrls = document.getElementById('studioLogoCtrls');
+      if(logoCtrls) logoCtrls.style.display = 'block';
       updateStudioCanvas();
     };
     img.src = evt.target.result;
@@ -3197,6 +3366,8 @@ function removeLogo(){
   activeStudioLogoImg = null;
   document.getElementById('studioLogoInput').value = '';
   document.getElementById('btnRemoveLogo').style.display = 'none';
+  const logoCtrls = document.getElementById('studioLogoCtrls');
+  if(logoCtrls) logoCtrls.style.display = 'none';
   updateStudioCanvas();
 }
 
@@ -3233,6 +3404,7 @@ function updateStudioCanvas(){
   if(ratio === '1:1'){ canvasW = 1000; canvasH = 1000; }
   else if(ratio === '9:16'){ canvasW = 810; canvasH = 1440; }
   else if(ratio === '16:9'){ canvasW = 1440; canvasH = 810; }
+  else if(ratio === '4:3'){ canvasW = 1200; canvasH = 900; }
 
   canvas.width = canvasW;
   canvas.height = canvasH;
@@ -3269,7 +3441,7 @@ function updateStudioCanvas(){
   
   const maxTextWidth = canvasW - 140;
   const headlineLines = wrapTextMultilingual(ctx, headlineText, maxTextWidth);
-  let y = canvasH * (ratio === '16:9' ? 0.36 : 0.42);
+  let y = canvasH * (ratio === '16:9' || ratio === '4:3' ? 0.36 : 0.42);
   const lineHeight = customFontSize * 1.28;
 
   for(const l of headlineLines){
@@ -3290,18 +3462,29 @@ function updateStudioCanvas(){
     }
   }
 
-  // Logo if uploaded
+  // Logo if uploaded with custom position, scale, and opacity
   if(activeStudioLogoImg){
-    const logoW = 100;
+    const logoScale = parseInt(document.getElementById('studioLogoScale')?.value || 110, 10);
+    const logoOpacity = parseInt(document.getElementById('studioLogoOpacity')?.value || 100, 10) / 100;
+    const logoPos = document.getElementById('studioLogoPos')?.value || 'top-right';
+
+    const logoW = logoScale;
     const logoH = (activeStudioLogoImg.height / activeStudioLogoImg.width) * logoW;
+
+    let lx = canvasW - 70 - logoW;
+    let ly = 60;
+    if(logoPos === 'top-left'){ lx = 70; ly = 60; }
+    else if(logoPos === 'bottom-right'){ lx = canvasW - 70 - logoW; ly = canvasH - 120 - logoH; }
+    else if(logoPos === 'center'){ lx = (canvasW - logoW) / 2; ly = (canvasH - logoH) / 2; }
+
     ctx.save();
-    ctx.globalAlpha = 0.9;
-    ctx.drawImage(activeStudioLogoImg, canvasW - 70 - logoW, 60, logoW, logoH);
+    ctx.globalAlpha = logoOpacity;
+    ctx.drawImage(activeStudioLogoImg, lx, ly, logoW, logoH);
     ctx.restore();
   }
 
   // Visual hint
-  if(activeStudioItem.visual && activeStudioItem.visual.subject_desc && ratio !== '16:9'){
+  if(activeStudioItem.visual && activeStudioItem.visual.subject_desc && ratio !== '16:9' && ratio !== '4:3'){
     const vY = canvasH - 160;
     ctx.font = '400 18px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif';
     ctx.fillStyle = 'rgba(255,255,255,0.4)';
@@ -3341,13 +3524,14 @@ function downloadStudioSvg(){
   if(ratio === '1:1'){ w = 1000; h = 1000; }
   else if(ratio === '9:16'){ w = 810; h = 1440; }
   else if(ratio === '16:9'){ w = 1440; h = 810; }
+  else if(ratio === '4:3'){ w = 1200; h = 900; }
 
   const bgHex = toValidHex(activeStudioPalette[0], '#0E1A2E');
   const accentHex = toValidHex(activeStudioPalette[1], '#E2001A');
   const formula = activeStudioItem.formula || 'DUREX COPYWRITER';
 
   const lines = headline.split('\n');
-  let y = h * (ratio === '16:9' ? 0.36 : 0.42);
+  let y = h * (ratio === '16:9' || ratio === '4:3' ? 0.36 : 0.42);
   const lineH = customFontSize * 1.28;
 
   let headlineSvg = '';
