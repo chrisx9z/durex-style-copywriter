@@ -20,6 +20,12 @@
 <meta name="twitter:description" content="Generate razor-sharp advertising copy using Dual-Layer Semantics methodology.">
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2244%22 fill=%22%23E2001A%22/><text x=%2250%22 y=%2262%22 font-size=%2238%22 font-weight=%22bold%22 text-anchor=%22middle%22 fill=%22%23FFFFFF%22 font-family=%22sans-serif%22>2L</text></svg>">
+
+<!-- Commercial-Safe Google Fonts for Multi-Language Poster Typography (SIL OFL 1.1) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,700;0,900;1,400&family=JetBrains+Mono:wght@500;700;800&family=Noto+Sans+SC:wght@500;700;900&family=Noto+Serif+SC:wght@600;700;900&family=Oswald:wght@500;700&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600&display=swap" rel="stylesheet">
+
 <style>
   :root{
     --bg:#0B1322;
@@ -587,13 +593,35 @@
         </div>
       </div>
       <div class="studio-ctrls">
-        <label id="lblStudioRatio">Tỷ lệ khung hình</label>
-        <select id="studioRatio">
-          <option value="3:4" selected>3:4 (Poster chuẩn)</option>
-          <option value="1:1">1:1 (Vuông)</option>
-          <option value="9:16">9:16 (Story / TikTok)</option>
-          <option value="16:9">16:9 (Ngang Web)</option>
-          <option value="4:3">4:3 (Ngang Slide/Banner)</option>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div>
+            <label id="lblStudioRatio">Tỷ lệ khung hình</label>
+            <select id="studioRatio">
+              <option value="3:4" selected>3:4 (Poster chuẩn)</option>
+              <option value="1:1">1:1 (Vuông)</option>
+              <option value="9:16">9:16 (Story / TikTok)</option>
+              <option value="16:9">16:9 (Ngang Web)</option>
+              <option value="4:3">4:3 (Ngang Slide/Banner)</option>
+            </select>
+          </div>
+          <div>
+            <label id="lblStudioFont">Kiểu chữ (Typography)</label>
+            <select id="studioFont">
+              <option value="sans" selected>Không chân (Modern Sans)</option>
+              <option value="serif">Có chân (Classic Serif)</option>
+              <option value="display">Tiêu đề (Bold Display)</option>
+              <option value="kai">Nghệ thuật (Literary Kai)</option>
+              <option value="mono">Kỹ thuật (Tech Mono)</option>
+            </select>
+          </div>
+        </div>
+
+        <label id="lblStudioLayout">Bố cục Poster (Layout)</label>
+        <select id="studioLayout">
+          <option value="left" selected>Căn trái Tối giản (Classic Minimal)</option>
+          <option value="center">Kịch tính Căn giữa (Dramatic Center)</option>
+          <option value="split">Đối xứng Hai tầng (Split Dual-Layer)</option>
+          <option value="editorial">Khung Tạp chí Nghệ thuật (Editorial Frame)</option>
         </select>
 
         <label id="lblStudioHeadline">Chỉnh sửa Headline trực tiếp</label>
@@ -610,6 +638,15 @@
 
         <label id="lblStudioBrand">Tên thương hiệu ở chân poster</label>
         <input type="text" id="studioBrand" value="DUREX-STYLE STUDIO">
+
+        <label id="lblStudioPalettes">Bảng màu Chuẩn gu (1-Click Presets)</label>
+        <div class="preset-palettes-row" id="studioPresetPalettes" style="display:flex;gap:5px;margin-bottom:8px;flex-wrap:wrap;">
+          <button type="button" class="palette-preset-btn" data-bg="#0E1A2E" data-accent="#E2001A" title="Midnight Classic" style="background:#0E1A2E;border:1.5px solid #E2001A;color:#fff;border-radius:6px;padding:3px 7px;font-size:11px;cursor:pointer;">🔵 Midnight</button>
+          <button type="button" class="palette-preset-btn" data-bg="#0F141C" data-accent="#00F0A8" title="Cyber Neon Jade" style="background:#0F141C;border:1.5px solid #00F0A8;color:#00F0A8;border-radius:6px;padding:3px 7px;font-size:11px;cursor:pointer;">⚫ Cyber Jade</button>
+          <button type="button" class="palette-preset-btn" data-bg="#1F0A10" data-accent="#FF4A68" title="Velvet Wine" style="background:#1F0A10;border:1.5px solid #FF4A68;color:#FF4A68;border-radius:6px;padding:3px 7px;font-size:11px;cursor:pointer;">🍷 Velvet Wine</button>
+          <button type="button" class="palette-preset-btn" data-bg="#14171A" data-accent="#D4AF37" title="Champagne Gold" style="background:#14171A;border:1.5px solid #D4AF37;color:#D4AF37;border-radius:6px;padding:3px 7px;font-size:11px;cursor:pointer;">🌕 Champagne</button>
+          <button type="button" class="palette-preset-btn" data-bg="#F4F1EA" data-accent="#18181B" title="Paper & Ink" style="background:#F4F1EA;border:1.5px solid #18181B;color:#18181B;border-radius:6px;padding:3px 7px;font-size:11px;cursor:pointer;">⚪ Paper & Ink</button>
+        </div>
 
         <label id="lblStudioPalette">Màu sắc chủ đạo & Tự chọn</label>
         <div class="swatches" id="studioSwatches" style="margin-bottom:8px;flex-wrap:wrap;"></div>
@@ -652,9 +689,10 @@
           </div>
         </div>
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;">
-          <button class="primary" id="btnStudioDownload">⬇️ Tải PNG 2x</button>
-          <button class="act-btn" id="btnStudioSvg" style="justify-content:center;">📐 Tải SVG Vector</button>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:14px;">
+          <button class="primary" id="btnStudioDownload" style="padding:10px 6px;font-size:12.5px;">⬇️ PNG 2x</button>
+          <button class="act-btn" id="btnStudioWebp" style="justify-content:center;padding:10px 6px;font-size:12.5px;">⚡ WebP</button>
+          <button class="act-btn" id="btnStudioSvg" style="justify-content:center;padding:10px 6px;font-size:12.5px;">📐 SVG</button>
         </div>
         
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
@@ -683,34 +721,46 @@
 
 <!-- Checklist Modal (Tự kiểm tra theo chuẩn Durex) -->
 <div class="modal-overlay" id="checklistModal">
-  <div class="modal-card" style="max-width:680px;">
+  <div class="modal-card" style="max-width:700px;">
     <div class="modal-head">
-      <h3 id="txtChecklistTitle">Bảng Tự Kiểm Tra Copy 4 Tiêu Chí (Durex Standard)</h3>
+      <h3 id="txtChecklistTitle">Bảng Tự Kiểm Tra Copy 5 Tiêu Chí Vàng (Durex Standard)</h3>
       <button type="button" class="modal-close" id="checklistCloseBtn">✕</button>
     </div>
-    <div style="padding:20px;display:flex;flex-direction:column;gap:14px;" id="checklistBody">
-      <div style="background:rgba(0,0,0,0.2);padding:14px;border-radius:8px;border-left:3px solid var(--accent);">
-        <h4 style="margin:0 0 6px;color:#fff;font-size:14px;" id="chkItem1Title">🎯 1. Quy tắc "Một bước liên tưởng" (One-Hop Rule)</h4>
-        <p style="margin:0;font-size:13px;color:var(--ink-dim);line-height:1.5;" id="chkItem1Desc">
+    <div style="padding:20px;display:flex;flex-direction:column;gap:12px;max-height:75vh;overflow-y:auto;" id="checklistBody">
+      <div style="background:rgba(0,0,0,0.2);padding:13px 15px;border-radius:8px;border-left:3px solid var(--accent);">
+        <h4 style="margin:0 0 5px;color:#fff;font-size:13.5px;" id="chkItem1Title">🎯 1. Quy tắc "Một bước liên tưởng" (One-Hop Rule)</h4>
+        <p style="margin:0;font-size:12.5px;color:var(--ink-dim);line-height:1.5;" id="chkItem1Desc">
           Người đọc phải tự kết nối Tầng bề mặt và Tầng chìm trong 1 tích tắc. Nếu cần từ 2 bước suy diễn trở lên hoặc phải giải thích ra bằng lời, câu copy coi như thất bại.
         </p>
       </div>
-      <div style="background:rgba(0,0,0,0.2);padding:14px;border-radius:8px;border-left:3px solid #f59e0b;">
-        <h4 style="margin:0 0 6px;color:#fff;font-size:14px;" id="chkItem2Title">🚫 2. Cấm tiệt từ sáo rỗng AI (Anti-AI Corporate Fluff)</h4>
-        <p style="margin:0;font-size:13px;color:var(--ink-dim);line-height:1.5;" id="chkItem2Desc">
+      <div style="background:rgba(0,0,0,0.2);padding:13px 15px;border-radius:8px;border-left:3px solid #f59e0b;">
+        <h4 style="margin:0 0 5px;color:#fff;font-size:13.5px;" id="chkItem2Title">🚫 2. Cấm tiệt từ sáo rỗng AI (Anti-AI Corporate Fluff)</h4>
+        <p style="margin:0;font-size:12.5px;color:var(--ink-dim);line-height:1.5;" id="chkItem2Desc">
           Loại bỏ ngay các từ vô hồn: <em>kiến tạo, đồng hành, lan tỏa, mở ra, bứt phá, đỉnh cao, trao quyền, 赋能, empower</em>. Ưu tiên <strong>ĐỘNG TỪ</strong> hành động cụ thể, đời thường.
         </p>
       </div>
-      <div style="background:rgba(0,0,0,0.2);padding:14px;border-radius:8px;border-left:3px solid #10b981;">
-        <h4 style="margin:0 0 6px;color:#fff;font-size:14px;" id="chkItem3Title">📏 3. Độ dài chuẩn vàng (Median 6–8 chữ, Max 12 chữ)</h4>
-        <p style="margin:0;font-size:13px;color:var(--ink-dim);line-height:1.5;" id="chkItem3Desc">
+      <div style="background:rgba(0,0,0,0.2);padding:13px 15px;border-radius:8px;border-left:3px solid #10b981;">
+        <h4 style="margin:0 0 5px;color:#fff;font-size:13.5px;" id="chkItem3Title">📏 3. Độ dài chuẩn vàng (Median 6–8 chữ, Max 12 chữ)</h4>
+        <p style="margin:0;font-size:12.5px;color:var(--ink-dim);line-height:1.5;" id="chkItem3Desc">
           Headline trên poster phải dứt khoát. Càng ngắn gọn thì lực nén câu chữ càng mạnh (trừ thể đối xứng hoặc thơ ba lớp).
         </p>
       </div>
-      <div style="background:rgba(0,0,0,0.2);padding:14px;border-radius:8px;border-left:3px solid #6366f1;">
-        <h4 style="margin:0 0 6px;color:#fff;font-size:14px;" id="chkItem4Title">🛑 4. Điểm dừng đúng lúc (No Self-Explanation)</h4>
-        <p style="margin:0;font-size:13px;color:var(--ink-dim);line-height:1.5;" id="chkItem4Desc">
+      <div style="background:rgba(0,0,0,0.2);padding:13px 15px;border-radius:8px;border-left:3px solid #6366f1;">
+        <h4 style="margin:0 0 5px;color:#fff;font-size:13.5px;" id="chkItem4Title">🛑 4. Điểm dừng đúng lúc (No Self-Explanation)</h4>
+        <p style="margin:0;font-size:12.5px;color:var(--ink-dim);line-height:1.5;" id="chkItem4Desc">
           Viết xong câu chốt là dừng. Tuyệt đối không viết thêm câu triết lý giảng đạo hay tự khen mình ở cuối ("Điểm vỡ chính là ở chỗ giải thích").
+        </p>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);padding:13px 15px;border-radius:8px;border-left:3px solid #ec4899;">
+        <h4 style="margin:0 0 5px;color:#fff;font-size:13.5px;" id="chkItem5Title">👤 5. Điểm rơi là "Bạn", không phải sản phẩm (Audience-Centric)</h4>
+        <p style="margin:0;font-size:12.5px;color:var(--ink-dim);line-height:1.5;" id="chkItem5Desc">
+          Động lực chia sẻ tự nhiên luôn là "đang nói về tôi". Điểm rơi của câu chữ phải đánh trúng hành vi, tâm trạng, tình huống của độc giả ("Đêm nay về nhà sớm", "Uống không cần đắn đo"), tuyệt đối không tự khen thông số kỹ thuật.
+        </p>
+      </div>
+      <div style="background:rgba(226,0,26,0.08);border:1px dashed rgba(226,0,26,0.35);padding:12px 14px;border-radius:8px;margin-top:2px;">
+        <h4 style="margin:0 0 4px;color:#ffadb6;font-size:13px;" id="txtHookGuideTitle">🎣 5 Loại Móc Câu Sáng Tạo (Finding The Hook)</h4>
+        <p style="margin:0;font-size:12px;color:var(--ink-dim);line-height:1.45;" id="txtHookGuideDesc">
+          1. 🏷️ Biến tấu danh từ riêng • 2. ⚡ Nghĩa kép của động từ hành động • 3. ⚖️ Đối kháng thuộc tính (Nhanh ↔ Bền) • 4. 🔢 Chơi số (Ngày tháng, kỷ lục) • 5. 🌧️ Đặt vào hoàn cảnh thực tế (Mưa ngập, tăng ca).
         </p>
       </div>
     </div>
@@ -953,20 +1003,24 @@ const I18N = {
     btnChecklist: '🔍 Tự kiểm tra',
     copyCaptionBtn: '📝 Copy Caption',
     lblStudioRatio: 'Tỷ lệ khung hình',
+    lblStudioFont: 'Kiểu chữ (Typography)',
+    lblStudioLayout: 'Bố cục Poster (Layout)',
     lblStudioHeadline: 'Chỉnh sửa Headline trực tiếp',
     lblStudioFontSize: 'Cỡ chữ',
     lblStudioSubhead: 'Chỉnh sửa Subhead',
     lblStudioBrand: 'Tên thương hiệu ở chân poster',
+    lblStudioPalettes: 'Bảng màu Chuẩn gu (1-Click Presets)',
     lblStudioPalette: 'Màu sắc chủ đạo & Tự chọn',
     lblStudioLogo: 'Chèn ảnh Logo / Sản phẩm (Tùy chọn)',
     lblStudioLogoPos: 'Vị trí Logo',
     lblStudioLogoSize: 'Kích thước',
     lblStudioLogoOpacity: 'Độ rõ nét / Trong suốt',
     btnStudioDownload: '⬇️ Tải PNG 2x',
+    btnStudioWebp: '⚡ Tải WebP',
     btnStudioSvg: '📐 Tải SVG Vector',
     btnStudioCopyImg: '📋 Sao chép ảnh',
     btnStudioSaveCard: '💾 Lưu vào thẻ',
-    txtChecklistTitle: 'Bảng Tự Kiểm Tra Copy 4 Tiêu Chí (Durex Standard)',
+    txtChecklistTitle: 'Bảng Tự Kiểm Tra Copy 5 Tiêu Chí Vàng (Durex Standard)',
     chkItem1Title: '🎯 1. Quy tắc "Một bước liên tưởng" (One-Hop Rule)',
     chkItem1Desc: 'Người đọc phải tự kết nối Tầng bề mặt và Tầng chìm trong 1 tích tắc. Nếu cần từ 2 bước suy diễn trở lên hoặc phải giải thích ra bằng lời, câu copy coi như thất bại.',
     chkItem2Title: '🚫 2. Cấm tiệt từ sáo rỗng AI (Anti-AI Corporate Fluff)',
@@ -975,6 +1029,10 @@ const I18N = {
     chkItem3Desc: 'Headline trên poster phải dứt khoát. Càng ngắn gọn thì lực nén câu chữ càng mạnh (trừ thể đối xứng hoặc thơ ba lớp).',
     chkItem4Title: '🛑 4. Điểm dừng đúng lúc (No Self-Explanation)',
     chkItem4Desc: 'Viết xong câu chốt là dừng. Tuyệt đối không viết thêm câu triết lý giảng đạo hay tự khen mình ở cuối ("Điểm vỡ chính là ở chỗ giải thích").',
+    chkItem5Title: '👤 5. Điểm rơi là "Bạn", không phải sản phẩm (Audience-Centric)',
+    chkItem5Desc: 'Động lực chia sẻ tự nhiên luôn là "đang nói về tôi". Điểm rơi của câu chữ phải đánh trúng hành vi, tâm trạng, tình huống của độc giả ("Đêm nay về nhà sớm", "Uống không cần đắn đo"), tuyệt đối không tự khen thông số kỹ thuật.',
+    txtHookGuideTitle: '🎣 5 Loại Móc Câu Sáng Tạo (Finding The Hook)',
+    txtHookGuideDesc: '1. 🏷️ Biến tấu danh từ riêng • 2. ⚡ Nghĩa kép của động từ hành động • 3. ⚖️ Đối kháng thuộc tính (Nhanh ↔ Bền) • 4. 🔢 Chơi số (Ngày tháng, kỷ lục) • 5. 🌧️ Đặt vào hoàn cảnh thực tế (Mưa ngập, tăng ca).',
     toastLoadedPreset: 'Đã nạp mẫu: ',
     toastCopiedText: 'Đã sao chép nội dung copy!',
     toastCopiedCaption: 'Đã sao chép caption mạng xã hội!',
@@ -982,6 +1040,7 @@ const I18N = {
     toastSavedFav: 'Đã thêm vào mục yêu thích ❤️',
     toastRemovedFav: 'Đã xoá khỏi mục yêu thích',
     toastDownloaded: 'Đã tải poster độ phân giải cao PNG!',
+    toastDownloadedWebp: 'Đã tải ảnh WebP độ nén cao!',
     toastDownloadedSvg: 'Đã xuất file SVG vector thành công!',
     toastCopiedImg: 'Đã sao chép ảnh poster vào clipboard!',
     toastCleared: 'Đã làm mới form nhập liệu!',
@@ -1078,20 +1137,24 @@ const I18N = {
     btnChecklist: '🔍 Self-Check',
     copyCaptionBtn: '📝 Copy Caption',
     lblStudioRatio: 'Aspect Ratio',
+    lblStudioFont: 'Typography / Font',
+    lblStudioLayout: 'Poster Layout',
     lblStudioHeadline: 'Live Edit Headline',
     lblStudioFontSize: 'Font Size',
     lblStudioSubhead: 'Live Edit Subhead',
     lblStudioBrand: 'Brand Name on Poster Footer',
+    lblStudioPalettes: 'Curated Palettes (1-Click)',
     lblStudioPalette: 'Primary Colors & Custom Pickers',
     lblStudioLogo: 'Insert Logo / Product Image (Optional)',
     lblStudioLogoPos: 'Logo Position',
     lblStudioLogoSize: 'Size',
     lblStudioLogoOpacity: 'Opacity / Sharpness',
     btnStudioDownload: '⬇️ Download PNG 2x',
+    btnStudioWebp: '⚡ WebP',
     btnStudioSvg: '📐 Download SVG Vector',
     btnStudioCopyImg: '📋 Copy Image',
     btnStudioSaveCard: '💾 Save to Card',
-    txtChecklistTitle: '4-Criteria Copywriting Self-Inspection Checklist (Durex Standard)',
+    txtChecklistTitle: '5-Criteria Golden Copywriting Checklist (Durex Standard)',
     chkItem1Title: '🎯 1. The "One-Hop" Association Rule',
     chkItem1Desc: 'The audience must jump from Surface to Submerged in a fraction of a second. If it requires two or more association steps or needs explanation, the copy is dead.',
     chkItem2Title: '🚫 2. Ban Generic AI Buzzwords (Anti-Fluff)',
@@ -1100,6 +1163,10 @@ const I18N = {
     chkItem3Desc: 'Poster headlines must be crisp and decisive. The tighter the phrasing, the greater the viral impact (except for antithetical couplets or three-tier verses).',
     chkItem4Title: '🛑 4. Point of Restraint (No Self-Explanation)',
     chkItem4Desc: 'Stop immediately after the punchline. Never tack on an explanatory moral or self-congratulatory platitude ("Explanation ruins the magic").',
+    chkItem5Title: '👤 5. Punchline Lands on "YOU", Not Specs (Audience-Centric)',
+    chkItem5Desc: 'People share because "this speaks about me". The punchline must resonate with user habits, dilemmas, or feelings rather than praising dry product specifications.',
+    txtHookGuideTitle: '🎣 5 Creative Hook Categories (Finding The Hook)',
+    txtHookGuideDesc: '1. 🏷️ Proper Noun Pun • 2. ⚡ Action Verb Dual Meaning • 3. ⚖️ Attribute Contrast (Fast vs Lasting) • 4. 🔢 Number & Date Play • 5. 🌧️ Real-Life Situations (Storms, overtime).',
     toastLoadedPreset: 'Loaded preset: ',
     toastCopiedText: 'Copy text copied to clipboard!',
     toastCopiedCaption: 'Social media caption copied to clipboard!',
@@ -1107,6 +1174,7 @@ const I18N = {
     toastSavedFav: 'Saved to favorites ❤️',
     toastRemovedFav: 'Removed from favorites',
     toastDownloaded: 'High-res poster PNG downloaded!',
+    toastDownloadedWebp: 'WebP image exported successfully!',
     toastDownloadedSvg: 'Vector SVG poster exported!',
     toastCopiedImg: 'Poster image copied to clipboard!',
     toastCleared: 'Input form cleared!',
@@ -1203,20 +1271,24 @@ const I18N = {
     btnChecklist: '🔍 自检自查',
     copyCaptionBtn: '📝 复制社媒配文',
     lblStudioRatio: '画面比例',
+    lblStudioFont: '字体风格 (Typography)',
+    lblStudioLayout: '海报排版布局 (Layout)',
     lblStudioHeadline: '实时修改主标题',
     lblStudioFontSize: '字体大小',
     lblStudioSubhead: '实时修改副标题',
     lblStudioBrand: '海报底部品牌署名',
+    lblStudioPalettes: '经典调色预设 (一键应用)',
     lblStudioPalette: '主基调配色与取色器',
     lblStudioLogo: '插入 Logo / 产品图片 (可选)',
     lblStudioLogoPos: 'Logo 摆放位置',
     lblStudioLogoSize: '尺寸',
     lblStudioLogoOpacity: '清晰度 / 不透明度',
     btnStudioDownload: '⬇️ 下载 2x 超清 PNG',
+    btnStudioWebp: '⚡ 导出 WebP',
     btnStudioSvg: '📐 下载矢量 SVG',
     btnStudioCopyImg: '📋 复制海报图像',
     btnStudioSaveCard: '💾 保存至卡片',
-    txtChecklistTitle: '杜蕾斯双层文案 4 大黄金自检法则',
+    txtChecklistTitle: '文案五项自检黄金法则与钩子库 (Durex Standard)',
     chkItem1Title: '🎯 1. “一步联想”铁律（One-Hop Rule）',
     chkItem1Desc: '读者必须自己在脑海中瞬间完成表面层与潜层的跳跃连通。如果需要两步以上的推理，或者需要写作者括号解释，该文案即告作废。',
     chkItem2Title: '🚫 2. 严禁任何 AI 套话（Anti-AI Fluff）',
@@ -1225,6 +1297,10 @@ const I18N = {
     chkItem3Desc: '海报主标题严格克制精炼。短不是刻意省字，而是话说清楚后自然收住的张力（对仗黄历句式除外）。',
     chkItem4Title: '🛑 4. 点破即死，严禁自我解释（No Self-Explanation）',
     chkItem4Desc: '写完最后一句即刻收笔，绝不补写一句“这就是……的力量”。把想象和顿悟的快感完整留给读者。',
+    chkItem5Title: '👤 5. 落点必须是「你」，绝非产品参数 (读者中心原则)',
+    chkItem5Desc: '主动传播的源动力一定是与“我”相关。文案必须落在读者的处境、行为或情感共鸣，绝不要自嗨式宣讲产品技术参数。',
+    txtHookGuideTitle: '🎣 五类实战创意钩子 (事前寻找双关连接点)',
+    txtHookGuideDesc: '1. 🏷️ 专有名词谐音改造 • 2. ⚡ 核心动作挖掘第二义 • 3. ⚖️ 关键属性正反对撞（快↔持久） • 4. 🔢 数字梗 • 5. 🌧️ 真实场景处境植入。',
     toastLoadedPreset: '已载入预设：',
     toastCopiedText: '文案内容已成功复制！',
     toastCopiedCaption: '社媒配文已成功复制！',
@@ -1232,6 +1308,7 @@ const I18N = {
     toastSavedFav: '已加入收藏夹 ❤️',
     toastRemovedFav: '已从收藏夹移除',
     toastDownloaded: '1200x1600 高清海报已下载！',
+    toastDownloadedWebp: 'WebP 高压缩格式图片导出成功！',
     toastDownloadedSvg: '矢量 SVG 海报已成功导出！',
     toastCopiedImg: '海报图像已复制到剪贴板！',
     toastCleared: '已重置表单输入！',
@@ -1271,6 +1348,8 @@ function getSystemPrompt(outputLang){
 海报主标题中位数 6–8 字，严格限制在 12 字以内（黄历对仗句除外）。短小精悍，意蕴悠长。
 4. 标点即语气：
 善用“～”（轻挑挑逗）、“。”（斩钉截铁）、“——”（欲言又止）、“……”（留白回味）。
+5. 落点必须是「你」（读者中心原则）：
+主动传播的源动力一定是与“我”相关。文案核心落点必须是读者的处境、行为、情绪或抉择（如“喝之前不用做心理建设”、“今晚早回家”），绝不要自嗨式宣讲产品技术参数或空洞夸赞。
 
 杜蕾斯经典 8 大文案公式：
 1. 谐音借义：替换大众熟知语句中的一个字词，转换为与产品同音/近音的词汇（克制使用）。
@@ -1313,6 +1392,8 @@ STRICTLY FORBIDDEN: "empower, elevate, unleash, embark, bespoke, cutting-edge, u
 Poster headline median length: 6–8 words, MAX 12 words (except parallel couplets). Decisive, razor-sharp, leaving room to breathe.
 4. Punctuation as Voice:
 Use "~" (teasing), "." (punchy authority), "——" (pause/anticipation), "..." (leaving it to the imagination).
+5. Audience-Centric Punchline ("You" over Specs):
+Virality comes from resonance with "ME". The punchline must land on the reader's state of mind, behavior, dilemma, or emotion (e.g., "Stay up tonight, regret nothing tomorrow", "Come home early tonight"), NEVER dry spec boasting or self-praise.
 
 8 CLASSIC FORMULAS:
 1. Homophonic / Near-sound Pun: Swap a word in a famous idiom with a phonetically close word tied to the product.
@@ -1356,6 +1437,8 @@ TUYỆT ĐỐI KHÔNG DÙNG: "kiến tạo, đồng hành, lan tỏa, mở ra, b
 Headline chính trên poster: trung vị 6–8 chữ, tối đa 12 chữ (trừ thể đối xứng hoặc thể thơ). Càng cô đọng, dứt khoát thì lực đẩy thông điệp càng mạnh.
 4. Dấu câu là ngữ khí:
 Dùng "~" (lả lơi, hóm hỉnh), "." (dứt khoát, đanh thép), "——" (ngập ngừng nén lại), "..." (để ngỏ cho độc giả tự ngẫm).
+5. Điểm rơi bắt buộc là "Bạn" (Khách hàng là trung tâm):
+Động lực chia sẻ tự nhiên luôn xuất phát từ cảm giác "đang nói về chính mình". Điểm rơi của câu copy phải đánh trúng hành vi, tâm sự, tình huống khó xử hay cảm xúc của người đọc (như "Uống mà không cần đắn đo", "Đêm nay về nhà sớm"), TUYỆT ĐỐI KHÔNG tự khoe thông số kỹ thuật hay ca ngợi sản phẩm một chiều.
 
 8 CÔNG THỨC VIẾT QUẢNG CÁO:
 1. Chơi chữ đồng âm/gần âm: Đổi 1 từ trong cụm từ quen thuộc bằng từ đồng âm gắn với sản phẩm.
@@ -1516,6 +1599,24 @@ const PROVIDER_CONFIG = {
       // 🌐 MÃ NGUỒN MỞ (OPEN-SOURCE / OPEN-WEIGHTS)
       {
         group: 'open',
+        id: 'deepseek/deepseek-r1:free',
+        labels: {
+          vi: 'DeepSeek R1 (Bản Free Tier miễn phí trên OpenRouter)',
+          en: 'DeepSeek R1 (Free Tier on OpenRouter)',
+          zh: 'DeepSeek R1 (OpenRouter 免费体验版)'
+        }
+      },
+      {
+        group: 'open',
+        id: 'deepseek/deepseek-chat:free',
+        labels: {
+          vi: 'DeepSeek V3 (Bản Free Tier miễn phí trên OpenRouter)',
+          en: 'DeepSeek V3 (Free Tier on OpenRouter)',
+          zh: 'DeepSeek V3 (OpenRouter 免费体验版)'
+        }
+      },
+      {
+        group: 'open',
         id: 'deepseek/deepseek-r1',
         labels: {
           vi: 'DeepSeek R1 (Tư duy suy luận sâu — Cực rẻ)',
@@ -1530,6 +1631,15 @@ const PROVIDER_CONFIG = {
           vi: 'DeepSeek V3 (671B MoE — Nhanh & cực kỳ sáng tạo)',
           en: 'DeepSeek V3 (671B MoE — Fast & highly intelligent)',
           zh: 'DeepSeek V3 (671B MoE — 综合创作首选，敏捷高效)'
+        }
+      },
+      {
+        group: 'open',
+        id: 'qwen/qwen-2.5-coder-32b-instruct',
+        labels: {
+          vi: 'Qwen 2.5 Coder 32B (Mã nguồn mở xuất sắc về logic & sáng tạo)',
+          en: 'Qwen 2.5 Coder 32B (Top-tier Open-Weights Model)',
+          zh: 'Qwen 2.5 Coder 32B (通义开源顶尖文案与逻辑模型)'
         }
       },
       {
@@ -1858,11 +1968,11 @@ const PROVIDER_CONFIG = {
         }
       },
       {
-        id: 'mixtral-8x7b-32768',
+        id: 'qwen-qwq-32b',
         labels: {
-          vi: 'Mixtral 8x7B (Mô hình mở từ Mistral AI)',
-          en: 'Mixtral 8x7B (Mistral AI MoE)',
-          zh: 'Mixtral 8x7B (欧洲顶级 MoE)'
+          vi: 'Qwen QwQ 32B (Alibaba — Suy luận sâu thế hệ mới trên Groq)',
+          en: 'Qwen QwQ 32B (Alibaba — Next-gen Reasoning on Groq)',
+          zh: 'Qwen QwQ 32B (阿里通义新一代长思维推理模型)'
         }
       },
       {
@@ -2133,16 +2243,20 @@ function applyLanguage(lang){
   document.getElementById('btnHistoryClearAll').textContent = t.btnClearHistory;
 
   document.getElementById('lblStudioRatio').textContent = t.lblStudioRatio;
+  if(document.getElementById('lblStudioFont')) document.getElementById('lblStudioFont').textContent = t.lblStudioFont;
+  if(document.getElementById('lblStudioLayout')) document.getElementById('lblStudioLayout').textContent = t.lblStudioLayout;
   document.getElementById('lblStudioHeadline').textContent = t.lblStudioHeadline;
   document.getElementById('lblStudioFontSize').textContent = t.lblStudioFontSize;
   document.getElementById('lblStudioSubhead').textContent = t.lblStudioSubhead;
   document.getElementById('lblStudioBrand').textContent = t.lblStudioBrand;
+  if(document.getElementById('lblStudioPalettes')) document.getElementById('lblStudioPalettes').textContent = t.lblStudioPalettes;
   document.getElementById('lblStudioPalette').textContent = t.lblStudioPalette;
   document.getElementById('lblStudioLogo').textContent = t.lblStudioLogo;
   document.getElementById('lblStudioLogoPos').textContent = t.lblStudioLogoPos;
   document.getElementById('lblStudioLogoSize').textContent = t.lblStudioLogoSize;
   document.getElementById('lblStudioLogoOpacity').textContent = t.lblStudioLogoOpacity;
   document.getElementById('btnStudioDownload').textContent = t.btnStudioDownload;
+  if(document.getElementById('btnStudioWebp')) document.getElementById('btnStudioWebp').textContent = t.btnStudioWebp;
   document.getElementById('btnStudioSvg').textContent = t.btnStudioSvg;
   document.getElementById('btnStudioCopyImg').textContent = t.btnStudioCopyImg;
   document.getElementById('btnStudioSaveCard').textContent = t.btnStudioSaveCard;
@@ -2157,6 +2271,10 @@ function applyLanguage(lang){
   document.getElementById('chkItem3Desc').textContent = t.chkItem3Desc;
   document.getElementById('chkItem4Title').textContent = t.chkItem4Title;
   document.getElementById('chkItem4Desc').textContent = t.chkItem4Desc;
+  if(document.getElementById('chkItem5Title')) document.getElementById('chkItem5Title').textContent = t.chkItem5Title;
+  if(document.getElementById('chkItem5Desc')) document.getElementById('chkItem5Desc').textContent = t.chkItem5Desc;
+  if(document.getElementById('txtHookGuideTitle')) document.getElementById('txtHookGuideTitle').textContent = t.txtHookGuideTitle;
+  if(document.getElementById('txtHookGuideDesc')) document.getElementById('txtHookGuideDesc').textContent = t.txtHookGuideDesc;
 
   // Cập nhật nhãn nhà cung cấp đa ngữ
   const providerSelect = document.getElementById('provider');
